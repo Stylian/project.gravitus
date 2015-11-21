@@ -1,0 +1,313 @@
+package org.styl.gravitus.ui;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.SwingConstants;
+
+import org.styl.gravitus.engine.Clock;
+
+public class ViewRunner implements ActionListener {
+
+	public static final int RENDER_PERIOD = 10;
+	
+	private Controller controller;
+	
+	private Dimension size;
+	
+	private JFrame frame;
+	private JPanel space;
+	private JLabel fps;
+	
+	private JMenuItem start;
+	private JMenuItem pause;
+	private JMenuItem stop;
+	private JMenu fpsMenu;
+	
+	private int renderFPSCounter = 0;
+	
+	public ViewRunner(Dimension size) {
+		this.size = size;
+	}
+		
+	public void startUI() {
+		
+		fps = new JLabel();
+		fps.setForeground(Color.WHITE);
+		fps.setHorizontalTextPosition(SwingConstants.RIGHT);
+		fps.setBounds((int) (size.getWidth() - 60), 8, 70, 10);
+		
+		buildSpacePanel(fps);
+		
+		Container frameContainer = new Container();
+		frameContainer.setLayout(new BorderLayout());
+		frameContainer.add(createMenuBar(), BorderLayout.NORTH);
+		frameContainer.add(space, BorderLayout.CENTER);
+		
+		buildAndShowFrame(size, frameContainer);
+	
+	}
+
+	private void buildSpacePanel(JLabel fps) {
+		space = new JPanel(){
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+
+	/*			g.setColor(Color.WHITE);
+				g.drawLine(50, 50,  300, 200);
+				
+				for(Component cmpnt : this.getComponents()) {
+					if(cmpnt instanceof SpaceObjectUIWrapper) {
+						SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
+						
+					}
+				}
+				
+				g.dispose();
+				*/
+			}
+		};
+		space.setBackground(Color.BLACK);
+		space.setLayout(null);
+		space.add(fps);
+	}
+
+	private JMenuBar createMenuBar() {
+		
+		JMenuBar menuBar = new JMenuBar();
+		
+		// File
+		JMenu fileMenu = new JMenu("File");
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.setActionCommand("exit");
+		exit.addActionListener(this);
+		fileMenu.add(exit);
+		
+		
+		menuBar.add(fileMenu);
+		
+		// Simulation
+		JMenu simMenu = new JMenu("Simulation");
+		
+		start = new JMenuItem("Start");
+		start.setActionCommand("start");
+		start.addActionListener(this);
+		simMenu.add(start);
+		
+		pause = new JMenuItem("Pause");
+		pause.setEnabled(false);
+		pause.setActionCommand("pause");
+		pause.addActionListener(this);
+		simMenu.add(pause);
+		
+		stop = new JMenuItem("Stop");
+		stop.setEnabled(false);
+		stop.setActionCommand("stop");
+		stop.addActionListener(this);
+		simMenu.add(stop);
+		
+		fpsMenu = new JMenu("FPS");
+		addFpsOptions();
+		simMenu.add(fpsMenu);
+		
+		menuBar.add(simMenu);
+		
+		
+		return menuBar;
+	}
+
+	private void addFpsOptions() {
+		ButtonGroup fpsGroup = new ButtonGroup(); 
+		
+		JRadioButtonMenuItem fps15 = new JRadioButtonMenuItem("15");
+		fps15.setActionCommand("change_fps");
+		fps15.addActionListener(this);
+		fpsMenu.add(fps15);
+		fpsGroup.add(fps15);
+		
+		JRadioButtonMenuItem fps20 = new JRadioButtonMenuItem("20");
+		fps20.setActionCommand("change_fps");
+		fps20.addActionListener(this);
+		fpsMenu.add(fps20);
+		fpsGroup.add(fps20);
+		
+		JRadioButtonMenuItem fps30 = new JRadioButtonMenuItem("30");
+		fps30.setActionCommand("change_fps");
+		fps30.addActionListener(this);
+		fpsMenu.add(fps30);
+		fpsGroup.add(fps30);
+		
+		JRadioButtonMenuItem fps40 = new JRadioButtonMenuItem("40");
+		fps40.setSelected(true);
+		fps40.setActionCommand("change_fps");
+		fps40.addActionListener(this);
+		fpsMenu.add(fps40);
+		fpsGroup.add(fps40);
+		
+		JRadioButtonMenuItem fps60 = new JRadioButtonMenuItem("60");
+		fps60.setActionCommand("change_fps");
+		fps60.addActionListener(this);
+		fpsMenu.add(fps60);
+		fpsGroup.add(fps60);
+		
+		JRadioButtonMenuItem fps120 = new JRadioButtonMenuItem("120");
+		fps120.setActionCommand("change_fps");
+		fps120.addActionListener(this);
+		fpsMenu.add(fps120);
+		fpsGroup.add(fps120);
+		
+		JRadioButtonMenuItem fps240 = new JRadioButtonMenuItem("240");
+		fps240.setActionCommand("change_fps");
+		fps240.addActionListener(this);
+		fpsMenu.add(fps240);
+		fpsGroup.add(fps240);
+	}
+
+	private void buildAndShowFrame(Dimension size, Container frameContainer) {
+		frame = new JFrame();
+		
+		frame.setTitle("Gravity Simulator");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+
+		frame.setPreferredSize(size);
+		frame.setMaximumSize(size);
+		frame.setMinimumSize(size);
+		
+		frame.setContentPane(frameContainer);
+		
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+
+	public void render() {
+		
+		int calcFPS = Clock.getInstance().fps();
+		
+		if(renderFPSCounter++ > RENDER_PERIOD) {
+			renderFPSCounter = 0;
+			fps.setText(calcFPS + " FPS");
+		}
+		
+		Graphics2D g = (Graphics2D) space.getGraphics();
+		
+		g.setColor(Color.WHITE);
+		
+		for(Component cmpnt : space.getComponents()) {
+			if(cmpnt instanceof SpaceObjectUIWrapper) {
+				SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
+
+				Point prev = null;
+				for(Point p : wrap.getPastPositions()) {
+					if(prev != null) {
+					g.drawLine(
+							(int)(p.getX()),
+							(int)(p.getY()),
+							(int)(prev.getX()),
+							(int)(prev.getY())
+						);
+					}
+					prev = p;
+				}
+				
+			}
+		}
+		
+		g.dispose();
+		
+		
+		space.repaint();
+	}
+	
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+
+	public JPanel getSpace() {
+		return space;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		switch(e.getActionCommand()) {
+		
+		case "start" :
+			
+			controller.startSimulation();
+			
+			start.setEnabled(false);
+			pause.setEnabled(true);
+			stop.setEnabled(true);
+			break;
+
+		case "pause" :
+			
+			try {
+				controller.pauseSimulation();
+				
+				pause.setEnabled(false);
+				stop.setEnabled(true);
+				start.setEnabled(true);
+				start.setText("Continue");
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
+			break;
+			
+		case "stop" :
+			
+			try {
+				controller.stopSimulation();
+				
+				stop.setEnabled(false);
+				pause.setEnabled(false);
+				start.setEnabled(true);
+				start.setText("Start");
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
+			break;		
+		
+		case "change_fps" :
+			
+			String btnText = ((JRadioButtonMenuItem) e.getSource()).getText();
+			controller.getSimulation().setFps(Integer.parseInt(btnText));
+			
+			break;
+			
+		case "exit" :
+			
+			frame.dispose();
+		
+			break;			
+		}
+		
+	}
+	
+}
