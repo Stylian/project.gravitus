@@ -1,4 +1,4 @@
-package engine;
+package org.styl.gravitus.engine;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
