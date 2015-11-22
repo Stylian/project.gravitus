@@ -3,6 +3,8 @@ package org.styl.gravitus.engine;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import org.styl.gravitus.GravitusProperties;
+
 public class Clock {
 
 	private static Clock instance = new Clock();
@@ -21,7 +23,7 @@ public class Clock {
 	}
 	
 	public int time() {
-		return 4; // never more than 250 FPS
+		return GravitusProperties.INSTANCE.clockInterval;
 	}
 	
 	public int fps() {

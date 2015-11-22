@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import org.styl.gravitus.GravitusProperties;
 import org.styl.gravitus.entities.SpaceObject;
 
 @SuppressWarnings("serial")
@@ -16,10 +17,7 @@ public class SpaceObjectUIWrapper extends JLabel {
 
 	public static boolean orbitTrails = false;
 	public static boolean fixedOrbits = false;
-	
-	public static int ORBIT_DATA_FREQ = 4;
-	public static int ORBIT_DATA_SIZE = 6000;
-	
+
 	public static int positionsCounter = 0;
 	
 	private SpaceObject obj;
@@ -78,13 +76,13 @@ public class SpaceObjectUIWrapper extends JLabel {
 
 		if(orbitTrails) {
 
-			if(positionsCounter % ORBIT_DATA_FREQ == 0) {
+			if(positionsCounter % GravitusProperties.INSTANCE.orbitTrailFrequency == 0) {
 				positionsCounter = 0;
 				
 				Point newPoint = new Point(x,y);
 				
 				if(!fixedOrbits) {
-					if(pastPositions.size() > ORBIT_DATA_SIZE) {
+					if(pastPositions.size() > GravitusProperties.INSTANCE.orbitTrailMaxSize) {
 						pastPositions.remove(0);
 					}
 				}else {

@@ -23,12 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
+import org.styl.gravitus.GravitusProperties;
 import org.styl.gravitus.engine.Clock;
 
 @SuppressWarnings("serial")
 public class ViewRunner extends JPanel implements ActionListener {
-
-	public static final int RENDER_PERIOD = 10;
 	
 	private Controller controller;
 	
@@ -251,7 +250,7 @@ public class ViewRunner extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 			break;		
-		case "change_fps" :		
+		case "change_fps" :
 			String btnText = ((JRadioButtonMenuItem) e.getSource()).getText();
 			controller.getSimulation().setFps(Integer.parseInt(btnText));
 			break;		
@@ -272,7 +271,7 @@ public class ViewRunner extends JPanel implements ActionListener {
 		
 		int calcFPS = Clock.getInstance().fps();
 		
-		if(renderFPSCounter++ > RENDER_PERIOD) {
+		if(renderFPSCounter++ > 10) { //GravitusProperties.INSTANCE.fpsRenderPeriod) {
 			renderFPSCounter = 0;
 			fps.setText(calcFPS + " FPS");
 		}

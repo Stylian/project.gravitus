@@ -3,6 +3,7 @@ package org.styl.gravitus.engine;
 import java.awt.Dimension;
 
 import org.apache.log4j.Logger;
+import org.styl.gravitus.GravitusProperties;
 import org.styl.gravitus.ui.Controller;
 import org.styl.gravitus.ui.ViewRunner;
 
@@ -11,6 +12,8 @@ public class Initialiser {
 	
 	public static void main(String[] args) {
 		logger.info("starting Application");
+		
+		GravitusProperties.createInstance();
 		
 		Dimension size = new Dimension(1200, 1000);
 		 
