@@ -37,8 +37,6 @@ public class ModelRunner {
 		//estimate velocities & locations
 		objects.forEach(SpaceObject::tick);
 		
-		//update wrappers
-		wrappers.forEach(SpaceObjectUIWrapper::update);
 	}
 
 	public void buildSpaceObjects() {
@@ -46,9 +44,7 @@ public class ModelRunner {
 		objects = SpaceObjectFactory.createSpaceObjects();
 		wrappers = SpaceObjectFactory.createSpaceObjectUIWrappers(objects);
 		
-		for(SpaceObjectUIWrapper wrapper : wrappers) {
-			view.getSpace().add(wrapper);
-		}
+		view.setWrappers(wrappers);
 		
 		grCal.setObjects(objects);
 		
@@ -58,12 +54,16 @@ public class ModelRunner {
 	public void reset() {
 		
 		for(SpaceObjectUIWrapper wrapper : wrappers) {
-			view.getSpace().remove(wrapper);
+			view.remove(wrapper);
 		}
 		wrappers.clear();
 		objects.clear();
 		
 		logger.info("simulation has been reset!");
+	}
+
+	public List<SpaceObjectUIWrapper> getWrappers() {
+		return wrappers;
 	}
 
 }

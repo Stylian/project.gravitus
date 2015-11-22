@@ -6,7 +6,7 @@ import org.styl.gravitus.entities.SpaceObject;
 
 public class GravityCalculator {
 
-	public static final double G = 10000;
+	public static final double G = 1000;
 	
 	private List<SpaceObject> objects;
 

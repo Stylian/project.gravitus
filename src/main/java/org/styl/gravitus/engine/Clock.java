@@ -21,7 +21,7 @@ public class Clock {
 	}
 	
 	public int time() {
-		return 6;
+		return 3;
 	}
 	
 	public int fps() {

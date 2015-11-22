@@ -14,6 +14,9 @@ import org.styl.gravitus.entities.SpaceObject;
 @SuppressWarnings("serial")
 public class SpaceObjectUIWrapper extends JLabel {
 
+	public static int ORBIT_DATA_FREQ = 5;
+	public static int ORBIT_DATA_SIZE = 200;
+	
 	private static int positionsCounter = 0;
 	
 	private SpaceObject obj;
@@ -55,12 +58,13 @@ public class SpaceObjectUIWrapper extends JLabel {
 	public void update() {
 		int x = (int)(obj.getPosx()/1000);
 		int y = (int)(obj.getPosy()/1000);
+		int rf = (int) (obj.getRadius() * 1.414);
 		
-		setLocation(x, y);
+		setLocation(x - rf, y - rf);
 		
-		if(++positionsCounter % 100 == 0) {
+		if(++positionsCounter % ORBIT_DATA_FREQ == 0) {
 		
-			if(pastPositions.size() > 50) {
+			if(pastPositions.size() > ORBIT_DATA_SIZE) {
 				pastPositions.remove(0);
 			}
 			

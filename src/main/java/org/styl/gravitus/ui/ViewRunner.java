@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
@@ -23,7 +24,8 @@ import javax.swing.SwingConstants;
 
 import org.styl.gravitus.engine.Clock;
 
-public class ViewRunner implements ActionListener {
+@SuppressWarnings("serial")
+public class ViewRunner extends JPanel implements ActionListener {
 
 	public static final int RENDER_PERIOD = 10;
 	
@@ -32,7 +34,6 @@ public class ViewRunner implements ActionListener {
 	private Dimension size;
 	
 	private JFrame frame;
-	private JPanel space;
 	private JLabel fps;
 	
 	private JMenuItem start;
@@ -42,7 +43,12 @@ public class ViewRunner implements ActionListener {
 	
 	private int renderFPSCounter = 0;
 	
+	private List<SpaceObjectUIWrapper> wrappers;
+	
+	
 	public ViewRunner(Dimension size) {
+		super();
+		
 		this.size = size;
 	}
 		
@@ -52,41 +58,58 @@ public class ViewRunner implements ActionListener {
 		fps.setForeground(Color.WHITE);
 		fps.setHorizontalTextPosition(SwingConstants.RIGHT);
 		fps.setBounds((int) (size.getWidth() - 60), 8, 70, 10);
-		
-		buildSpacePanel(fps);
-		
+
+		setBackground(Color.BLACK);
+		setLayout(null);
+		add(fps);
+	
 		Container frameContainer = new Container();
 		frameContainer.setLayout(new BorderLayout());
 		frameContainer.add(createMenuBar(), BorderLayout.NORTH);
-		frameContainer.add(space, BorderLayout.CENTER);
+		frameContainer.add(this, BorderLayout.CENTER);
 		
 		buildAndShowFrame(size, frameContainer);
 	
 	}
 
-	private void buildSpacePanel(JLabel fps) {
-		space = new JPanel(){
-			@Override
-			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 
-	/*			g.setColor(Color.WHITE);
-				g.drawLine(50, 50,  300, 200);
-				
-				for(Component cmpnt : this.getComponents()) {
-					if(cmpnt instanceof SpaceObjectUIWrapper) {
-						SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
-						
+		int calcFPS = Clock.getInstance().fps();
+		
+		if(renderFPSCounter++ > RENDER_PERIOD) {
+			renderFPSCounter = 0;
+			fps.setText(calcFPS + " FPS");
+		}
+		
+		//update wrappers
+		if(wrappers != null)
+			wrappers.forEach(SpaceObjectUIWrapper::update);
+
+		g.setColor(Color.GRAY);
+		Graphics2D g2d = (Graphics2D) g;
+		
+		for(Component cmpnt : this.getComponents()) {
+			if(cmpnt instanceof SpaceObjectUIWrapper) {
+				SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
+
+				Point prev = null;
+				for(Point p : wrap.getPastPositions()) {
+					if(prev != null) {
+						g2d.drawLine(
+							(int)(p.getX()),
+							(int)(p.getY()),
+							(int)(prev.getX()),
+							(int)(prev.getY())
+						);
 					}
+					prev = p;
 				}
 				
-				g.dispose();
-				*/
 			}
-		};
-		space.setBackground(Color.BLACK);
-		space.setLayout(null);
-		space.add(fps);
+		}
+		
 	}
 
 	private JMenuBar createMenuBar() {
@@ -198,44 +221,9 @@ public class ViewRunner implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
-
+	
 	public void render() {
-		
-		int calcFPS = Clock.getInstance().fps();
-		
-		if(renderFPSCounter++ > RENDER_PERIOD) {
-			renderFPSCounter = 0;
-			fps.setText(calcFPS + " FPS");
-		}
-		
-		Graphics2D g = (Graphics2D) space.getGraphics();
-		
-		g.setColor(Color.WHITE);
-		
-		for(Component cmpnt : space.getComponents()) {
-			if(cmpnt instanceof SpaceObjectUIWrapper) {
-				SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
-
-				Point prev = null;
-				for(Point p : wrap.getPastPositions()) {
-					if(prev != null) {
-					g.drawLine(
-							(int)(p.getX()),
-							(int)(p.getY()),
-							(int)(prev.getX()),
-							(int)(prev.getY())
-						);
-					}
-					prev = p;
-				}
-				
-			}
-		}
-		
-		g.dispose();
-		
-		
-		space.repaint();
+		repaint();
 	}
 	
 	public Controller getController() {
@@ -246,8 +234,16 @@ public class ViewRunner implements ActionListener {
 		this.controller = controller;
 	}
 
-	public JPanel getSpace() {
-		return space;
+	public List<SpaceObjectUIWrapper> getWrappers() {
+		return wrappers;
+	}
+
+	public void setWrappers(List<SpaceObjectUIWrapper> wrappers) {
+		this.wrappers = wrappers;
+		
+		for(SpaceObjectUIWrapper wrapper : wrappers) {
+			add(wrapper);
+		}
 	}
 
 	@Override

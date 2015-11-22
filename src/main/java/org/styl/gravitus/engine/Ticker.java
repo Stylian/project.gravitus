@@ -13,7 +13,7 @@ public class Ticker implements Runnable {
 	private int fps;
 	
 	public void init() {
-		runner.buildSpaceObjects();	
+		runner.buildSpaceObjects();
 	}
 
 	public void reset() {
@@ -23,7 +23,7 @@ public class Ticker implements Runnable {
 	public void run() {
 		
 		logger.info("starting clock at " + fps + " fps");
-		
+
 		int skipTicks = 1000 / fps;
 		
 		double previous = getTicktime();
@@ -44,7 +44,7 @@ public class Ticker implements Runnable {
 				update();
 				delay();
 			}else {
-			
+
 				render();
 				delta --;
 			}
