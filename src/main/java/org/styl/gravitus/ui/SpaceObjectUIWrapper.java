@@ -14,8 +14,8 @@ import org.styl.gravitus.entities.SpaceObject;
 @SuppressWarnings("serial")
 public class SpaceObjectUIWrapper extends JLabel {
 
-	public static int ORBIT_DATA_FREQ = 5;
-	public static int ORBIT_DATA_SIZE = 200;
+	public static int ORBIT_DATA_FREQ = 8;
+	public static int ORBIT_DATA_SIZE = 400;
 	
 	private static int positionsCounter = 0;
 	

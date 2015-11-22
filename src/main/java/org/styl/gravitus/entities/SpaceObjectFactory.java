@@ -26,14 +26,14 @@ public class SpaceObjectFactory {
 		
 		objects.add(aaa);
 	
-		
+	//dist 380 000 	
 		
 		SpaceObject bbb = new SpaceObject();
 		bbb.setName("Moon");
 
 		bbb.setMass(7300); // 0.07342×1024 kg
 		bbb.setImage("resources/images/moon.png");
-		bbb.setPosx(300000);
+		bbb.setPosx(240000);
 		bbb.setPosy(500000);
 		bbb.setRadius(2);  //1737 km
 		bbb.setVely(45.92); // 4.627 m/s

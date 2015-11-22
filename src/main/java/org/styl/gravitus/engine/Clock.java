@@ -21,7 +21,7 @@ public class Clock {
 	}
 	
 	public int time() {
-		return 3;
+		return 4; // never more than 250 FPS
 	}
 	
 	public int fps() {

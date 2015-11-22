@@ -75,13 +75,6 @@ public class ViewRunner extends JPanel implements ActionListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-		int calcFPS = Clock.getInstance().fps();
-		
-		if(renderFPSCounter++ > RENDER_PERIOD) {
-			renderFPSCounter = 0;
-			fps.setText(calcFPS + " FPS");
-		}
 		
 		//update wrappers
 		if(wrappers != null)
@@ -223,6 +216,14 @@ public class ViewRunner extends JPanel implements ActionListener {
 	}
 	
 	public void render() {
+		
+		int calcFPS = Clock.getInstance().fps();
+		
+		if(renderFPSCounter++ > RENDER_PERIOD) {
+			renderFPSCounter = 0;
+			fps.setText(calcFPS + " FPS");
+		}
+		
 		repaint();
 	}
 	
