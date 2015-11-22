@@ -14,8 +14,11 @@ import org.styl.gravitus.entities.SpaceObject;
 @SuppressWarnings("serial")
 public class SpaceObjectUIWrapper extends JLabel {
 
+	public static boolean orbitTrails = false;
+	public static boolean orbitPath = false;
+	
 	public static int ORBIT_DATA_FREQ = 8;
-	public static int ORBIT_DATA_SIZE = 400;
+	public static int ORBIT_DATA_SIZE = 300;
 	
 	private static int positionsCounter = 0;
 	
@@ -23,6 +26,17 @@ public class SpaceObjectUIWrapper extends JLabel {
 	
 	private List<Point> pastPositions;
 
+	public static void switchOrbitTrails(List<SpaceObjectUIWrapper> wrappers) {
+		
+		wrappers.forEach( w -> w.pastPositions.clear() );
+		
+		orbitTrails = !orbitTrails;
+	}
+	
+	public static void switchOrbitPath() {
+		orbitPath = !orbitPath;
+	}
+	
 	public SpaceObjectUIWrapper(SpaceObject so) {
 		super();
 
@@ -62,19 +76,46 @@ public class SpaceObjectUIWrapper extends JLabel {
 		
 		setLocation(x - rf, y - rf);
 		
-		if(++positionsCounter % ORBIT_DATA_FREQ == 0) {
+		if(orbitTrails) {
+			
+			if(++positionsCounter % ORBIT_DATA_FREQ == 0) {
 		
-			if(pastPositions.size() > ORBIT_DATA_SIZE) {
-				pastPositions.remove(0);
+				Point newPoint = new Point(x,y);
+				
+				if(orbitPath) {
+					if(pastPositions.size() > ORBIT_DATA_SIZE) {
+						pastPositions.remove(0);
+					}
+				}else {
+					if(pastPositions.size() > 50) {
+						if(isClose(newPoint, pastPositions.get(0))) {
+							pastPositions.remove(0);
+						}
+						
+					}	
+				}
+				
+				pastPositions.add(newPoint);
 			}
 			
-			pastPositions.add(new Point(x,y));
+
 		}
-		
 	}
 	
+	private boolean isClose(Point newPoint, Point oldPoint) {
+
+			int dx = newPoint.x - oldPoint.x;
+			int dy = newPoint.y - oldPoint.y;
+			
+			long sumsqr = (long) (Math.pow(dx, 2) + Math.pow(dy, 2));
+			
+			double dist = Math.sqrt(sumsqr);
+		
+		return dist < 10;
+	}
+
 	public List<Point> getPastPositions() {
 		return pastPositions;
 	}
-	
+
 }

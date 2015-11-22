@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -72,39 +73,6 @@ public class ViewRunner extends JPanel implements ActionListener {
 	
 	}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		//update wrappers
-		if(wrappers != null)
-			wrappers.forEach(SpaceObjectUIWrapper::update);
-
-		g.setColor(Color.GRAY);
-		Graphics2D g2d = (Graphics2D) g;
-		
-		for(Component cmpnt : this.getComponents()) {
-			if(cmpnt instanceof SpaceObjectUIWrapper) {
-				SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
-
-				Point prev = null;
-				for(Point p : wrap.getPastPositions()) {
-					if(prev != null) {
-						g2d.drawLine(
-							(int)(p.getX()),
-							(int)(p.getY()),
-							(int)(prev.getX()),
-							(int)(prev.getY())
-						);
-					}
-					prev = p;
-				}
-				
-			}
-		}
-		
-	}
-
 	private JMenuBar createMenuBar() {
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -146,6 +114,20 @@ public class ViewRunner extends JPanel implements ActionListener {
 		
 		menuBar.add(simMenu);
 		
+		// Preferences
+		JMenu prefsMenu = new JMenu("Preferences");
+		
+		JCheckBoxMenuItem trails = new JCheckBoxMenuItem("Track Orbits");
+		trails.setActionCommand("trails");
+		trails.addActionListener(this);
+		prefsMenu.add(trails);
+		
+		JCheckBoxMenuItem orbitPath = new JCheckBoxMenuItem("Fixed Orbits");
+		orbitPath.setActionCommand("orbit_path");
+		orbitPath.addActionListener(this);
+		prefsMenu.add(orbitPath);
+		
+		menuBar.add(prefsMenu);
 		
 		return menuBar;
 	}
@@ -215,18 +197,6 @@ public class ViewRunner extends JPanel implements ActionListener {
 		frame.setVisible(true);
 	}
 	
-	public void render() {
-		
-		int calcFPS = Clock.getInstance().fps();
-		
-		if(renderFPSCounter++ > RENDER_PERIOD) {
-			renderFPSCounter = 0;
-			fps.setText(calcFPS + " FPS");
-		}
-		
-		repaint();
-	}
-	
 	public Controller getController() {
 		return controller;
 	}
@@ -252,20 +222,16 @@ public class ViewRunner extends JPanel implements ActionListener {
 		
 		switch(e.getActionCommand()) {
 		
-		case "start" :
-			
-			controller.startSimulation();
-			
+		case "start" :	
+			controller.startSimulation();	
 			start.setEnabled(false);
 			pause.setEnabled(true);
 			stop.setEnabled(true);
 			break;
-
 		case "pause" :
 			
 			try {
-				controller.pauseSimulation();
-				
+				controller.pauseSimulation();			
 				pause.setEnabled(false);
 				stop.setEnabled(true);
 				start.setEnabled(true);
@@ -273,14 +239,10 @@ public class ViewRunner extends JPanel implements ActionListener {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-
-			break;
-			
-		case "stop" :
-			
+			break;		
+		case "stop" :		
 			try {
-				controller.stopSimulation();
-				
+				controller.stopSimulation();				
 				stop.setEnabled(false);
 				pause.setEnabled(false);
 				start.setEnabled(true);
@@ -288,23 +250,68 @@ public class ViewRunner extends JPanel implements ActionListener {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-
 			break;		
-		
-		case "change_fps" :
-			
+		case "change_fps" :		
 			String btnText = ((JRadioButtonMenuItem) e.getSource()).getText();
 			controller.getSimulation().setFps(Integer.parseInt(btnText));
-			
+			break;		
+		case "exit" :	
+			frame.dispose();	
+			break;		
+		case "trails" :		
+			SpaceObjectUIWrapper.switchOrbitTrails(wrappers);	
+			break;	
+		case "orbit_path" :	
+			SpaceObjectUIWrapper.switchOrbitPath();
 			break;
-			
-		case "exit" :
-			
-			frame.dispose();
+		}
+	
+	}
+	
+	public void render() {
 		
-			break;			
+		int calcFPS = Clock.getInstance().fps();
+		
+		if(renderFPSCounter++ > RENDER_PERIOD) {
+			renderFPSCounter = 0;
+			fps.setText(calcFPS + " FPS");
+		}
+		
+		//update wrappers
+		if(wrappers != null)
+			wrappers.forEach(SpaceObjectUIWrapper::update);
+		
+		repaint();
+	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		if(SpaceObjectUIWrapper.orbitTrails) {
+			g.setColor(Color.WHITE);
+			Graphics2D g2d = (Graphics2D) g;
+			
+			for(Component cmpnt : this.getComponents()) {
+				if(cmpnt instanceof SpaceObjectUIWrapper) {
+					SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
+	
+					Point prev = null;
+					for(Point p : wrap.getPastPositions()) {
+						if(prev != null) {
+							g2d.drawLine(
+								(int)(p.getX()),
+								(int)(p.getY()),
+								(int)(prev.getX()),
+								(int)(prev.getY())
+							);
+						}
+						prev = p;
+					}
+					
+				}
+			}
 		}
 		
 	}
-	
 }
