@@ -24,6 +24,8 @@ public class SpaceObjectFactory {
 		aaa.setRadius(6); // 6371 km
 		aaa.setVely(-0.56);
 		
+		aaa.setVelx(1);
+		
 		objects.add(aaa);
 	
 	//dist 380 000 	
@@ -37,6 +39,8 @@ public class SpaceObjectFactory {
 		bbb.setPosy(500000);
 		bbb.setRadius(2);  //1737 km
 		bbb.setVely(45.92); // 4.627 m/s
+		
+		bbb.setVelx(1);
 		
 		objects.add(bbb);
 		

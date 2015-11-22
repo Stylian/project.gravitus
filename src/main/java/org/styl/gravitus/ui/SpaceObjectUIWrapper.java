@@ -15,12 +15,12 @@ import org.styl.gravitus.entities.SpaceObject;
 public class SpaceObjectUIWrapper extends JLabel {
 
 	public static boolean orbitTrails = false;
-	public static boolean orbitPath = false;
+	public static boolean fixedOrbits = false;
 	
-	public static int ORBIT_DATA_FREQ = 8;
-	public static int ORBIT_DATA_SIZE = 300;
+	public static int ORBIT_DATA_FREQ = 4;
+	public static int ORBIT_DATA_SIZE = 6000;
 	
-	private static int positionsCounter = 0;
+	public static int positionsCounter = 0;
 	
 	private SpaceObject obj;
 	
@@ -34,7 +34,7 @@ public class SpaceObjectUIWrapper extends JLabel {
 	}
 	
 	public static void switchOrbitPath() {
-		orbitPath = !orbitPath;
+		fixedOrbits = !fixedOrbits;
 	}
 	
 	public SpaceObjectUIWrapper(SpaceObject so) {
@@ -75,14 +75,15 @@ public class SpaceObjectUIWrapper extends JLabel {
 		int rf = (int) (obj.getRadius() * 1.414);
 		
 		setLocation(x - rf, y - rf);
-		
+
 		if(orbitTrails) {
-			
-			if(++positionsCounter % ORBIT_DATA_FREQ == 0) {
-		
+
+			if(positionsCounter % ORBIT_DATA_FREQ == 0) {
+				positionsCounter = 0;
+				
 				Point newPoint = new Point(x,y);
 				
-				if(orbitPath) {
+				if(!fixedOrbits) {
 					if(pastPositions.size() > ORBIT_DATA_SIZE) {
 						pastPositions.remove(0);
 					}

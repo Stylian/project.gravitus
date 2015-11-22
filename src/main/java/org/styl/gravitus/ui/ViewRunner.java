@@ -278,8 +278,10 @@ public class ViewRunner extends JPanel implements ActionListener {
 		}
 		
 		//update wrappers
-		if(wrappers != null)
+		SpaceObjectUIWrapper.positionsCounter ++;
+		if(wrappers != null) {
 			wrappers.forEach(SpaceObjectUIWrapper::update);
+		}
 		
 		repaint();
 	}
@@ -295,7 +297,7 @@ public class ViewRunner extends JPanel implements ActionListener {
 			for(Component cmpnt : this.getComponents()) {
 				if(cmpnt instanceof SpaceObjectUIWrapper) {
 					SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
-	
+
 					Point prev = null;
 					for(Point p : wrap.getPastPositions()) {
 						if(prev != null) {
