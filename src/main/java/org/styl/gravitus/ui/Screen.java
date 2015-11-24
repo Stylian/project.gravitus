@@ -256,7 +256,7 @@ public class Screen extends JPanel implements ActionListener {
 	
 	public void render() {
 		
-		int calcFPS = Clock.getInstance().fps();
+		int calcFPS = Clock.INSTANCE.fps();
 		
 		if(renderFPSCounter++ > 10) { //GravitusProperties.INSTANCE.fpsRenderPeriod) {
 			renderFPSCounter = 0;

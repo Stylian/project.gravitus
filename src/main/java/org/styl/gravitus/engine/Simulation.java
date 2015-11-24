@@ -22,7 +22,7 @@ public class Simulation {
 	}
 
 	public void start() throws ProccessFailureException {
-		ticker.setFps(fps);
+		ticker.setFps(fps == 0 ? 40 : fps);
 		ticker.setRunning(true);
 		thread = new Thread(ticker);
 		thread.start();

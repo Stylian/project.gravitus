@@ -7,40 +7,40 @@ import org.styl.gravitus.Specs;
 
 public class Clock {
 
-	private static Clock instance = new Clock();
+	public static final Clock INSTANCE = new Clock();
 	
 	private long prevTime = 0L;
-	private Deque<Long> fps = new ArrayDeque<>(100);
+	private Deque<Long> fpsBuffer = new ArrayDeque<>(100);
 	
-	public static int t() {
-		return Clock.getInstance().time();
-	}
-	
+		
 	private Clock() { }
 	
-	public static Clock getInstance() {
-		return instance;
-	}
-	
-	public int time() {
+	public int t() {
 		return Specs.instance.clockInterval;
 	}
 	
 	public int fps() {
 		
-		if(fps.size() == 100)
-			fps.removeLast();
+		if(fpsBuffer.size() == 100)
+			fpsBuffer.removeLast();
 		
 		long time = System.currentTimeMillis();
 		if (time != prevTime) {
-			fps.addFirst(1000/(time - prevTime));
+			fpsBuffer.addFirst(1000/(time - prevTime));
 		}
 		prevTime = time;
 		
-		return (int) (fps.stream()
+		return (int) (fpsBuffer.stream()
 						.mapToDouble(a -> a)
 						.average()
 						.getAsDouble());
 	}
-	
+
+	public void delay() {
+		try {
+			Thread.sleep( t() );
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}	
 }

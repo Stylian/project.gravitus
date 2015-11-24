@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import org.styl.gravitus.Specs;
 import org.styl.gravitus.entities.SpaceObject;
 
+import lombok.Getter;
+
 @SuppressWarnings("serial")
 public class SpaceObjectUIWrapper extends JLabel {
 
@@ -21,13 +23,10 @@ public class SpaceObjectUIWrapper extends JLabel {
 	public static int positionsCounter = 0;
 	
 	private SpaceObject obj;
-	
-	private List<Point> pastPositions;
+	@Getter private List<Point> pastPositions;
 
 	public static void switchOrbitTrails(List<SpaceObjectUIWrapper> wrappers) {
-		
 		wrappers.forEach( w -> w.pastPositions.clear() );
-		
 		orbitTrails = !orbitTrails;
 	}
 	
@@ -37,34 +36,18 @@ public class SpaceObjectUIWrapper extends JLabel {
 	
 	public SpaceObjectUIWrapper(SpaceObject so) {
 		super();
-
-		pastPositions = new LinkedList<>();
+		
 		this.obj = so;
 		
-		ImageIcon imageIcon = new ImageIcon(so.getImage());
-		Image image = imageIcon.getImage();
+		pastPositions = new LinkedList<>();
 		
-		Image newimg = image.getScaledInstance(
-				so.getRadius()*2,
-				so.getRadius()*2,
-				java.awt.Image.SCALE_SMOOTH
-			);
+		ImageIcon imageIcon = new ImageIcon( so.getImage() );
+		Image image = imageIcon.getImage();	
+		Image newimg = image.getScaledInstance( so.getRadius()*2, so.getRadius()*2, java.awt.Image.SCALE_SMOOTH );	
+		setIcon( new ImageIcon(newimg) );
 		
-		setIcon(new ImageIcon(newimg));
-		
-	
-		setSize(
-				new Dimension(
-						so.getRadius()*2,
-						so.getRadius()*2
-					)
-				);
-		
-		setLocation(
-				(int)(so.getPosx()/1000),
-				(int)(so.getPosy()/1000)
-			);
-
+		setSize( new Dimension(so.getRadius()*2, so.getRadius()*2) );
+		setLocation( (int)(so.getPosx()/1000), (int)(so.getPosy()/1000) );
 	}
 
 	public void update() {
@@ -102,19 +85,11 @@ public class SpaceObjectUIWrapper extends JLabel {
 	}
 	
 	private boolean isClose(Point newPoint, Point oldPoint) {
-
-			int dx = newPoint.x - oldPoint.x;
-			int dy = newPoint.y - oldPoint.y;
-			
-			long sumsqr = (long) (Math.pow(dx, 2) + Math.pow(dy, 2));
-			
-			double dist = Math.sqrt(sumsqr);
-		
+		int dx = newPoint.x - oldPoint.x;
+		int dy = newPoint.y - oldPoint.y;	
+		long sumsqr = (long) (Math.pow(dx, 2) + Math.pow(dy, 2));		
+		double dist = Math.sqrt(sumsqr);
 		return dist < 10;
-	}
-
-	public List<Point> getPastPositions() {
-		return pastPositions;
 	}
 
 }
