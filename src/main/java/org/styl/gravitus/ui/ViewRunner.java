@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
-import org.styl.gravitus.GravitusProperties;
+import org.styl.gravitus.Specs;
 import org.styl.gravitus.engine.Clock;
 
 @SuppressWarnings("serial")
@@ -46,10 +46,10 @@ public class ViewRunner extends JPanel implements ActionListener {
 	private List<SpaceObjectUIWrapper> wrappers;
 	
 	
-	public ViewRunner(Dimension size) {
+	public ViewRunner() {
 		super();
 		
-		this.size = size;
+		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
 	}
 		
 	public void startUI() {

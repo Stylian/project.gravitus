@@ -2,7 +2,7 @@ package org.styl.gravitus.engine;
 
 import java.util.List;
 
-import org.styl.gravitus.GravitusProperties;
+import org.styl.gravitus.Specs;
 import org.styl.gravitus.entities.SpaceObject;
 
 public class GravityCalculator {
@@ -16,7 +16,7 @@ public class GravityCalculator {
 				long dist = distance(o, a);
 				double angle = angle(o, a);
 
-				double g = GravitusProperties.INSTANCE.G * a.getMass() / Math.pow(dist, 2); 
+				double g = Specs.instance.G * a.getMass() / Math.pow(dist, 2); 
 				double gx = g * Math.cos(angle);
 				double gy = g * Math.sin(angle);
 				

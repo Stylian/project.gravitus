@@ -7,10 +7,10 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-public class GravitusProperties {
-	final static Logger logger = Logger.getLogger(GravitusProperties.class);
+public class Specs {
+	final static Logger logger = Logger.getLogger(Specs.class);
 	
-	public static GravitusProperties INSTANCE;
+	public static Specs instance;
 
 	public int clockInterval;
 	public double G;
@@ -18,11 +18,14 @@ public class GravitusProperties {
 	public int orbitTrailFrequency;
 	public int orbitTrailMaxSize;
 	
+	public int frameX;
+	public int frameY;
+	
 	public static void createInstance() {
-		INSTANCE = new GravitusProperties();
+		instance = new Specs();
 	}
 	
-	public GravitusProperties() {
+	public Specs() {
 		logger.info("getting properties from file");
 		
 		try(InputStream input = new FileInputStream("resources/gravitus.properties")) {
@@ -35,6 +38,9 @@ public class GravitusProperties {
 			fpsRenderPeriod = Integer.parseInt(prop.getProperty("fps_indicator_render_period"));
 			orbitTrailFrequency = Integer.parseInt(prop.getProperty("orbit_trail_frequency"));
 			orbitTrailMaxSize = Integer.parseInt(prop.getProperty("orbit_trail_max_size"));
+			
+			frameX = Integer.parseInt(prop.getProperty("frame_x"));
+			frameY = Integer.parseInt(prop.getProperty("frame_y"));
 			
 			logger.info("properties loaded successfully!");
 		} catch (IOException ex) {

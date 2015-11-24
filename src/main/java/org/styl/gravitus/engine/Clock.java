@@ -3,7 +3,7 @@ package org.styl.gravitus.engine;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import org.styl.gravitus.GravitusProperties;
+import org.styl.gravitus.Specs;
 
 public class Clock {
 
@@ -23,7 +23,7 @@ public class Clock {
 	}
 	
 	public int time() {
-		return GravitusProperties.INSTANCE.clockInterval;
+		return Specs.instance.clockInterval;
 	}
 	
 	public int fps() {
