@@ -1,25 +1,17 @@
 package org.styl.gravitus.engine;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.ui.ViewRunner;
+import org.styl.gravitus.ui.Screen;
 
 public class Ticker implements Runnable {
 	final static Logger logger = Logger.getLogger(Ticker.class);
 	
 	private boolean running;
 	
-	private ViewRunner view;
-	private ModelRunner runner;
+	private Screen view;
+	private Runner runner;
 	private int fps;
-	
-	public void init() {
-		runner.buildSpaceObjects();
-	}
 
-	public void reset() {
-		runner.reset();
-	}
-	
 	public void run() {
 		
 		logger.info("starting clock at " + fps + " fps");
@@ -74,19 +66,19 @@ public class Ticker implements Runnable {
 	}
 
 
-	public ModelRunner getRunner() {
+	public Runner getRunner() {
 		return runner;
 	}
 
-	public void setRunner(ModelRunner runner) {
+	public void setRunner(Runner runner) {
 		this.runner = runner;
 	}
 
-	public ViewRunner getView() {
+	public Screen getView() {
 		return view;
 	}
 
-	public void setView(ViewRunner view) {
+	public void setView(Screen view) {
 		this.view = view;
 	}
 

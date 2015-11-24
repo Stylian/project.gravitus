@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 import org.styl.gravitus.entities.SpaceObject;
 import org.styl.gravitus.entities.SpaceObjectFactory;
 import org.styl.gravitus.ui.SpaceObjectUIWrapper;
-import org.styl.gravitus.ui.ViewRunner;
+import org.styl.gravitus.ui.Screen;
 
 /**
  * runs around every 20ms the run method 
@@ -14,19 +14,13 @@ import org.styl.gravitus.ui.ViewRunner;
  * @author Stel
  *
  */
-public class ModelRunner {
-	final static Logger logger = Logger.getLogger(ModelRunner.class);
-	
-	private ViewRunner view;
+public class Runner {
+	final static Logger logger = Logger.getLogger(Runner.class);
 	
 	private List<SpaceObject> objects;
-	private List<SpaceObjectUIWrapper> wrappers;
-	
 	private GravityCalculator grCal;
 	
-	public ModelRunner(ViewRunner view) {
-		this.view = view;
-		
+	public Runner() {	
 		grCal = new GravityCalculator();
 	}
 
@@ -42,28 +36,25 @@ public class ModelRunner {
 	public void buildSpaceObjects() {
 
 		objects = SpaceObjectFactory.createSpaceObjects();
-		wrappers = SpaceObjectFactory.createSpaceObjectUIWrappers(objects);
-		
-		view.setWrappers(wrappers);
 		
 		grCal.setObjects(objects);
 		
-		logger.info(wrappers.size() + " space objects have been created!");
+		logger.info(objects.size() + " space objects have been created!");
 	}
 	
 	public void reset() {
-		
-		for(SpaceObjectUIWrapper wrapper : wrappers) {
-			view.remove(wrapper);
-		}
-		wrappers.clear();
+
 		objects.clear();
 		
 		logger.info("simulation has been reset!");
 	}
 
-	public List<SpaceObjectUIWrapper> getWrappers() {
-		return wrappers;
+	public List<SpaceObject> getObjects() {
+		return objects;
+	}
+
+	public void setObjects(List<SpaceObject> objects) {
+		this.objects = objects;
 	}
 
 }

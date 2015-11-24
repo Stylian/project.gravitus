@@ -1,62 +1,48 @@
 package org.styl.gravitus.engine;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.ui.ViewRunner;
+import org.styl.gravitus.ui.Screen;
 
 public class Simulation {
 	final static Logger logger = Logger.getLogger(Simulation.class);
 	
-	public static final int STATUS_RUNNING = 1;
-	public static final int STATUS_PAUSED = 2;
-	public static final int STATUS_STOPPED = 3;
+	public static final int RUNNING = 1;
+	public static final int PAUSED = 2;
+	public static final int STOPPED = 3;
 	
 	private int fps;
 	private Thread thread;
 	private Ticker ticker;
 	private int status;
 	
-	public Simulation(ViewRunner view) {
+	public Simulation(Screen view, Runner runner) {
 		ticker = new Ticker();
 		ticker.setView(view);
-		ticker.setRunner(new ModelRunner(view));
+		ticker.setRunner(runner);
 	}
 
-	public void init() {
-		ticker.init();
-	}
-	
-	public void start() {
-		
-		if(status == STATUS_STOPPED) {
-			ticker.init();
-		}
-		
+	public void start() throws ProccessFailureException {
 		ticker.setFps(fps);
 		ticker.setRunning(true);
-		
 		thread = new Thread(ticker);
 		thread.start();
-		
-		status = STATUS_RUNNING;
-		
-		logger.info("simulation started");
 	}
 	
 	public void pause() {
 		ticker.setRunning(false);
 		
-		status = STATUS_PAUSED;
+		status = PAUSED;
 		
 		logger.info("simulation paused");
 	}
 	
 	public void stop() throws InterruptedException {
 		ticker.setRunning(false);
-		ticker.reset();
+	//	ticker.reset();
 		
 		thread.join();
 		
-		status = STATUS_STOPPED;
+		status = STOPPED;
 		
 		logger.info("simulation stopped");
 	}
@@ -67,6 +53,14 @@ public class Simulation {
 
 	public void setFps(int fps) {
 		this.fps = fps;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 }
