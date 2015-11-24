@@ -28,7 +28,7 @@ public class Specs {
 	public Specs() {
 		logger.info("getting properties from file");
 		
-		try(InputStream input = new FileInputStream("resources/gravitus.properties")) {
+		try(InputStream input = new FileInputStream("resources/specs.properties")) {
 			
 			Properties prop = new Properties();
 			prop.load(input);

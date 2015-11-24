@@ -21,22 +21,19 @@ public class Controller {
 	public Controller(Screen screen, Runner runner) {
 		this.runner = runner;
 		this.screen = screen;
-	}
-	
-	public void initSimulation() {
 		
-		runner.buildSpaceObjects();
-		wrappers = SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getObjects());
-		screen.setWrappers(wrappers);
-
-		simulation = new Simulation(screen, runner);
+		screen.setController(this);
 	}
-	
+
 	public void startSimulation() {
 		logger.info("attempting to start simulation");
 
-		if(simulation.getStatus() == Simulation.STOPPED) {
-			 initSimulation();
+		// initialize simulation if not any
+		if(simulation ==  null || simulation.getStatus() == Simulation.STOPPED) {
+			runner.buildSpaceObjects();
+			wrappers = SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getObjects());
+			screen.setWrappers(wrappers);
+			simulation = new Simulation(screen, runner);
 		}
 		
 		try {

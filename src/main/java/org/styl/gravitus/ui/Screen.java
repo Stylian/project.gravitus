@@ -50,9 +50,6 @@ public class Screen extends JPanel implements ActionListener {
 		super();
 		
 		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
-	}
-		
-	public void startUI() {
 		
 		fps = new JLabel();
 		fps.setForeground(Color.WHITE);
@@ -62,14 +59,22 @@ public class Screen extends JPanel implements ActionListener {
 		setBackground(Color.BLACK);
 		setLayout(null);
 		add(fps);
-	
+		
 		Container frameContainer = new Container();
 		frameContainer.setLayout(new BorderLayout());
 		frameContainer.add(createMenuBar(), BorderLayout.NORTH);
 		frameContainer.add(this, BorderLayout.CENTER);
-		
-		buildAndShowFrame(size, frameContainer);
-	
+
+		frame = new JFrame();		
+		frame.setTitle("Gravity Simulator");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setPreferredSize(size);
+		frame.setMaximumSize(size);
+		frame.setMinimumSize(size);
+		frame.setContentPane(frameContainer);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
 	}
 
 	private JMenuBar createMenuBar() {
@@ -178,24 +183,6 @@ public class Screen extends JPanel implements ActionListener {
 		fpsGroup.add(fps240);
 	}
 
-	private void buildAndShowFrame(Dimension size, Container frameContainer) {
-		frame = new JFrame();
-		
-		frame.setTitle("Gravity Simulator");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-
-		frame.setPreferredSize(size);
-		frame.setMaximumSize(size);
-		frame.setMinimumSize(size);
-		
-		frame.setContentPane(frameContainer);
-		
-		frame.pack();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-	
 	public Controller getController() {
 		return controller;
 	}
@@ -314,5 +301,9 @@ public class Screen extends JPanel implements ActionListener {
 			}
 		}
 		
+	}
+
+	public JFrame getFrame() {
+		return frame;
 	}
 }

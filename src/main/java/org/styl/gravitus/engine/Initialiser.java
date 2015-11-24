@@ -21,15 +21,9 @@ public class Initialiser {
 		Screen screen = new Screen();
 	
 		//initialize controller
-		Controller controller = new Controller(screen, runner);
-		
-		screen.setController(controller);
-		
-		screen.startUI();
-		
-		controller.initSimulation();
-		
-	//	screen.render();
+		new Controller(screen, runner);
+
+		screen.getFrame().setVisible(true);
 	}
 
 }

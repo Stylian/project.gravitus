@@ -5,8 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.styl.gravitus.entities.SpaceObject;
 import org.styl.gravitus.entities.SpaceObjectFactory;
-import org.styl.gravitus.ui.SpaceObjectUIWrapper;
-import org.styl.gravitus.ui.Screen;
 
 /**
  * runs around every 20ms the run method 
