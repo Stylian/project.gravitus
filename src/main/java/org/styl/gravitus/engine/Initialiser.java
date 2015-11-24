@@ -14,10 +14,13 @@ public class Initialiser {
 		//initialize properties
 		Specs.createInstance();
 		
+		//initialize model
 		Runner runner = new Runner();
 
+		//initialize view
 		Screen screen = new Screen();
-		
+	
+		//initialize controller
 		Controller controller = new Controller(screen, runner);
 		
 		screen.setController(controller);

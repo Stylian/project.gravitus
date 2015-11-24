@@ -42,34 +42,53 @@ public class Controller {
 		try {
 			simulation.start();
 			simulation.setStatus(Simulation.RUNNING);
+			
 			logger.info("simulation started!");
 		} catch (ProccessFailureException e) {
 			logger.error("failed to start simulation.");
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public void pauseSimulation() throws InterruptedException {
 		logger.info("attempting to pause simulation");
+
+		try {
+			simulation.pause();
+			simulation.setStatus(Simulation.PAUSED);
+			
+			logger.info("simulation paused!");
+		} catch (ProccessFailureException e) {
+			logger.error("failed to paused simulation.");
+			e.printStackTrace();
+		}
 		
-		simulation.pause();
 	}
 	
 	public void stopSimulation() throws InterruptedException {
 		logger.info("attempting to stop simulation");
 		
-		simulation.stop();
+		try {
+			simulation.stop();
+			simulation.setStatus(Simulation.STOPPED);
+			clearData();
+			
+			logger.info("simulation stopped!");
+		} catch (ProccessFailureException e) {
+			logger.error("failed to stop simulation.");
+			e.printStackTrace();
+		}
 		
-		resetWrappers();
-		
-		runner.reset();
 	}
 	
-	private void resetWrappers() {
+	private void clearData() {
 		for(SpaceObjectUIWrapper wrapper : wrappers) {
 			screen.remove(wrapper);
 		}
 		wrappers.clear();
+		
+		runner.reset();
 	}
 
 	public Simulation getSimulation() {

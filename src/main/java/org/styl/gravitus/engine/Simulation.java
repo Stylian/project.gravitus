@@ -28,23 +28,13 @@ public class Simulation {
 		thread.start();
 	}
 	
-	public void pause() {
+	public void pause() throws ProccessFailureException {
 		ticker.setRunning(false);
-		
-		status = PAUSED;
-		
-		logger.info("simulation paused");
 	}
 	
-	public void stop() throws InterruptedException {
-		ticker.setRunning(false);
-	//	ticker.reset();
-		
+	public void stop() throws ProccessFailureException, InterruptedException {
+		ticker.setRunning(false);	
 		thread.join();
-		
-		status = STOPPED;
-		
-		logger.info("simulation stopped");
 	}
 
 	public int getFps() {
