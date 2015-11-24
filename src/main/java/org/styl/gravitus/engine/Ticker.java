@@ -6,14 +6,14 @@ import org.styl.gravitus.ui.Screen;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter @Setter
 public class Ticker implements Runnable {
 	final static Logger logger = Logger.getLogger(Ticker.class);
 	
-	@Getter @Setter private boolean running;
-	
-	@Setter private Screen view;
-	@Setter private Runner runner;
-	@Setter private int fps;
+	private boolean running;
+	private Screen view;
+	private Runner runner;
+	private int fps;
 
 	public void run() {
 		logger.info("starting clock at " + fps + " fps");

@@ -26,11 +26,14 @@ import javax.swing.SwingConstants;
 import org.styl.gravitus.Specs;
 import org.styl.gravitus.engine.Clock;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @SuppressWarnings("serial")
-public class Screen extends JPanel implements ActionListener {
+@Getter @Setter
+public class Screen extends JPanel {
 	
-	private Controller controller;
-	
+	private ActionListener controller;
 	private Dimension size;
 	
 	private JFrame frame;
@@ -40,17 +43,20 @@ public class Screen extends JPanel implements ActionListener {
 	private JMenuItem pause;
 	private JMenuItem stop;
 	private JMenu fpsMenu;
+	private JMenu prefsMenu;
 	
 	private int renderFPSCounter = 0;
 	
 	private List<SpaceObjectUIWrapper> wrappers;
 	
-	
 	public Screen() {
 		super();
 		
 		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
-		
+	
+	}
+
+	public void init() {
 		fps = new JLabel();
 		fps.setForeground(Color.WHITE);
 		fps.setHorizontalTextPosition(SwingConstants.RIGHT);
@@ -86,7 +92,7 @@ public class Screen extends JPanel implements ActionListener {
 		
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.setActionCommand("exit");
-		exit.addActionListener(this);
+		exit.addActionListener(controller);
 		fileMenu.add(exit);
 		
 		
@@ -97,39 +103,40 @@ public class Screen extends JPanel implements ActionListener {
 		
 		start = new JMenuItem("Start");
 		start.setActionCommand("start");
-		start.addActionListener(this);
+		start.addActionListener(controller);
 		simMenu.add(start);
 		
 		pause = new JMenuItem("Pause");
 		pause.setEnabled(false);
 		pause.setActionCommand("pause");
-		pause.addActionListener(this);
+		pause.addActionListener(controller);
 		simMenu.add(pause);
 		
 		stop = new JMenuItem("Stop");
 		stop.setEnabled(false);
 		stop.setActionCommand("stop");
-		stop.addActionListener(this);
+		stop.addActionListener(controller);
 		simMenu.add(stop);
-		
-		fpsMenu = new JMenu("FPS");
-		addFpsOptions();
-		simMenu.add(fpsMenu);
 		
 		menuBar.add(simMenu);
 		
 		// Preferences
-		JMenu prefsMenu = new JMenu("Preferences");
+		prefsMenu = new JMenu("Preferences");
+		prefsMenu.setEnabled(false);
 		
 		JCheckBoxMenuItem trails = new JCheckBoxMenuItem("Track Orbits");
 		trails.setActionCommand("trails");
-		trails.addActionListener(this);
+		trails.addActionListener(controller);
 		prefsMenu.add(trails);
 		
 		JCheckBoxMenuItem orbitPath = new JCheckBoxMenuItem("Fixed Orbits");
 		orbitPath.setActionCommand("orbit_path");
-		orbitPath.addActionListener(this);
+		orbitPath.addActionListener(controller);
 		prefsMenu.add(orbitPath);
+		
+		fpsMenu = new JMenu("FPS");
+		addFpsOptions();
+		prefsMenu.add(fpsMenu);
 		
 		menuBar.add(prefsMenu);
 		
@@ -141,119 +148,53 @@ public class Screen extends JPanel implements ActionListener {
 		
 		JRadioButtonMenuItem fps15 = new JRadioButtonMenuItem("15");
 		fps15.setActionCommand("change_fps");
-		fps15.addActionListener(this);
+		fps15.addActionListener(controller);
 		fpsMenu.add(fps15);
 		fpsGroup.add(fps15);
 		
 		JRadioButtonMenuItem fps20 = new JRadioButtonMenuItem("20");
 		fps20.setActionCommand("change_fps");
-		fps20.addActionListener(this);
+		fps20.addActionListener(controller);
 		fpsMenu.add(fps20);
 		fpsGroup.add(fps20);
 		
 		JRadioButtonMenuItem fps30 = new JRadioButtonMenuItem("30");
 		fps30.setActionCommand("change_fps");
-		fps30.addActionListener(this);
+		fps30.addActionListener(controller);
 		fpsMenu.add(fps30);
 		fpsGroup.add(fps30);
 		
 		JRadioButtonMenuItem fps40 = new JRadioButtonMenuItem("40");
 		fps40.setSelected(true);
 		fps40.setActionCommand("change_fps");
-		fps40.addActionListener(this);
+		fps40.addActionListener(controller);
 		fpsMenu.add(fps40);
 		fpsGroup.add(fps40);
 		
 		JRadioButtonMenuItem fps60 = new JRadioButtonMenuItem("60");
 		fps60.setActionCommand("change_fps");
-		fps60.addActionListener(this);
+		fps60.addActionListener(controller);
 		fpsMenu.add(fps60);
 		fpsGroup.add(fps60);
 		
 		JRadioButtonMenuItem fps120 = new JRadioButtonMenuItem("120");
 		fps120.setActionCommand("change_fps");
-		fps120.addActionListener(this);
+		fps120.addActionListener(controller);
 		fpsMenu.add(fps120);
 		fpsGroup.add(fps120);
 		
 		JRadioButtonMenuItem fps240 = new JRadioButtonMenuItem("240");
 		fps240.setActionCommand("change_fps");
-		fps240.addActionListener(this);
+		fps240.addActionListener(controller);
 		fpsMenu.add(fps240);
 		fpsGroup.add(fps240);
 	}
 
-	public Controller getController() {
-		return controller;
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-
-	public List<SpaceObjectUIWrapper> getWrappers() {
-		return wrappers;
-	}
-
 	public void setWrappers(List<SpaceObjectUIWrapper> wrappers) {
-		this.wrappers = wrappers;
-		
-		for(SpaceObjectUIWrapper wrapper : wrappers) {
-			add(wrapper);
-		}
+		this.wrappers = wrappers;		
+		wrappers.forEach( w -> add(w));
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		
-		switch(e.getActionCommand()) {
-		
-		case "start" :	
-			controller.startSimulation();	
-			start.setEnabled(false);
-			pause.setEnabled(true);
-			stop.setEnabled(true);
-			break;
-		case "pause" :
-			
-			try {
-				controller.pauseSimulation();			
-				pause.setEnabled(false);
-				stop.setEnabled(true);
-				start.setEnabled(true);
-				start.setText("Continue");
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			break;		
-		case "stop" :		
-			try {
-				controller.stopSimulation();				
-				stop.setEnabled(false);
-				pause.setEnabled(false);
-				start.setEnabled(true);
-				start.setText("Start");
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			break;		
-		case "change_fps" :
-			String btnText = ((JRadioButtonMenuItem) e.getSource()).getText();
-			controller.getSimulation().setFps(Integer.parseInt(btnText));
-			break;		
-		case "exit" :	
-			frame.dispose();	
-			break;		
-		case "trails" :		
-			SpaceObjectUIWrapper.switchOrbitTrails(wrappers);	
-			break;	
-		case "orbit_path" :	
-			SpaceObjectUIWrapper.switchOrbitPath();
-			break;
-		}
-	
-	}
-	
 	public void render() {
 		
 		int calcFPS = Clock.INSTANCE.fps();
@@ -303,7 +244,4 @@ public class Screen extends JPanel implements ActionListener {
 		
 	}
 
-	public JFrame getFrame() {
-		return frame;
-	}
 }
