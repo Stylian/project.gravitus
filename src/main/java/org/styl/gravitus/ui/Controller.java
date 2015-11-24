@@ -74,7 +74,7 @@ public class Controller {
 			simulation.setStatus(Simulation.STOPPED);
 			clearData();
 			
-			logger.info("simulation stopped!");
+			logger.info("simulation has been reset!");
 		} catch (ProccessFailureException e) {
 			logger.error("failed to stop simulation.");
 			e.printStackTrace();
@@ -83,12 +83,9 @@ public class Controller {
 	}
 	
 	private void clearData() {
-		for(SpaceObjectUIWrapper wrapper : wrappers) {
-			screen.remove(wrapper);
-		}
-		wrappers.clear();
-		
-		runner.reset();
+		wrappers.forEach(w -> screen.remove(w));		
+		wrappers.clear();		
+		runner.getObjects().clear();
 	}
 
 	public Simulation getSimulation() {
