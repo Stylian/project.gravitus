@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -25,6 +24,7 @@ import javax.swing.SwingConstants;
 
 import org.styl.gravitus.Specs;
 import org.styl.gravitus.engine.Clock;
+import org.styl.gravitus.entities.SpaceObjectUIWrapper;
 
 import lombok.Getter;
 import lombok.Setter;

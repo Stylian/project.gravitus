@@ -11,13 +11,15 @@ import org.styl.gravitus.engine.ProccessFailureException;
 import org.styl.gravitus.engine.Runner;
 import org.styl.gravitus.engine.Simulation;
 import org.styl.gravitus.entities.SpaceObjectFactory;
+import org.styl.gravitus.entities.SpaceObjectUIWrapper;
+
+import lombok.Getter;
 
 public class Controller implements ActionListener {
 	final static Logger logger = Logger.getLogger(Controller.class);
 	
-	private Simulation simulation;
-	private Runner runner;
-	private Screen screen;
+	@Getter private Runner runner;
+	@Getter private Screen screen;
 	private List<SpaceObjectUIWrapper> wrappers;
 	
 	public Controller(Screen screen, Runner runner) {
@@ -64,7 +66,7 @@ public class Controller implements ActionListener {
 			break;		
 		case "change_fps" :
 			String btnText = ((JRadioButtonMenuItem) e.getSource()).getText();
-			getSimulation().setFps(Integer.parseInt(btnText));
+			runner.getSimulation().setFps(Integer.parseInt(btnText));
 			break;		
 		case "exit" :	
 			screen.getFrame().dispose();
@@ -85,7 +87,7 @@ public class Controller implements ActionListener {
 		runner.buildSpaceObjects();
 		wrappers = SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getObjects());
 		screen.setWrappers(wrappers);
-		simulation = new Simulation(screen, runner);
+		runner.createSimulation(this);
 		screen.getPrefsMenu().setEnabled(true);
 	}
 	
@@ -93,13 +95,13 @@ public class Controller implements ActionListener {
 		logger.info("attempting to start simulation");
 
 		// initialize simulation if not any
-		if(simulation ==  null || simulation.getStatus() == Simulation.STOPPED) {
+		if(runner.getSimulation() ==  null || runner.getSimulation().getStatus() == Simulation.STOPPED) {
 			initSimulation();
 		}
 		
 		try {
-			simulation.start();
-			simulation.setStatus(Simulation.RUNNING);
+			runner.getSimulation().start();
+			runner.getSimulation().setStatus(Simulation.RUNNING);
 			
 			logger.info("simulation started!");
 		} catch (ProccessFailureException e) {
@@ -113,8 +115,8 @@ public class Controller implements ActionListener {
 		logger.info("attempting to pause simulation");
 
 		try {
-			simulation.pause();
-			simulation.setStatus(Simulation.PAUSED);
+			runner.getSimulation().pause();
+			runner.getSimulation().setStatus(Simulation.PAUSED);
 			
 			logger.info("simulation paused!");
 		} catch (ProccessFailureException e) {
@@ -128,9 +130,13 @@ public class Controller implements ActionListener {
 		logger.info("attempting to stop simulation");
 		
 		try {
-			simulation.stop();
-			simulation.setStatus(Simulation.STOPPED);
-			clearData();
+			runner.getSimulation().stop();
+			runner.getSimulation().setStatus(Simulation.STOPPED);
+
+			// clear data
+			wrappers.forEach(w -> screen.remove(w));		
+			wrappers.clear();		
+			runner.getObjects().clear();
 			
 			logger.info("simulation has been reset!");
 		} catch (ProccessFailureException e) {
@@ -139,14 +145,5 @@ public class Controller implements ActionListener {
 		}
 		
 	}
-	
-	private void clearData() {
-		wrappers.forEach(w -> screen.remove(w));		
-		wrappers.clear();		
-		runner.getObjects().clear();
-	}
 
-	public Simulation getSimulation() {
-		return simulation;
-	}
 }

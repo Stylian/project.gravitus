@@ -1,7 +1,7 @@
 package org.styl.gravitus.engine;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.ui.Screen;
+import org.styl.gravitus.ui.Controller;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +10,13 @@ import lombok.Setter;
 public class Ticker implements Runnable {
 	final static Logger logger = Logger.getLogger(Ticker.class);
 	
+	private Controller controller;
 	private boolean running;
-	private Screen view;
-	private Runner runner;
 	private int fps;
+
+	public Ticker(Controller controller) {
+		this.controller = controller;
+	}
 
 	public void run() {
 		logger.info("starting clock at " + fps + " fps");
@@ -51,11 +54,11 @@ public class Ticker implements Runnable {
 	}
 
 	private void update() {
-		runner.nextTick();
+		controller.getRunner().nextTick();
 	}
 
 	private void render() {
-		view.render();
+		controller.getScreen().render();
 	}
 
 }

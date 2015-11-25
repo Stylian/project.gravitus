@@ -1,7 +1,7 @@
 package org.styl.gravitus.engine;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.ui.Screen;
+import org.styl.gravitus.ui.Controller;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,10 +18,8 @@ public class Simulation {
 	private Ticker ticker;
 	@Getter @Setter private int status;
 	
-	public Simulation(Screen view, Runner runner) {
-		ticker = new Ticker();
-		ticker.setView(view);
-		ticker.setRunner(runner);
+	public Simulation(Controller controller) {
+		ticker = new Ticker(controller);
 	}
 
 	public void start() throws ProccessFailureException {

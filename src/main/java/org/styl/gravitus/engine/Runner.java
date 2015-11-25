@@ -5,23 +5,19 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.styl.gravitus.entities.SpaceObject;
 import org.styl.gravitus.entities.SpaceObjectFactory;
+import org.styl.gravitus.ui.Controller;
 
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * runs around every 20ms the run method 
- * 
- * @author Stel
- *
- */
 public class Runner {
 	final static Logger logger = Logger.getLogger(Runner.class);
 	
 	@Getter @Setter private List<SpaceObject> objects;
 	private GravityCalculator grCal;
+	@Getter private Simulation simulation;
 	
-	public Runner() {	
+	public Runner() {
 		grCal = new GravityCalculator();
 	}
 
@@ -41,6 +37,10 @@ public class Runner {
 		objects.clear();
 		
 		logger.info("simulation has been reset!");
+	}
+
+	public void createSimulation(Controller controller) {
+		simulation = new Simulation(controller);
 	}
 
 }
