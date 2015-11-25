@@ -2,7 +2,6 @@ package org.styl.gravitus.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JRadioButtonMenuItem;
 
@@ -20,7 +19,6 @@ public class Controller implements ActionListener {
 	
 	@Getter private Runner runner;
 	@Getter private Screen screen;
-	private List<SpaceObjectUIWrapper> wrappers;
 	
 	public Controller(Screen screen, Runner runner) {
 		this.runner = runner;
@@ -71,8 +69,8 @@ public class Controller implements ActionListener {
 		case "exit" :	
 			screen.getFrame().dispose();
 			break;
-		case "trails" :		
-			SpaceObjectUIWrapper.switchOrbitTrails(wrappers);	
+		case "trails" :
+			SpaceObjectUIWrapper.switchOrbitTrails();	
 			break;	
 		case "orbit_path" :	
 			SpaceObjectUIWrapper.switchOrbitPath();
@@ -84,10 +82,9 @@ public class Controller implements ActionListener {
 	public void initSimulation() {
 		logger.info("initializing simulation");
 		
-		runner.buildSpaceObjects();
-		wrappers = SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getObjects());
-		screen.setWrappers(wrappers);
 		runner.createSimulation(this);
+		runner.getSimulation().setWrappers(SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getSimulation().getObjects()));
+		runner.getSimulation().getWrappers().forEach( w -> screen.add(w));
 		screen.getPrefsMenu().setEnabled(true);
 	}
 	
@@ -134,9 +131,9 @@ public class Controller implements ActionListener {
 			runner.getSimulation().setStatus(Simulation.STOPPED);
 
 			// clear data
-			wrappers.forEach(w -> screen.remove(w));		
-			wrappers.clear();		
-			runner.getObjects().clear();
+			runner.getSimulation().getWrappers().forEach(w -> screen.remove(w));		
+			runner.getSimulation().getWrappers().clear();		
+			runner.getSimulation().getObjects().clear();
 			
 			logger.info("simulation has been reset!");
 		} catch (ProccessFailureException e) {

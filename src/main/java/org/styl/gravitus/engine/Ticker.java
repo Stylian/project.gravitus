@@ -49,7 +49,7 @@ public class Ticker implements Runnable {
 		
 	}
 
-	public static int getTicktime() {
+	private static int getTicktime() {
 		return (int) System.currentTimeMillis();
 	}
 
@@ -58,7 +58,7 @@ public class Ticker implements Runnable {
 	}
 
 	private void render() {
-		controller.getScreen().render();
+		controller.getRunner().render(controller.getScreen());
 	}
 
 }

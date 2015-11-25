@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -23,7 +22,6 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
 import org.styl.gravitus.Specs;
-import org.styl.gravitus.engine.Clock;
 import org.styl.gravitus.entities.SpaceObjectUIWrapper;
 
 import lombok.Getter;
@@ -45,15 +43,10 @@ public class Screen extends JPanel {
 	private JMenu fpsMenu;
 	private JMenu prefsMenu;
 	
-	private int renderFPSCounter = 0;
-	
-	private List<SpaceObjectUIWrapper> wrappers;
-	
 	public Screen() {
 		super();
 		
 		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
-	
 	}
 
 	public void init() {
@@ -190,29 +183,6 @@ public class Screen extends JPanel {
 		fpsGroup.add(fps240);
 	}
 
-	public void setWrappers(List<SpaceObjectUIWrapper> wrappers) {
-		this.wrappers = wrappers;		
-		wrappers.forEach( w -> add(w));
-	}
-
-	public void render() {
-		
-		int calcFPS = Clock.INSTANCE.fps();
-		
-		if(renderFPSCounter++ > 10) { //GravitusProperties.INSTANCE.fpsRenderPeriod) {
-			renderFPSCounter = 0;
-			fps.setText(calcFPS + " FPS");
-		}
-		
-		//update wrappers
-		SpaceObjectUIWrapper.positionsCounter ++;
-		if(wrappers != null) {
-			wrappers.forEach(SpaceObjectUIWrapper::update);
-		}
-		
-		repaint();
-	}
-	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

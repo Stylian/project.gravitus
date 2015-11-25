@@ -24,8 +24,8 @@ public class SpaceObjectUIWrapper extends JLabel {
 	private SpaceObject obj;
 	@Getter private List<Point> pastPositions;
 
-	public static void switchOrbitTrails(List<SpaceObjectUIWrapper> wrappers) {
-		wrappers.forEach( w -> w.pastPositions.clear() );
+	public static void switchOrbitTrails() {
+		//wrappers.forEach( w -> w.pastPositions.clear() );
 		orbitTrails = !orbitTrails;
 	}
 	

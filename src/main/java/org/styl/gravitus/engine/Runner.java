@@ -1,46 +1,63 @@
 package org.styl.gravitus.engine;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.styl.gravitus.entities.SpaceObject;
 import org.styl.gravitus.entities.SpaceObjectFactory;
+import org.styl.gravitus.entities.SpaceObjectUIWrapper;
 import org.styl.gravitus.ui.Controller;
+import org.styl.gravitus.ui.Screen;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class Runner {
 	final static Logger logger = Logger.getLogger(Runner.class);
-	
-	@Getter @Setter private List<SpaceObject> objects;
-	private GravityCalculator grCal;
+
 	@Getter private Simulation simulation;
 	
+	private GravityCalculator grCal;
+
 	public Runner() {
 		grCal = new GravityCalculator();
 	}
-
-	public void nextTick() {
-		objects.forEach( o -> grCal.calculate(o) );	
-		objects.forEach(SpaceObject::tick);
+	
+	public void createSimulation(Controller controller) {
+		simulation = new Simulation(controller);
+		simulation.setObjects(SpaceObjectFactory.createSpaceObjects());
+		grCal.setObjects(simulation.getObjects());
+		
+		logger.info(simulation.getObjects().size() + " space objects have been created!");
 	}
 
-	public void buildSpaceObjects() {
-		objects = SpaceObjectFactory.createSpaceObjects();
-		grCal.setObjects(objects);
-		
-		logger.info(objects.size() + " space objects have been created!");
+	public void nextTick() {
+		simulation.getObjects().forEach( o -> grCal.calculate(o) );	
+		simulation.getObjects().forEach(SpaceObject::tick);
 	}
 	
 	public void reset() {
-		objects.clear();
+		simulation.getObjects().clear();
 		
 		logger.info("simulation has been reset!");
 	}
 
-	public void createSimulation(Controller controller) {
-		simulation = new Simulation(controller);
+	
+	private int renderFPSCounter = 0;
+	
+	public void render(Screen screen) {
+		
+		int calcFPS = Clock.INSTANCE.fps();
+		
+		if(renderFPSCounter++ > 10) { //GravitusProperties.INSTANCE.fpsRenderPeriod) {
+			renderFPSCounter = 0;
+			screen.getFps().setText(calcFPS + " FPS");
+		}
+		
+		//update wrappers
+		SpaceObjectUIWrapper.positionsCounter ++;
+		if(simulation.getWrappers() != null) {
+			simulation.getWrappers().forEach(SpaceObjectUIWrapper::update);
+		}
+		
+		screen.repaint();
 	}
-
+	
 }
