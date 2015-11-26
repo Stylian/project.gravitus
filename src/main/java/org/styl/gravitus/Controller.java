@@ -1,4 +1,4 @@
-package org.styl.gravitus.ui;
+package org.styl.gravitus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,10 +7,10 @@ import javax.swing.JRadioButtonMenuItem;
 
 import org.apache.log4j.Logger;
 import org.styl.gravitus.engine.ProccessFailureException;
-import org.styl.gravitus.engine.Runner;
 import org.styl.gravitus.engine.Simulation;
 import org.styl.gravitus.entities.SpaceObjectFactory;
 import org.styl.gravitus.entities.SpaceObjectUIWrapper;
+import org.styl.gravitus.ui.Screen;
 
 import lombok.Getter;
 
@@ -83,7 +83,7 @@ public class Controller implements ActionListener {
 		logger.info("initializing simulation");
 		
 		runner.createSimulation(this);
-		runner.getSimulation().setWrappers(SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getSimulation().getObjects()));
+		runner.getSimulation().setWrappers(SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects()));
 		runner.getSimulation().getWrappers().forEach( w -> screen.add(w));
 		screen.getPrefsMenu().setEnabled(true);
 	}
@@ -133,7 +133,7 @@ public class Controller implements ActionListener {
 			// clear data
 			runner.getSimulation().getWrappers().forEach(w -> screen.remove(w));		
 			runner.getSimulation().getWrappers().clear();		
-			runner.getSimulation().getObjects().clear();
+			runner.getSimulation().getEngine().getObjects().clear();
 			
 			logger.info("simulation has been reset!");
 		} catch (ProccessFailureException e) {

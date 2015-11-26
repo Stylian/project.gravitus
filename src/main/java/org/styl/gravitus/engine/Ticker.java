@@ -1,7 +1,7 @@
 package org.styl.gravitus.engine;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.ui.Controller;
+import org.styl.gravitus.Controller;
 
 import lombok.Getter;
 import lombok.Setter;

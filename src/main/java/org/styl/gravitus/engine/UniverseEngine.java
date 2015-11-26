@@ -8,11 +8,16 @@ import org.styl.gravitus.entities.SpaceObject;
 import lombok.Getter;
 import lombok.Setter;
 
-public class GravityCalculator {
+public class UniverseEngine {
 	
 	@Getter @Setter private List<SpaceObject> objects;
 
-	public void calculate(SpaceObject o) {
+	public void estimateTick() {
+		objects.forEach( o -> calculate(o) );	
+		objects.forEach(SpaceObject::tick);
+	}
+	
+	private void calculate(SpaceObject o) {
 		objects.forEach( (a) -> {
 			if(o != a) {
 				long dist = distance(o, a);
