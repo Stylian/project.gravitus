@@ -1,11 +1,8 @@
 package org.styl.gravitus;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.engine.Clock;
 import org.styl.gravitus.engine.Simulation;
 import org.styl.gravitus.entities.SpaceObjectFactory;
-import org.styl.gravitus.ui.Screen;
-import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 
 import lombok.Getter;
 

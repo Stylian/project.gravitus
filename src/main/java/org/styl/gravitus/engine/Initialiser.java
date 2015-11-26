@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.styl.gravitus.Controller;
 import org.styl.gravitus.Runner;
 import org.styl.gravitus.Specs;
-import org.styl.gravitus.ui.Screen;
+import org.styl.gravitus.ui.View;
 
 public class Initialiser {
 	final static Logger logger = Logger.getLogger(Initialiser.class);
@@ -19,12 +19,12 @@ public class Initialiser {
 		Runner runner = new Runner();
 
 		//initialize view
-		Screen screen = new Screen();
+		View view = new View();
 	
 		//initialize controller
-		new Controller(screen, runner);
+		new Controller(view, runner);
 
-		screen.getFrame().setVisible(true);
+		view.setVisible(true);
 	}
 
 }

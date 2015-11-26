@@ -1,11 +1,6 @@
 package org.styl.gravitus.engine;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
-import org.styl.gravitus.Controller;
-import org.styl.gravitus.entities.SpaceObject;
-import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 
 import lombok.Getter;
 import lombok.Setter;

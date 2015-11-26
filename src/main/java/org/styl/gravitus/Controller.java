@@ -14,6 +14,7 @@ import org.styl.gravitus.entities.SpaceObjectFactory;
 import org.styl.gravitus.ui.Renderer;
 import org.styl.gravitus.ui.Screen;
 import org.styl.gravitus.ui.SpaceObjectUIWrapper;
+import org.styl.gravitus.ui.View;
 
 import lombok.Getter;
 
@@ -21,15 +22,16 @@ public class Controller implements EngineTicksListener, ActionListener {
 	final static Logger logger = Logger.getLogger(Controller.class);
 	
 	@Getter private Runner runner;
-	@Getter private Screen screen;
+	@Getter private View view;
 	private Renderer renderer;
 	
-	public Controller(Screen screen, Runner runner) {
+	public Controller(View view, Runner runner) {
 		this.runner = runner;
-		this.screen = screen;
+		this.view = view;
 		
-		screen.setController(this);
-		screen.init();
+		view.getToolBar().setListener(this);
+		view.getScreen().init();
+		view.getToolBar().init();
 	}
 
 	@Override
@@ -49,18 +51,18 @@ public class Controller implements EngineTicksListener, ActionListener {
 		
 		case "start" :	
 			startSimulation();	
-			screen.getStart().setEnabled(false);
-			screen.getPause().setEnabled(true);
-			screen.getStop().setEnabled(true);
+			view.getToolBar().getStart().setEnabled(false);
+			view.getToolBar().getPause().setEnabled(true);
+			view.getToolBar().getStop().setEnabled(true);
 			break;
 		case "pause" :
 			
 			try {
 				pauseSimulation();			
-				screen.getPause().setEnabled(false);
-				screen.getStop().setEnabled(true);
-				screen.getStart().setEnabled(true);
-				screen.getStart().setText("Continue");
+				view.getToolBar().getPause().setEnabled(false);
+				view.getToolBar().getStop().setEnabled(true);
+				view.getToolBar().getStart().setEnabled(true);
+				view.getToolBar().getStart().setText("Continue");
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -68,10 +70,10 @@ public class Controller implements EngineTicksListener, ActionListener {
 		case "stop" :		
 			try {
 				stopSimulation();				
-				screen.getStop().setEnabled(false);
-				screen.getPause().setEnabled(false);
-				screen.getStart().setEnabled(true);
-				screen.getStart().setText("Start");
+				view.getToolBar().getStop().setEnabled(false);
+				view.getToolBar().getPause().setEnabled(false);
+				view.getToolBar().getStart().setEnabled(true);
+				view.getToolBar().getStart().setText("Start");
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -81,7 +83,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 			runner.getSimulation().setFps(Integer.parseInt(btnText));
 			break;		
 		case "exit" :	
-			screen.getFrame().dispose();
+			view.dispose();
 			break;
 		case "trails" :
 			SpaceObjectUIWrapper.switchOrbitTrails();	
@@ -101,10 +103,10 @@ public class Controller implements EngineTicksListener, ActionListener {
 		List<SpaceObjectUIWrapper> wrappers = SpaceObjectFactory
 			.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects());
 				
-		renderer = new Renderer(screen, wrappers);
+		renderer = new Renderer(view.getScreen(), wrappers);
 		runner.getSimulation().getTicker().setListener(this);	
-		screen.getPrefsMenu().setEnabled(true);
-		wrappers.forEach( w -> screen.add(w));
+		view.getToolBar().getPrefsMenu().setEnabled(true);
+		wrappers.forEach( w -> view.getScreen().add(w));
 	}
 	
 	public void startSimulation() {
@@ -150,7 +152,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 			runner.getSimulation().setStatus(Simulation.STOPPED);
 
 			// clear data
-			renderer.getWrappers().forEach(w -> screen.remove(w));		
+			renderer.getWrappers().forEach(w -> view.getScreen().remove(w));		
 			renderer.getWrappers().clear();		
 			runner.getSimulation().getEngine().getObjects().clear();
 			
