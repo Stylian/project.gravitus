@@ -20,14 +20,12 @@ public class Simulation {
 	@Getter @Setter private List<SpaceObjectUIWrapper> wrappers;
 	@Getter @Setter private int fps;
 	@Getter @Setter private int status;
-	
 	@Getter private UniverseEngine engine;
+	@Getter private Ticker ticker;
 	private Thread thread;
-	private Ticker ticker;
-
 	
-	public Simulation(Controller controller) {
-		ticker = new Ticker(controller);
+	public Simulation() {
+		ticker = new Ticker();
 		engine = new UniverseEngine();
 	}
 

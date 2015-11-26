@@ -1,7 +1,5 @@
 package org.styl.gravitus.entities;
 
-import org.styl.gravitus.engine.Clock;
-
 import lombok.Data;
 
 @Data
@@ -25,16 +23,21 @@ public class SpaceObject {
 		this.id = ++counter;
 	}
 
-	public void tick() {
-		velx += accx * Clock.INSTANCE.t();
-		vely += accy * Clock.INSTANCE.t();
-		posx += velx * Clock.INSTANCE.t();
-		posy += vely * Clock.INSTANCE.t();
-		
-		accx = 0;
-		accy = 0;
+	public void incrPosx(double incr) {
+		posx += incr;
 	}
 
+	public void incrPosy(double incr) {
+		posy += incr;
+	}
+	public void incrVelx(double incr) {
+		velx += incr;
+	}
+
+	public void incrVely(double incr) {
+		vely += incr;
+	}
+	
 	public void incrAccx(double incr) {
 		accx += incr;
 	}

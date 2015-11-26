@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JRadioButtonMenuItem;
 
 import org.apache.log4j.Logger;
+import org.styl.gravitus.engine.EngineTicksListener;
 import org.styl.gravitus.engine.ProccessFailureException;
 import org.styl.gravitus.engine.Simulation;
 import org.styl.gravitus.entities.SpaceObjectFactory;
@@ -14,7 +15,7 @@ import org.styl.gravitus.ui.Screen;
 
 import lombok.Getter;
 
-public class Controller implements ActionListener {
+public class Controller implements EngineTicksListener, ActionListener {
 	final static Logger logger = Logger.getLogger(Controller.class);
 	
 	@Getter private Runner runner;
@@ -28,6 +29,16 @@ public class Controller implements ActionListener {
 		screen.init();
 	}
 
+	@Override
+	public void updateData() {
+		runner.nextTick();
+	}
+
+	@Override
+	public void updateUI() {
+		screen.getRenderer().render();
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -82,10 +93,13 @@ public class Controller implements ActionListener {
 	public void initSimulation() {
 		logger.info("initializing simulation");
 		
-		runner.createSimulation(this);
-		runner.getSimulation().setWrappers(SpaceObjectFactory.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects()));
+		runner.createSimulation();
+		runner.getSimulation().setWrappers(SpaceObjectFactory
+				.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects()));
 		runner.getSimulation().getWrappers().forEach( w -> screen.add(w));
+		screen.getRenderer().setWrappers(runner.getSimulation().getWrappers());
 		screen.getPrefsMenu().setEnabled(true);
+		runner.getSimulation().getTicker().setListener(this);
 	}
 	
 	public void startSimulation() {

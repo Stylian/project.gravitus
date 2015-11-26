@@ -13,8 +13,8 @@ public class UniverseEngine {
 	@Getter @Setter private List<SpaceObject> objects;
 
 	public void estimateTick() {
-		objects.forEach( o -> calculate(o) );	
-		objects.forEach(SpaceObject::tick);
+		objects.forEach( o -> calculate(o) );
+		objects.forEach( o -> update(o) );
 	}
 	
 	private void calculate(SpaceObject o) {
@@ -29,6 +29,15 @@ public class UniverseEngine {
 				o.incrAccy(gy);
 			}
 		});
+	}
+	
+	private void update(SpaceObject o) {
+		o.incrVelx(o.getAccx() * Clock.INSTANCE.t());
+		o.incrVely(o.getAccy() * Clock.INSTANCE.t());
+		o.incrPosx(o.getVelx() * Clock.INSTANCE.t());
+		o.incrPosy(o.getVely() * Clock.INSTANCE.t());
+		o.setAccx(0);
+		o.setAccy(0);
 	}
 
 	private long distance(SpaceObject o, SpaceObject a) {

@@ -32,6 +32,8 @@ import lombok.Setter;
 public class Screen extends JPanel {
 	
 	private ActionListener controller;
+	private Renderer renderer;
+	
 	private Dimension size;
 	
 	private JFrame frame;
@@ -46,6 +48,7 @@ public class Screen extends JPanel {
 	public Screen() {
 		super();
 		
+		this.renderer = new Renderer(this);
 		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
 	}
 
