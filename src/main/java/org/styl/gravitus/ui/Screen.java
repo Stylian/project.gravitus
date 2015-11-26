@@ -22,7 +22,6 @@ import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
 import org.styl.gravitus.Specs;
-import org.styl.gravitus.entities.SpaceObjectUIWrapper;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +31,6 @@ import lombok.Setter;
 public class Screen extends JPanel {
 	
 	private ActionListener controller;
-	private Renderer renderer;
 	
 	private Dimension size;
 	
@@ -47,8 +45,7 @@ public class Screen extends JPanel {
 	
 	public Screen() {
 		super();
-		
-		this.renderer = new Renderer(this);
+
 		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
 	}
 

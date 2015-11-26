@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.styl.gravitus.Controller;
 import org.styl.gravitus.entities.SpaceObject;
-import org.styl.gravitus.entities.SpaceObjectUIWrapper;
+import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +17,6 @@ public class Simulation {
 	public static final int PAUSED = 2;
 	public static final int STOPPED = 3;
 	
-	@Getter @Setter private List<SpaceObjectUIWrapper> wrappers;
 	@Getter @Setter private int fps;
 	@Getter @Setter private int status;
 	@Getter private UniverseEngine engine;

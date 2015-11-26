@@ -1,104 +1,218 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="org.styl.gravitus.engine.UniverseEngine" project="project.gravitus" 
-    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/UniverseEngine.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="428" y="681"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
-      <operations public="true" package="true" protected="true" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="2" language="java" name="org.styl.gravitus.engine.Ticker" project="project.gravitus" 
-    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/Ticker.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="774" y="661"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
-      <operations public="true" package="true" protected="true" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="org.styl.gravitus.engine.Simulation" project="project.gravitus" 
-    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/Simulation.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="452" y="316"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
-      <operations public="true" package="true" protected="true" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="4" language="java" name="org.styl.gravitus.Runner" project="project.gravitus" 
-    file="/project.gravitus/src/main/java/org/styl/gravitus/Runner.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="856" y="226"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
-      <operations public="true" package="true" protected="true" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="org.styl.gravitus.Controller" project="project.gravitus" 
+  <class id="1" language="java" name="org.styl.gravitus.Controller" project="project.gravitus" 
     file="/project.gravitus/src/main/java/org/styl/gravitus/Controller.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1177" y="220"/>    
+    <position height="-1" width="-1" x="132" y="352"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="false" protected="true" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="false" static="true"/>    
     </display>  
   </class>  
-  <interface id="6" language="java" name="org.styl.gravitus.engine.EngineTicksListener" project="project.gravitus" 
+  <interface id="2" language="java" name="org.styl.gravitus.engine.EngineTicksListener" project="project.gravitus" 
     file="/project.gravitus/src/main/java/org/styl/gravitus/engine/EngineTicksListener.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1225" y="486"/>    
+    <position height="-1" width="-1" x="295" y="83"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="false" protected="true" private="false" static="true"/>      
       <operations public="true" package="true" protected="true" private="false" static="true"/>    
     </display>  
   </interface>  
-  <association id="7">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="8" name="runner"/>      
-      <multiplicity id="9" minimum="0" maximum="1"/>    
+  <class id="3" language="java" name="org.styl.gravitus.ui.Renderer" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/ui/Renderer.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="422" y="596"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="org.styl.gravitus.ui.Screen" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/ui/Screen.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="129" y="816"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="org.styl.gravitus.Runner" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/Runner.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="368" y="310"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="org.styl.gravitus.engine.Ticker" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/Ticker.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="946" y="133"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="org.styl.gravitus.engine.Simulation" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/Simulation.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="637" y="337"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="org.styl.gravitus.engine.UniverseEngine" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/UniverseEngine.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1009" y="329"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="org.styl.gravitus.ui.SpaceObjectUIWrapper" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/ui/SpaceObjectUIWrapper.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="753" y="770"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="org.styl.gravitus.engine.Clock" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/Clock.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="91" y="116"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="org.styl.gravitus.engine.Initialiser" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/Initialiser.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1148" y="67"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="org.styl.gravitus.engine.ProccessFailureException" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/engine/ProccessFailureException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1173" y="177"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="org.styl.gravitus.Specs" project="project.gravitus" 
+    file="/project.gravitus/src/main/java/org/styl/gravitus/Specs.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1271" y="368"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="false" protected="true" private="false" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <association id="14">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="15" name="engine"/>      
+      <multiplicity id="16" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="10">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="11" name="listener"/>      
-      <multiplicity id="12" minimum="0" maximum="1"/>    
+  <association id="17">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="18" name="ticker"/>      
+      <multiplicity id="19" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="13">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <association id="14">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="15" name="engine"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="17">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="18" name="ticker"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
+  <association id="20">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="21" name="listener"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="20">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="21" name="simulation"/>      
-      <multiplicity id="22" minimum="0" maximum="1"/>    
+  <association id="23">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="24" name="simulation"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="27" name="runner"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="30" name="screen"/>      
+      <multiplicity id="31" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="33" name="screen"/>      
+      <multiplicity id="34" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="35">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="36" name="INSTANCE"/>      
+      <multiplicity id="37" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="38">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="39" name="renderer"/>      
+      <multiplicity id="40" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="41">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="42" name="instance"/>      
+      <multiplicity id="43" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="44">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <association id="45">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="46" name="wrappers"/>      
+      <multiplicity id="47" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

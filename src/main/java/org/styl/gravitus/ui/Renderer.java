@@ -4,20 +4,19 @@ import java.util.List;
 
 import org.styl.gravitus.Specs;
 import org.styl.gravitus.engine.Clock;
-import org.styl.gravitus.entities.SpaceObjectUIWrapper;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class Renderer {
 
-	@Getter @Setter private List<SpaceObjectUIWrapper> wrappers;
+	@Getter private List<SpaceObjectUIWrapper> wrappers;
 	private Screen screen;
 	
 	private int renderFPSCounter = 0;
 	
-	public Renderer(Screen screen) {
+	public Renderer(Screen screen, List<SpaceObjectUIWrapper> wrappers) {
 		this.screen = screen;
+		this.wrappers = wrappers;
 	}
 	
 	public void render() {

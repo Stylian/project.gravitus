@@ -2,6 +2,7 @@ package org.styl.gravitus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JRadioButtonMenuItem;
 
@@ -10,8 +11,9 @@ import org.styl.gravitus.engine.EngineTicksListener;
 import org.styl.gravitus.engine.ProccessFailureException;
 import org.styl.gravitus.engine.Simulation;
 import org.styl.gravitus.entities.SpaceObjectFactory;
-import org.styl.gravitus.entities.SpaceObjectUIWrapper;
+import org.styl.gravitus.ui.Renderer;
 import org.styl.gravitus.ui.Screen;
+import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 
 import lombok.Getter;
 
@@ -20,6 +22,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 	
 	@Getter private Runner runner;
 	@Getter private Screen screen;
+	private Renderer renderer;
 	
 	public Controller(Screen screen, Runner runner) {
 		this.runner = runner;
@@ -36,7 +39,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 
 	@Override
 	public void updateUI() {
-		screen.getRenderer().render();
+		renderer.render();
 	}
 	
 	@Override
@@ -94,12 +97,14 @@ public class Controller implements EngineTicksListener, ActionListener {
 		logger.info("initializing simulation");
 		
 		runner.createSimulation();
-		runner.getSimulation().setWrappers(SpaceObjectFactory
-				.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects()));
-		runner.getSimulation().getWrappers().forEach( w -> screen.add(w));
-		screen.getRenderer().setWrappers(runner.getSimulation().getWrappers());
+		
+		List<SpaceObjectUIWrapper> wrappers = SpaceObjectFactory
+			.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects());
+				
+		renderer = new Renderer(screen, wrappers);
+		runner.getSimulation().getTicker().setListener(this);	
 		screen.getPrefsMenu().setEnabled(true);
-		runner.getSimulation().getTicker().setListener(this);
+		wrappers.forEach( w -> screen.add(w));
 	}
 	
 	public void startSimulation() {
@@ -145,8 +150,8 @@ public class Controller implements EngineTicksListener, ActionListener {
 			runner.getSimulation().setStatus(Simulation.STOPPED);
 
 			// clear data
-			runner.getSimulation().getWrappers().forEach(w -> screen.remove(w));		
-			runner.getSimulation().getWrappers().clear();		
+			renderer.getWrappers().forEach(w -> screen.remove(w));		
+			renderer.getWrappers().clear();		
 			runner.getSimulation().getEngine().getObjects().clear();
 			
 			logger.info("simulation has been reset!");

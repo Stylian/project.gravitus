@@ -1,4 +1,4 @@
-package org.styl.gravitus.entities;
+package org.styl.gravitus.ui;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.styl.gravitus.Specs;
+import org.styl.gravitus.entities.SpaceObject;
 
 import lombok.Getter;
 
