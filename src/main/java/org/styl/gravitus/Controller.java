@@ -10,9 +10,7 @@ import org.apache.log4j.Logger;
 import org.styl.gravitus.engine.EngineTicksListener;
 import org.styl.gravitus.engine.ProccessFailureException;
 import org.styl.gravitus.engine.Simulation;
-import org.styl.gravitus.entities.SpaceObjectFactory;
 import org.styl.gravitus.ui.Renderer;
-import org.styl.gravitus.ui.Screen;
 import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 import org.styl.gravitus.ui.View;
 
@@ -86,10 +84,10 @@ public class Controller implements EngineTicksListener, ActionListener {
 			view.dispose();
 			break;
 		case "trails" :
-			SpaceObjectUIWrapper.switchOrbitTrails();	
+			renderer.switchOrbitTrails();
 			break;	
 		case "orbit_path" :	
-			SpaceObjectUIWrapper.switchOrbitPath();
+			renderer.switchOrbitPath();
 			break;
 		}
 	

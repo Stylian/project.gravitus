@@ -1,8 +1,9 @@
-package org.styl.gravitus.entities;
+package org.styl.gravitus;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import org.styl.gravitus.entities.SpaceObject;
 import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 
 public class SpaceObjectFactory {

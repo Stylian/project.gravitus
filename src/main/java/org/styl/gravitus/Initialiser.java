@@ -1,9 +1,6 @@
-package org.styl.gravitus.engine;
+package org.styl.gravitus;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.Controller;
-import org.styl.gravitus.Runner;
-import org.styl.gravitus.Specs;
 import org.styl.gravitus.ui.View;
 
 public class Initialiser {

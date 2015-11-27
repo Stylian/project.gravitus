@@ -2,7 +2,6 @@ package org.styl.gravitus;
 
 import org.apache.log4j.Logger;
 import org.styl.gravitus.engine.Simulation;
-import org.styl.gravitus.entities.SpaceObjectFactory;
 
 import lombok.Getter;
 
