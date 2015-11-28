@@ -9,6 +9,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
+import org.styl.gravitus.Specs;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -68,11 +70,13 @@ public class ToolBar extends JMenuBar {
 		prefsMenu.setEnabled(false);
 		
 		JCheckBoxMenuItem trails = new JCheckBoxMenuItem("Track Orbits");
+		trails.setSelected(Specs.instance.orbitTrails);
 		trails.setActionCommand("trails");
 		trails.addActionListener(listener);
 		prefsMenu.add(trails);
 		
 		JCheckBoxMenuItem orbitPath = new JCheckBoxMenuItem("Fixed Orbits");
+		orbitPath.setSelected(Specs.instance.orbitsFixed);
 		orbitPath.setActionCommand("orbit_path");
 		orbitPath.addActionListener(listener);
 		prefsMenu.add(orbitPath);

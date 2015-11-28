@@ -15,6 +15,9 @@ public class Specs {
 	public int clockInterval;
 	public double G;
 	public int fpsRenderPeriod;
+	
+	public boolean orbitTrails;
+	public boolean orbitsFixed;
 	public int orbitTrailFrequency;
 	public int orbitTrailMaxSize;
 	
@@ -36,6 +39,9 @@ public class Specs {
 			clockInterval = Integer.parseInt(prop.getProperty("clock_interval"));
 			G = Double.parseDouble(prop.getProperty("gravitational_constant(G)"));
 			fpsRenderPeriod = Integer.parseInt(prop.getProperty("fps_indicator_render_period"));
+			
+			orbitTrails = Integer.parseInt(prop.getProperty("orbit_trails")) != 0;
+			orbitsFixed = Integer.parseInt(prop.getProperty("orbit_fixed")) != 0;
 			orbitTrailFrequency = Integer.parseInt(prop.getProperty("orbit_trail_frequency"));
 			orbitTrailMaxSize = Integer.parseInt(prop.getProperty("orbit_trail_max_size"));
 			

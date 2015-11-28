@@ -18,9 +18,7 @@ import lombok.Setter;
 @SuppressWarnings("serial")
 @Getter @Setter
 public class Screen extends JPanel {
-	
-	private boolean orbitTrails = false;
-	private boolean fixedOrbits = false;
+
 	private JLabel fps;
 	
 	public Screen() {
@@ -44,7 +42,7 @@ public class Screen extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if(orbitTrails) {
+		if(Specs.instance.orbitTrails) {
 			g.setColor(Color.WHITE);
 			Graphics2D g2d = (Graphics2D) g;
 			

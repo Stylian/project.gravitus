@@ -22,7 +22,6 @@ public class View extends JFrame {
 	public View() {
 		super();
 		
-
 		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
 		
 		toolBar = new ToolBar();

@@ -12,20 +12,9 @@ public class Renderer {
 	
 	@Getter private List<SpaceObjectUIWrapper> wrappers;
 	private Screen screen;
-	
 	private int renderFPSCounter = 0;
-	
 	public static int positionsCounter = 0;
 
-	public void switchOrbitTrails() {
-		wrappers.forEach( w -> w.getPastPositions().clear() );
-		screen.setOrbitTrails(!screen.isOrbitTrails());
-	}
-	
-	public void switchOrbitPath() {
-		screen.setFixedOrbits(!screen.isFixedOrbits());
-	}
-	
 	public Renderer(Screen screen, List<SpaceObjectUIWrapper> wrappers) {
 		this.screen = screen;
 		this.wrappers = wrappers;
@@ -58,14 +47,14 @@ public class Renderer {
 		
 		w.setLocation(x - rf, y - rf);
 
-		if(screen.isOrbitTrails()) {
+		if(Specs.instance.orbitTrails) {
 
 			if(positionsCounter % Specs.instance.orbitTrailFrequency == 0) {
 				positionsCounter = 0;
 				
 				Point newPoint = new Point(x,y);
 				
-				if(!screen.isFixedOrbits()) {
+				if(!Specs.instance.orbitsFixed) {
 					if(w.getPastPositions().size() > Specs.instance.orbitTrailMaxSize) {
 						w.getPastPositions().remove(0);
 					}

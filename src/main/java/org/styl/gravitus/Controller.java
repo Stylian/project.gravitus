@@ -84,10 +84,11 @@ public class Controller implements EngineTicksListener, ActionListener {
 			view.dispose();
 			break;
 		case "trails" :
-			renderer.switchOrbitTrails();
+			renderer.getWrappers().forEach( w -> w.getPastPositions().clear() );
+			Specs.instance.orbitTrails = !Specs.instance.orbitTrails;
 			break;	
 		case "orbit_path" :	
-			renderer.switchOrbitPath();
+			Specs.instance.orbitsFixed = !Specs.instance.orbitsFixed;
 			break;
 		}
 	
@@ -100,7 +101,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 		
 		List<SpaceObjectUIWrapper> wrappers = SpaceObjectFactory
 			.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects());
-				
+
 		renderer = new Renderer(view.getScreen(), wrappers);
 		runner.getSimulation().getTicker().setListener(this);	
 		view.getToolBar().getPrefsMenu().setEnabled(true);
