@@ -19,8 +19,8 @@ import lombok.Getter;
 public class Controller implements EngineTicksListener, ActionListener {
 	final static Logger logger = Logger.getLogger(Controller.class);
 	
-	@Getter private Runner runner;
-	@Getter private View view;
+	private Runner runner;
+	private View view;
 	private Renderer renderer;
 	
 	public Controller(View view, Runner runner) {
@@ -94,7 +94,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 	
 	}
 	
-	public void initSimulation() {
+	private void initSimulation() {
 		logger.info("initializing simulation");
 		
 		runner.createSimulation();
@@ -108,7 +108,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 		wrappers.forEach( w -> view.getScreen().add(w));
 	}
 	
-	public void startSimulation() {
+	private void startSimulation() {
 		logger.info("attempting to start simulation");
 
 		// initialize simulation if not any
@@ -128,7 +128,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 		
 	}
 	
-	public void pauseSimulation() throws InterruptedException {
+	private void pauseSimulation() throws InterruptedException {
 		logger.info("attempting to pause simulation");
 
 		try {
@@ -143,7 +143,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 		
 	}
 	
-	public void stopSimulation() throws InterruptedException {
+	private void stopSimulation() throws InterruptedException {
 		logger.info("attempting to stop simulation");
 		
 		try {

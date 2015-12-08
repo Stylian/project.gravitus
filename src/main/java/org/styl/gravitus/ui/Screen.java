@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -20,6 +21,8 @@ import lombok.Setter;
 public class Screen extends JPanel {
 
 	private JLabel fps;
+	private JLabel zoomOut;
+	private JLabel zoomIn;
 	
 	public Screen() {
 		super();
@@ -31,10 +34,21 @@ public class Screen extends JPanel {
 		fps.setForeground(Color.WHITE);
 		fps.setHorizontalTextPosition(SwingConstants.RIGHT);
 		fps.setBounds((int) (Specs.instance.frameX - 60), 8, 70, 10);
+		add(fps);
+		
+		zoomIn = new JLabel("r");
+		zoomIn.setBounds((int) (Specs.instance.frameX - 60), 30, 16, 16);
+		zoomIn.setIcon(new ImageIcon("resources/icons/plus.png"));
+		add(zoomIn);
+		
+		zoomOut = new JLabel("a");
+		zoomOut.setBounds((int) (Specs.instance.frameX - 35), 30, 16, 16);
+		zoomOut.setIcon(new ImageIcon("resources/icons/minus.png"));
+		add(zoomOut);
 
+		
 		setBackground(Color.BLACK);
 		setLayout(null);
-		add(fps);
 
 	}
 

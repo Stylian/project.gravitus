@@ -3,6 +3,7 @@ package org.styl.gravitus.ui;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -36,6 +37,7 @@ public class ToolBar extends JMenuBar {
 		JMenu fileMenu = new JMenu("File");
 		
 		JMenuItem exit = new JMenuItem("Exit");
+		exit.setIcon(new ImageIcon("resources/icons/exit.png"));
 		exit.setActionCommand("exit");
 		exit.addActionListener(listener);
 		fileMenu.add(exit);
@@ -47,17 +49,20 @@ public class ToolBar extends JMenuBar {
 		JMenu simMenu = new JMenu("Simulation");
 		
 		start = new JMenuItem("Start");
+		start.setIcon(new ImageIcon("resources/icons/start.png"));
 		start.setActionCommand("start");
 		start.addActionListener(listener);
 		simMenu.add(start);
 		
 		pause = new JMenuItem("Pause");
+		pause.setIcon(new ImageIcon("resources/icons/pause.png"));
 		pause.setEnabled(false);
 		pause.setActionCommand("pause");
 		pause.addActionListener(listener);
 		simMenu.add(pause);
 		
 		stop = new JMenuItem("Stop");
+		stop.setIcon(new ImageIcon("resources/icons/stop.png"));
 		stop.setEnabled(false);
 		stop.setActionCommand("stop");
 		stop.addActionListener(listener);
