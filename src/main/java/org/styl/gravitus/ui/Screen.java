@@ -2,11 +2,14 @@ package org.styl.gravitus.ui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -20,9 +23,11 @@ import lombok.Setter;
 @Getter @Setter
 public class Screen extends JPanel {
 
+	private ActionListener listener;
+	
 	private JLabel fps;
-	private JLabel zoomOut;
-	private JLabel zoomIn;
+	private JButton zoomOut;
+	private JButton zoomIn;
 	
 	public Screen() {
 		super();
@@ -36,14 +41,24 @@ public class Screen extends JPanel {
 		fps.setBounds((int) (Specs.instance.frameX - 60), 8, 70, 10);
 		add(fps);
 		
-		zoomIn = new JLabel("r");
+		zoomIn = new JButton();
+		zoomIn.setContentAreaFilled(false);
+		zoomIn.setBorderPainted(false);
+		zoomIn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		zoomIn.setBounds((int) (Specs.instance.frameX - 60), 30, 16, 16);
 		zoomIn.setIcon(new ImageIcon("resources/icons/plus.png"));
+		zoomIn.setActionCommand("zoomIn");
+		zoomIn.addActionListener(listener);
 		add(zoomIn);
 		
-		zoomOut = new JLabel("a");
+		zoomOut = new JButton();
+		zoomOut.setContentAreaFilled(false);
+		zoomOut.setBorderPainted(false);
+		zoomOut.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		zoomOut.setBounds((int) (Specs.instance.frameX - 35), 30, 16, 16);
 		zoomOut.setIcon(new ImageIcon("resources/icons/minus.png"));
+		zoomOut.setActionCommand("zoomOut");
+		zoomOut.addActionListener(listener);
 		add(zoomOut);
 
 		

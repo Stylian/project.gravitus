@@ -28,6 +28,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 		this.view = view;
 		
 		view.getToolBar().setListener(this);
+		view.getScreen().setListener(this);
 		view.getScreen().init();
 		view.getToolBar().init();
 	}
@@ -89,6 +90,12 @@ public class Controller implements EngineTicksListener, ActionListener {
 			break;	
 		case "orbit_path" :	
 			Specs.instance.orbitsFixed = !Specs.instance.orbitsFixed;
+			break;
+		case "zoomIn" :	
+			renderer.zoomBy(100);
+			break;
+		case "zoomOut" :	
+			renderer.zoomBy(-100);
 			break;
 		}
 	

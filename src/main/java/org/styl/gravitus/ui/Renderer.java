@@ -12,8 +12,10 @@ public class Renderer {
 	
 	@Getter private List<SpaceObjectUIWrapper> wrappers;
 	private Screen screen;
-	private int renderFPSCounter = 0;
-	public static int positionsCounter = 0;
+	private int zoom = 1000;
+	
+	private static int renderFPSCounter = 0;	
+	private static int positionsCounter = 0;
 
 	public Renderer(Screen screen, List<SpaceObjectUIWrapper> wrappers) {
 		this.screen = screen;
@@ -39,11 +41,15 @@ public class Renderer {
 		screen.repaint();
 	}
 
+	public void zoomBy(int by) {
+		zoom += by;
+	}
+	
 	private void updateWrapper(SpaceObjectUIWrapper w) {
 		
-		int x = (int)(w.getSpaceObject().getPosx()/1000);
-		int y = (int)(w.getSpaceObject().getPosy()/1000);
-		int rf = (int) (w.getSpaceObject().getRadius() * 1.414);
+		int x = (int)(w.getSpaceObject().getPosx() * zoom/1000000);
+		int y = (int)(w.getSpaceObject().getPosy() * zoom/1000000);
+		int rf = (int) (w.getSpaceObject().getRadius() * 1414 * zoom/1000000);
 		
 		w.setLocation(x - rf, y - rf);
 
