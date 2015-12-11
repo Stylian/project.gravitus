@@ -11,26 +11,27 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
-@Getter @Setter
+@Getter
+@Setter
 public class View extends JFrame {
 
 	private Dimension size;
-	
+
 	private Screen screen;
 	private ToolBar toolBar;
-	
+
 	public View() {
 		super();
-		
+
 		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
-		
+
 		toolBar = new ToolBar();
 		screen = new Screen();
-		
+
 		setLayout(new BorderLayout());
 		add(toolBar, BorderLayout.NORTH);
 		add(screen, BorderLayout.CENTER);
-		
+
 		setTitle("Gravity Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -40,5 +41,5 @@ public class View extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 	}
-	
+
 }

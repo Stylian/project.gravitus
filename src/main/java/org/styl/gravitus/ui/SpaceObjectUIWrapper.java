@@ -16,25 +16,24 @@ import lombok.Getter;
 @SuppressWarnings("serial")
 @Getter
 public class SpaceObjectUIWrapper extends JLabel {
-	
+
 	private SpaceObject spaceObject;
 	private List<Point> pastPositions;
-	
+
 	public SpaceObjectUIWrapper(SpaceObject so) {
 		super();
-		
-		this.spaceObject = so;
-		
-		pastPositions = new LinkedList<>();
-		
-		ImageIcon imageIcon = new ImageIcon( so.getImage() );
-		Image image = imageIcon.getImage();	
-		Image newimg = image.getScaledInstance( so.getRadius()*2, so.getRadius()*2, java.awt.Image.SCALE_SMOOTH );	
-		setIcon( new ImageIcon(newimg) );
-		
-		setSize( new Dimension(so.getRadius()*2, so.getRadius()*2) );
-		setLocation( (int)(so.getPosx()/1000), (int)(so.getPosy()/1000) );
-	}
 
+		this.spaceObject = so;
+
+		pastPositions = new LinkedList<>();
+
+		ImageIcon imageIcon = new ImageIcon(so.getImage());
+		Image image = imageIcon.getImage();
+		Image newimg = image.getScaledInstance(so.getRadius() * 2, so.getRadius() * 2, java.awt.Image.SCALE_SMOOTH);
+		setIcon(new ImageIcon(newimg));
+
+		setSize(new Dimension(so.getRadius() * 2, so.getRadius() * 2));
+		setLocation((int) (so.getPosx() / 1000), (int) (so.getPosy() / 1000));
+	}
 
 }

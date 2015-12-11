@@ -20,27 +20,28 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
-@Getter @Setter
+@Getter
+@Setter
 public class Screen extends JPanel {
 
 	private ActionListener listener;
-	
+
 	private JLabel fps;
 	private JButton zoomOut;
 	private JButton zoomIn;
-	
+
 	public Screen() {
 		super();
 	}
 
 	public void init() {
-		
+
 		fps = new JLabel();
 		fps.setForeground(Color.WHITE);
 		fps.setHorizontalTextPosition(SwingConstants.RIGHT);
 		fps.setBounds((int) (Specs.instance.frameX - 60), 8, 70, 10);
 		add(fps);
-		
+
 		zoomIn = new JButton();
 		zoomIn.setContentAreaFilled(false);
 		zoomIn.setBorderPainted(false);
@@ -50,7 +51,7 @@ public class Screen extends JPanel {
 		zoomIn.setActionCommand("zoomIn");
 		zoomIn.addActionListener(listener);
 		add(zoomIn);
-		
+
 		zoomOut = new JButton();
 		zoomOut.setContentAreaFilled(false);
 		zoomOut.setBorderPainted(false);
@@ -61,7 +62,6 @@ public class Screen extends JPanel {
 		zoomOut.addActionListener(listener);
 		add(zoomOut);
 
-		
 		setBackground(Color.BLACK);
 		setLayout(null);
 
@@ -71,31 +71,26 @@ public class Screen extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		if(Specs.instance.orbitTrails) {
+		if (Specs.instance.orbitTrails) {
 			g.setColor(Color.WHITE);
 			Graphics2D g2d = (Graphics2D) g;
-			
-			for(Component cmpnt : this.getComponents()) {
-				if(cmpnt instanceof SpaceObjectUIWrapper) {
+
+			for (Component cmpnt : this.getComponents()) {
+				if (cmpnt instanceof SpaceObjectUIWrapper) {
 					SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
 
 					Point prev = null;
-					for(Point p : wrap.getPastPositions()) {
-						if(prev != null) {
-							g2d.drawLine(
-								(int)(p.getX()),
-								(int)(p.getY()),
-								(int)(prev.getX()),
-								(int)(prev.getY())
-							);
+					for (Point p : wrap.getPastPositions()) {
+						if (prev != null) {
+							g2d.drawLine((int) (p.getX()), (int) (p.getY()), (int) (prev.getX()), (int) (prev.getY()));
 						}
 						prev = p;
 					}
-					
+
 				}
 			}
 		}
-		
+
 	}
 
 }

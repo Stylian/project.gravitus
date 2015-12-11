@@ -13,17 +13,17 @@ public class Runner {
 	public void createSimulation() {
 		simulation = new Simulation();
 		simulation.getEngine().setObjects(SpaceObjectFactory.createSpaceObjects());
-		
+
 		logger.info(simulation.getEngine().getObjects().size() + " space objects have been created!");
 	}
 
 	public void nextTick() {
 		simulation.tick();
 	}
-	
+
 	public void reset() {
 		simulation.getEngine().getObjects().clear();
-		
+
 		logger.info("simulation has been reset!");
 	}
 

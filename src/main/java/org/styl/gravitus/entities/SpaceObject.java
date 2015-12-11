@@ -18,7 +18,7 @@ public class SpaceObject {
 	private double accx;
 	private double accy;
 	private int mass;
-	
+
 	public SpaceObject() {
 		this.id = ++counter;
 	}
@@ -30,6 +30,7 @@ public class SpaceObject {
 	public void incrPosy(double incr) {
 		posy += incr;
 	}
+
 	public void incrVelx(double incr) {
 		velx += incr;
 	}
@@ -37,7 +38,7 @@ public class SpaceObject {
 	public void incrVely(double incr) {
 		vely += incr;
 	}
-	
+
 	public void incrAccx(double incr) {
 		accx += incr;
 	}
@@ -45,5 +46,5 @@ public class SpaceObject {
 	public void incrAccy(double incr) {
 		accy += incr;
 	}
-	
+
 }
