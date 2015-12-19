@@ -10,7 +10,7 @@ public class Initialiser {
 		logger.info("starting Application");
 
 		// initialize properties
-		Specs.createInstance();
+		new SpecsLoader();
 
 		Runner runner = new Runner();
 
