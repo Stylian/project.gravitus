@@ -3,12 +3,17 @@ package org.styl.gravitus;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.styl.gravitus.engine.Simulation;
 import org.styl.gravitus.entities.SpaceObject;
-import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 
-public class SpaceObjectFactory {
+public class Stage extends Simulation {
 
-	public static List<SpaceObject> createSpaceObjects() {
+	public Stage() {
+		super();
+	}
+
+	public void loadStage(int i) {
+		// TODO
 
 		List<SpaceObject> objects = new LinkedList<>();
 
@@ -21,8 +26,6 @@ public class SpaceObjectFactory {
 		aaa.setPosy(500000);
 		aaa.setRadius(6); // 6371 km
 		aaa.setVely(-0.56);
-
-		aaa.setVelx(1);
 
 		objects.add(aaa);
 
@@ -38,19 +41,9 @@ public class SpaceObjectFactory {
 		bbb.setRadius(2); // 1737 km
 		bbb.setVely(45.92); // 4.627 m/s
 
-		bbb.setVelx(1);
-
 		objects.add(bbb);
-
-		return objects;
-	}
-
-	public static List<SpaceObjectUIWrapper> createSpaceObjectUIWrappers(List<SpaceObject> objects) {
-		List<SpaceObjectUIWrapper> wrappers = new LinkedList<>();
-		for (SpaceObject object : objects) {
-			wrappers.add(new SpaceObjectUIWrapper(object));
-		}
-		return wrappers;
+		
+		getEngine().setObjects(objects);
 	}
 
 }

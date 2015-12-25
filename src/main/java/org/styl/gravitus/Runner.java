@@ -1,19 +1,19 @@
 package org.styl.gravitus;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.engine.Simulation;
 
 import lombok.Getter;
 
 public class Runner {
 	final static Logger logger = Logger.getLogger(Runner.class);
 
-	@Getter private Simulation simulation;
+	@Getter private Stage simulation;
 
 	public void initNextStage() {
-		simulation = new Simulation();
-		simulation.getEngine().setObjects(SpaceObjectFactory.createSpaceObjects());
-
+		simulation = new Stage();
+		
+		simulation.loadStage(1); // TODO
+		
 		logger.info(simulation.getEngine().getObjects().size() + " space objects have been created!");
 	}
 
