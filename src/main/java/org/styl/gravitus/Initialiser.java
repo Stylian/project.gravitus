@@ -16,9 +16,11 @@ public class Initialiser {
 
 		View view = new View();
 
-		new Controller(view, runner);
+		Controller ctrl = new Controller(view, runner);
 
 		view.setVisible(true);
+		
+		ctrl.startSimulation();
 	}
 
 }

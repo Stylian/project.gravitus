@@ -10,7 +10,7 @@ public class Runner {
 
 	@Getter private Simulation simulation;
 
-	public void createSimulation() {
+	public void initNextStage() {
 		simulation = new Simulation();
 		simulation.getEngine().setObjects(SpaceObjectFactory.createSpaceObjects());
 

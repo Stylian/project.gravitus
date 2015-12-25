@@ -14,8 +14,6 @@ import org.styl.gravitus.ui.Renderer;
 import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 import org.styl.gravitus.ui.View;
 
-import lombok.Getter;
-
 public class Controller implements EngineTicksListener, ActionListener {
 	final static Logger logger = Logger.getLogger(Controller.class);
 
@@ -50,18 +48,11 @@ public class Controller implements EngineTicksListener, ActionListener {
 
 		case "start":
 			startSimulation();
-			view.getToolBar().getStart().setEnabled(false);
-			view.getToolBar().getPause().setEnabled(true);
-			view.getToolBar().getStop().setEnabled(true);
 			break;
 		case "pause":
 
 			try {
 				pauseSimulation();
-				view.getToolBar().getPause().setEnabled(false);
-				view.getToolBar().getStop().setEnabled(true);
-				view.getToolBar().getStart().setEnabled(true);
-				view.getToolBar().getStart().setText("Continue");
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -69,10 +60,6 @@ public class Controller implements EngineTicksListener, ActionListener {
 		case "stop":
 			try {
 				stopSimulation();
-				view.getToolBar().getStop().setEnabled(false);
-				view.getToolBar().getPause().setEnabled(false);
-				view.getToolBar().getStart().setEnabled(true);
-				view.getToolBar().getStart().setText("Start");
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
@@ -104,7 +91,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 	private void initSimulation() {
 		logger.info("initializing simulation");
 
-		runner.createSimulation();
+		runner.initNextStage();
 
 		List<SpaceObjectUIWrapper> wrappers = SpaceObjectFactory
 				.createSpaceObjectUIWrappers(runner.getSimulation().getEngine().getObjects());
@@ -115,7 +102,7 @@ public class Controller implements EngineTicksListener, ActionListener {
 		wrappers.forEach(w -> view.getScreen().add(w));
 	}
 
-	private void startSimulation() {
+	public void startSimulation() {
 		logger.info("attempting to start simulation");
 
 		// initialize simulation if not any
@@ -133,6 +120,9 @@ public class Controller implements EngineTicksListener, ActionListener {
 			e.printStackTrace();
 		}
 
+		view.getToolBar().getStart().setEnabled(false);
+		view.getToolBar().getPause().setEnabled(true);
+		view.getToolBar().getStop().setEnabled(true);
 	}
 
 	private void pauseSimulation() throws InterruptedException {
@@ -148,6 +138,10 @@ public class Controller implements EngineTicksListener, ActionListener {
 			e.printStackTrace();
 		}
 
+		view.getToolBar().getPause().setEnabled(false);
+		view.getToolBar().getStop().setEnabled(true);
+		view.getToolBar().getStart().setEnabled(true);
+		view.getToolBar().getStart().setText("Continue");
 	}
 
 	private void stopSimulation() throws InterruptedException {
@@ -168,6 +162,10 @@ public class Controller implements EngineTicksListener, ActionListener {
 			e.printStackTrace();
 		}
 
+		view.getToolBar().getStop().setEnabled(false);
+		view.getToolBar().getPause().setEnabled(false);
+		view.getToolBar().getStart().setEnabled(true);
+		view.getToolBar().getStart().setText("Start");
 	}
 
 }
