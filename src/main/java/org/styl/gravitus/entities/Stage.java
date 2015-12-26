@@ -1,16 +1,12 @@
 package org.styl.gravitus.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
-@Getter @Setter
+import lombok.Data;
+
+@Data
 public class Stage {
 
-	private String name;
-	private long mass;
-	private String img;
-	private int radius;
-	private PVector position;
-	private PVector velocity;
+	private List<SpaceObject> objects;
 
 }

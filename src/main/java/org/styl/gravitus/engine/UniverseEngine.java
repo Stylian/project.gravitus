@@ -25,17 +25,17 @@ public class UniverseEngine {
 				double g = Specs.instance.G * a.getMass() / Math.pow(dist, 2);
 				double gx = g * Math.cos(angle);
 				double gy = g * Math.sin(angle);
-				o.incrAccx(gx);
-				o.incrAccy(gy);
+				o.getAcceleration().x += gx;
+				o.getAcceleration().y += gy;
 			}
 		});
 	}
 
 	private void update(SpaceObject o) {
-		o.incrVelx(o.getAcceleration().x * Clock.INSTANCE.t());
-		o.incrVely(o.getAcceleration().y * Clock.INSTANCE.t());
-		o.incrPosx(o.getVelocity().x * Clock.INSTANCE.t());
-		o.incrPosy(o.getVelocity().y * Clock.INSTANCE.t());
+		o.getVelocity().x += o.getAcceleration().x * Clock.INSTANCE.t();
+		o.getVelocity().y += o.getAcceleration().y * Clock.INSTANCE.t();
+		o.getPosition().x += o.getVelocity().x * Clock.INSTANCE.t();
+		o.getPosition().y += o.getVelocity().y * Clock.INSTANCE.t();
 		o.getAcceleration().x = 0;
 		o.getAcceleration().y = 0;
 	}

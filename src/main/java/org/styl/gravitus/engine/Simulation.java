@@ -17,6 +17,7 @@ public class Simulation {
 	public static final int PAUSED = 2;
 	public static final int STOPPED = 3;
 
+	@Getter @Setter private Stage stage;
 	@Getter @Setter private int fps;
 	@Getter @Setter private int status;
 	@Getter private UniverseEngine engine;

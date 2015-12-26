@@ -23,28 +23,4 @@ public class SpaceObject {
 		this.acceleration = new PVector();
 	}
 
-	public void incrPosx(double incr) {
-		position.x += incr;
-	}
-
-	public void incrPosy(double incr) {
-		position.y += incr;
-	}
-
-	public void incrVelx(double incr) {
-		velocity.x += incr;
-	}
-
-	public void incrVely(double incr) {
-		velocity.y += incr;
-	}
-
-	public void incrAccx(double incr) {
-		acceleration.x += incr;
-	}
-
-	public void incrAccy(double incr) {
-		acceleration.y += incr;
-	}
-
 }
