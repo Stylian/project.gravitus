@@ -33,7 +33,7 @@ public class SpaceObjectUIWrapper extends JLabel {
 		setIcon(new ImageIcon(newimg));
 
 		setSize(new Dimension(so.getRadius() * 2, so.getRadius() * 2));
-		setLocation((int) (so.getPosx() / 1000), (int) (so.getPosy() / 1000));
+		setLocation((int) (so.getPosition().x / 1000), (int) (so.getPosition().y / 1000));
 	}
 
 }

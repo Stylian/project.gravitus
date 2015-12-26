@@ -11,40 +11,40 @@ public class SpaceObject {
 	private String name;
 	private int radius;
 	private String image;
-	private long posx;
-	private long posy;
-	private double velx;
-	private double vely;
-	private double accx;
-	private double accy;
 	private int mass;
+	private PVector position;
+	private PVector velocity;
+	private PVector acceleration;
 
 	public SpaceObject() {
 		this.id = ++counter;
+		this.position = new PVector();
+		this.velocity = new PVector();
+		this.acceleration = new PVector();
 	}
 
 	public void incrPosx(double incr) {
-		posx += incr;
+		position.x += incr;
 	}
 
 	public void incrPosy(double incr) {
-		posy += incr;
+		position.y += incr;
 	}
 
 	public void incrVelx(double incr) {
-		velx += incr;
+		velocity.x += incr;
 	}
 
 	public void incrVely(double incr) {
-		vely += incr;
+		velocity.y += incr;
 	}
 
 	public void incrAccx(double incr) {
-		accx += incr;
+		acceleration.x += incr;
 	}
 
 	public void incrAccy(double incr) {
-		accy += incr;
+		acceleration.y += incr;
 	}
 
 }

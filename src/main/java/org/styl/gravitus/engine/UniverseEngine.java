@@ -32,24 +32,24 @@ public class UniverseEngine {
 	}
 
 	private void update(SpaceObject o) {
-		o.incrVelx(o.getAccx() * Clock.INSTANCE.t());
-		o.incrVely(o.getAccy() * Clock.INSTANCE.t());
-		o.incrPosx(o.getVelx() * Clock.INSTANCE.t());
-		o.incrPosy(o.getVely() * Clock.INSTANCE.t());
-		o.setAccx(0);
-		o.setAccy(0);
+		o.incrVelx(o.getAcceleration().x * Clock.INSTANCE.t());
+		o.incrVely(o.getAcceleration().y * Clock.INSTANCE.t());
+		o.incrPosx(o.getVelocity().x * Clock.INSTANCE.t());
+		o.incrPosy(o.getVelocity().y * Clock.INSTANCE.t());
+		o.getAcceleration().x = 0;
+		o.getAcceleration().y = 0;
 	}
 
 	private long distance(SpaceObject o, SpaceObject a) {
-		long dx = a.getPosx() - o.getPosx();
-		long dy = a.getPosy() - o.getPosy();
+		double dx = a.getPosition().x - o.getPosition().x;
+		double dy = a.getPosition().y - o.getPosition().y;
 		long sumsqr = (long) (Math.pow(dx, 2) + Math.pow(dy, 2));
 		return (long) Math.sqrt(sumsqr);
 	}
 
 	private double angle(SpaceObject o, SpaceObject a) {
-		long dx = a.getPosx() - o.getPosx();
-		long dy = a.getPosy() - o.getPosy();
+		double dx = a.getPosition().x - o.getPosition().x;
+		double dy = a.getPosition().y - o.getPosition().y;
 		return Math.atan2(dy, dx);
 	}
 

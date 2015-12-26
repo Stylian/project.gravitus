@@ -47,8 +47,8 @@ public class Renderer {
 
 	private void updateWrapper(SpaceObjectUIWrapper w) {
 
-		int x = (int) (w.getSpaceObject().getPosx() * zoom / 1000000);
-		int y = (int) (w.getSpaceObject().getPosy() * zoom / 1000000);
+		int x = (int) (w.getSpaceObject().getPosition().x * zoom / 1000000);
+		int y = (int) (w.getSpaceObject().getPosition().y * zoom / 1000000);
 		int rf = (int) (w.getSpaceObject().getRadius() * 1414 * zoom / 1000000);
 
 		w.setLocation(x - rf, y - rf);
