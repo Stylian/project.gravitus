@@ -19,15 +19,14 @@ public class Runner {
 	@Getter private Simulation simulation;
 
 	public void initNextStage() {
-	//	try {
-			simulation = new Simulation();//new Gson().fromJson(FileUtils.readFileToString(new File("resources/stages/lvl-1.json")), Stage.class));
-	//	} catch (JsonSyntaxException | IOException e) {
-//			logger.error("failed to load stage!");
-//			System.exit(0);
-//		}
-		
-		//simulation.loadStage(1); // TODO
-		
+		try {
+			simulation = new Simulation(new Gson()
+					.fromJson(FileUtils.readFileToString(new File("resources/stages/lvl-1.json")), Stage.class));
+		} catch (JsonSyntaxException | IOException e) {
+			logger.error("failed to load stage!");
+			System.exit(0);
+		}
+
 		logger.info(simulation.getEngine().getObjects().size() + " space objects have been created!");
 	}
 

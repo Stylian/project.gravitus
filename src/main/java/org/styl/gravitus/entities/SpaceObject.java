@@ -1,5 +1,7 @@
 package org.styl.gravitus.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import lombok.Data;
 
 @Data
@@ -10,11 +12,11 @@ public class SpaceObject {
 	private int id;
 	private String name;
 	private int radius;
-	private String image;
+	@SerializedName("img-uri") private String image;
 	private int mass;
 	private PVector position;
 	private PVector velocity;
-	private PVector acceleration;
+	private transient PVector acceleration;
 
 	public SpaceObject() {
 		this.id = ++counter;
