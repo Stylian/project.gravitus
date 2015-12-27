@@ -3,7 +3,6 @@ package org.styl.gravitus;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JRadioButtonMenuItem;
@@ -12,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.styl.gravitus.engine.EngineTicksListener;
 import org.styl.gravitus.engine.ProccessFailureException;
 import org.styl.gravitus.engine.Simulation;
-import org.styl.gravitus.entities.SpaceObject;
 import org.styl.gravitus.ui.Renderer;
 import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 import org.styl.gravitus.ui.View;
@@ -97,8 +95,8 @@ public class Controller implements EngineTicksListener, ActionListener {
 		runner.initNextStage();
 
 		List<SpaceObjectUIWrapper> wrappers = new ArrayList<>();
-		runner.getSimulation().getEngine().getObjects().forEach( o -> wrappers.add(new SpaceObjectUIWrapper(o) ));
-		
+		runner.getSimulation().getEngine().getObjects().forEach(o -> wrappers.add(new SpaceObjectUIWrapper(o)));
+
 		renderer = new Renderer(view.getScreen(), wrappers);
 		runner.getSimulation().getTicker().setListener(this);
 		view.getToolBar().getPrefsMenu().setEnabled(true);

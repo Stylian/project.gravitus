@@ -21,7 +21,7 @@ public class Runner {
 	public void initNextStage() {
 		try {
 			simulation = new Simulation(new Gson()
-					.fromJson(FileUtils.readFileToString(new File("resources/stages/lvl-1.json")), Stage.class));
+					.fromJson(FileUtils.readFileToString(new File(SystemLocations.STAGES_FOLDER + "lvl-1.json")), Stage.class));
 		} catch (JsonSyntaxException | IOException e) {
 			logger.error("failed to load stage!");
 			System.exit(0);

@@ -14,15 +14,12 @@ public class SpaceObject {
 	private int radius;
 	@SerializedName("img-uri") private String image;
 	private int mass;
-	private PVector position;
-	private PVector velocity;
-	private transient PVector acceleration;
+	private PVector position = new PVector();
+	private PVector velocity = new PVector();
+	private transient PVector acceleration = new PVector();
 
 	public SpaceObject() {
 		this.id = ++counter;
-		this.position = new PVector();
-		this.velocity = new PVector();
-		this.acceleration = new PVector();
 	}
 
 }

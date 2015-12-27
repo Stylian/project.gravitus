@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 import org.styl.gravitus.Specs;
+import org.styl.gravitus.SystemLocations;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +39,7 @@ public class ToolBar extends JMenuBar {
 		JMenu fileMenu = new JMenu("File");
 
 		JMenuItem exit = new JMenuItem("Exit");
-		exit.setIcon(new ImageIcon("resources/icons/exit.png"));
+		exit.setIcon(new ImageIcon(SystemLocations.ICONS_FOLDER + "exit.png"));
 		exit.setActionCommand("exit");
 		exit.addActionListener(listener);
 		fileMenu.add(exit);
@@ -49,20 +50,20 @@ public class ToolBar extends JMenuBar {
 		JMenu simMenu = new JMenu("Simulation");
 
 		start = new JMenuItem("Start");
-		start.setIcon(new ImageIcon("resources/icons/start.png"));
+		start.setIcon(new ImageIcon(SystemLocations.ICONS_FOLDER + "start.png"));
 		start.setActionCommand("start");
 		start.addActionListener(listener);
 		simMenu.add(start);
 
 		pause = new JMenuItem("Pause");
-		pause.setIcon(new ImageIcon("resources/icons/pause.png"));
+		pause.setIcon(new ImageIcon(SystemLocations.ICONS_FOLDER + "pause.png"));
 		pause.setEnabled(false);
 		pause.setActionCommand("pause");
 		pause.addActionListener(listener);
 		simMenu.add(pause);
 
 		stop = new JMenuItem("Stop");
-		stop.setIcon(new ImageIcon("resources/icons/stop.png"));
+		stop.setIcon(new ImageIcon(SystemLocations.ICONS_FOLDER + "stop.png"));
 		stop.setEnabled(false);
 		stop.setActionCommand("stop");
 		stop.addActionListener(listener);

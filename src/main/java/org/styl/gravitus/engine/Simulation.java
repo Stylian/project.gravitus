@@ -23,7 +23,7 @@ public class Simulation {
 	public Simulation(Stage stage) {
 		ticker = new Ticker();
 		engine = new UniverseEngine();
-		
+
 		loadStage(stage);
 	}
 

@@ -8,17 +8,13 @@ import org.apache.log4j.Logger;
 
 public class SpecsLoader {
 	final static Logger logger = Logger.getLogger(SpecsLoader.class);
-
-	public static final String USER_FILE = System.getProperty("user.home") + File.separator + "Documents" +
-			File.separator + "Gravitus" + File.separator + "application.properties";
-	public static final String DEFAULT_FILE = "resources" + File.separator + "specs.properties";
 	
 	public SpecsLoader() {
 		logger.info("getting properties from file");
 
 		Specs.createInstance();
 		
-		File userFile = new File(USER_FILE);
+		File userFile = new File(SystemLocations.USER_PROPERTIES_FILE);
 		
 		if(userFile.exists()) {
 			try {
@@ -30,7 +26,7 @@ public class SpecsLoader {
 			logger.info("could not find user properties!");
 			logger.info("attempting to load default properties!");
 			try {
-				Specs.instance.loadProperties(new File(DEFAULT_FILE));
+				Specs.instance.loadProperties(new File(SystemLocations.DEFAULT_PROPERTIES_FILE));
 			} catch (IOException e) {
 				logger.error("failed to load properties! The application will now terminate.");
 				System.exit(0);
@@ -46,6 +42,6 @@ public class SpecsLoader {
 	}
 
 	private void createUserFile() throws IOException {
-		FileUtils.copyFile(new File(DEFAULT_FILE), new File(USER_FILE));
+		FileUtils.copyFile(new File(SystemLocations.DEFAULT_PROPERTIES_FILE), new File(SystemLocations.USER_PROPERTIES_FILE));
 	}
 }

@@ -9,10 +9,6 @@ import org.apache.log4j.Logger;
 
 public class Specs {
 	final static Logger logger = Logger.getLogger(Specs.class);
-
-	public static final String USER_FILE = System.getProperty("user.home") + "Documents" +
-			File.separator + "Gravitus" + File.separator + "application.properties";
-	public static final String DEFAULT_FILE = "resources" + File.separator + "specs.properties";
 	
 	public static Specs instance;
 
