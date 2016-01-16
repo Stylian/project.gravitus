@@ -10,7 +10,7 @@ import javax.swing.JRadioButtonMenuItem;
 import org.apache.log4j.Logger;
 import org.styl.gravitus.engine.EngineTicksListener;
 import org.styl.gravitus.engine.ProccessFailureException;
-import org.styl.gravitus.engine.Simulation;
+import org.styl.gravitus.entities.Simulation;
 import org.styl.gravitus.ui.Renderer;
 import org.styl.gravitus.ui.SpaceObjectUIWrapper;
 import org.styl.gravitus.ui.View;

@@ -1,11 +1,13 @@
-package org.styl.gravitus.engine;
+package org.styl.gravitus.entities;
 
 import org.apache.log4j.Logger;
-import org.styl.gravitus.entities.Stage;
+import org.styl.gravitus.engine.ProccessFailureException;
+import org.styl.gravitus.engine.Ticker;
+import org.styl.gravitus.engine.UniverseEngine;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+@Data
 public class Simulation {
 	final static Logger logger = Logger.getLogger(Simulation.class);
 
@@ -13,11 +15,11 @@ public class Simulation {
 	public static final int PAUSED = 2;
 	public static final int STOPPED = 3;
 
-	@Getter @Setter private Stage stage;
-	@Getter @Setter private int fps;
-	@Getter @Setter private int status;
-	@Getter private UniverseEngine engine;
-	@Getter private Ticker ticker;
+	private Stage stage;
+	private int fps;
+	private int status;
+	private UniverseEngine engine;
+	private Ticker ticker;
 	private Thread thread;
 
 	public Simulation(Stage stage) {
