@@ -11,29 +11,19 @@ class Specs private constructor() {
 	private val logger: Logger = Logger.getLogger(Specs::class.java)
 
 	var clockInterval: Int = 0
-		private set
 	var G: Double = 0.0
-		private set
 	var fpsRenderPeriod: Int = 0
-		private set
 
 	var orbitTrails: Boolean = false
-		private set
 	var orbitsFixed: Boolean = false
-		private set
 	var orbitTrailFrequency: Int = 0
-		private set
 	var orbitTrailMaxSize: Int = 0
-		private set
 
 	var frameX: Int = 0
-		private set
 	var frameY: Int = 0
-		private set
 
 	companion object {
-		var instance: Specs? = null
-			private set
+		lateinit var instance: Specs
 
 		fun createInstance() {
 			instance = Specs()

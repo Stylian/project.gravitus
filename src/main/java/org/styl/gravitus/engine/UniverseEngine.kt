@@ -5,7 +5,7 @@ import org.styl.gravitus.entities.SpaceObject
 
 class UniverseEngine {
 
-	var objects: List<SpaceObject> = mutableListOf()
+	var objects: MutableList<SpaceObject> = mutableListOf()
 
 	fun estimateTick() {
 		objects.forEach { calculate(it) }

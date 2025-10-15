@@ -26,8 +26,8 @@ class Screen : JPanel() {
 		add(fps)
 
 		zoomIn = JButton().apply {
-			contentAreaFilled = false
-			isBorderPainted = false
+			setContentAreaFilled(false)
+			setBorderPainted(false)
 			cursor = Cursor(Cursor.HAND_CURSOR)
 			setBounds((Specs.instance?.frameX ?: 800) - 60, 30, 16, 16)
 			icon = ImageIcon("resources/icons/plus.png")
@@ -37,8 +37,8 @@ class Screen : JPanel() {
 		add(zoomIn)
 
 		zoomOut = JButton().apply {
-			contentAreaFilled = false
-			isBorderPainted = false
+			setContentAreaFilled(false)
+			setBorderPainted(false)
 			cursor = Cursor(Cursor.HAND_CURSOR)
 			setBounds((Specs.instance?.frameX ?: 800) - 35, 30, 16, 16)
 			icon = ImageIcon("resources/icons/minus.png")

@@ -34,7 +34,7 @@ class Simulation(private val stage: Stage) {
 	@Throws(ProccessFailureException::class)
 	fun start() {
 		ticker.fps = if (fps == 0) 40 else fps
-		ticker.isRunning = true
+		ticker.running = true
 		thread = Thread(ticker)
 		thread?.start()
 		status = RUNNING
@@ -43,14 +43,14 @@ class Simulation(private val stage: Stage) {
 
 	@Throws(ProccessFailureException::class)
 	fun pause() {
-		ticker.isRunning = false
+		ticker.running = false
 		status = PAUSED
 		logger.info("Simulation paused.")
 	}
 
 	@Throws(ProccessFailureException::class, InterruptedException::class)
 	fun stop() {
-		ticker.isRunning = false
+		ticker.running = false
 		thread?.join()
 		status = STOPPED
 		logger.info("Simulation stopped.")

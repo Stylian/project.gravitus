@@ -6,7 +6,7 @@ import java.awt.Point
 
 class Renderer(
 	private val screen: Screen,
-	var wrappers: List<SpaceObjectUIWrapper>
+	var wrappers: MutableList<SpaceObjectUIWrapper> = mutableListOf()
 ) {
 
 	private var zoom: Int = 1000

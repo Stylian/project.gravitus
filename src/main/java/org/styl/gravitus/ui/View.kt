@@ -8,7 +8,7 @@ import javax.swing.JFrame
 @Suppress("serial")
 class View : JFrame() {
 
-	val size: Dimension = Dimension(Specs.instance?.frameX ?: 800, Specs.instance?.frameY ?: 600)
+	val windowSize: Dimension = Dimension(Specs.instance?.frameX ?: 800, Specs.instance?.frameY ?: 600)
 
 	val screen: Screen = Screen()
 	val toolBar: ToolBar = ToolBar()
@@ -21,9 +21,9 @@ class View : JFrame() {
 		title = "Gravity Simulator"
 		defaultCloseOperation = JFrame.EXIT_ON_CLOSE
 		isResizable = false
-		preferredSize = size
-		maximumSize = size
-		minimumSize = size
+		preferredSize = windowSize
+		maximumSize = windowSize
+		minimumSize = windowSize
 		pack()
 		setLocationRelativeTo(null)
 	}

@@ -15,7 +15,7 @@ class SpaceObjectUIWrapper(val spaceObject: SpaceObject) : JLabel() {
 	val pastPositions: MutableList<Point> = LinkedList()
 
 	init {
-		val imageIcon = ImageIcon(SystemLocations.IMAGES_FOLDER + spaceObject.image)
+		val imageIcon = ImageIcon(SystemLocations.imagesFolder + spaceObject.image)
 		val image: Image = imageIcon.image
 		val newImg: Image = image.getScaledInstance(
 			spaceObject.radius * 2,

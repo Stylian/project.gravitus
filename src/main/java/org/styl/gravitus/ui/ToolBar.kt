@@ -25,7 +25,7 @@ class ToolBar : JMenuBar() {
 		// File menu
 		val fileMenu = JMenu("File")
 		val exit = JMenuItem("Exit").apply {
-			icon = ImageIcon(SystemLocations.ICONS_FOLDER + "exit.png")
+			icon = ImageIcon(SystemLocations.iconsFolder + "exit.png")
 			actionCommand = "exit"
 			listener?.let { addActionListener(it) }
 		}
@@ -36,14 +36,14 @@ class ToolBar : JMenuBar() {
 		val simMenu = JMenu("Simulation")
 
 		start = JMenuItem("Start").apply {
-			icon = ImageIcon(SystemLocations.ICONS_FOLDER + "start.png")
+			icon = ImageIcon(SystemLocations.iconsFolder + "start.png")
 			actionCommand = "start"
 			listener?.let { addActionListener(it) }
 		}
 		simMenu.add(start)
 
 		pause = JMenuItem("Pause").apply {
-			icon = ImageIcon(SystemLocations.ICONS_FOLDER + "pause.png")
+			icon = ImageIcon(SystemLocations.iconsFolder + "pause.png")
 			isEnabled = false
 			actionCommand = "pause"
 			listener?.let { addActionListener(it) }
@@ -51,7 +51,7 @@ class ToolBar : JMenuBar() {
 		simMenu.add(pause)
 
 		stop = JMenuItem("Stop").apply {
-			icon = ImageIcon(SystemLocations.ICONS_FOLDER + "stop.png")
+			icon = ImageIcon(SystemLocations.iconsFolder + "stop.png")
 			isEnabled = false
 			actionCommand = "stop"
 			listener?.let { addActionListener(it) }
