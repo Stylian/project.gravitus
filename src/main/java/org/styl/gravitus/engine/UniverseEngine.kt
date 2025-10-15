@@ -17,7 +17,7 @@ class UniverseEngine {
 			if (o != a) {
 				val dist = distance(o, a)
 				val angle = angle(o, a)
-				val g = Specs.instance?.G ?: 0.0 * a.mass / Math.pow(dist.toDouble(), 2.0)
+				val g = Specs.instance.G * a.mass / Math.pow(dist.toDouble(), 2.0)
 				val gx = g * Math.cos(angle)
 				val gy = g * Math.sin(angle)
 				o.acceleration.x += gx

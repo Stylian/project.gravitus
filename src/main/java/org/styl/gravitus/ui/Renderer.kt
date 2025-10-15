@@ -40,7 +40,7 @@ class Renderer(
 		val so = w.spaceObject
 		val x = (so.position.x * zoom / 1_000_000).toInt()
 		val y = (so.position.y * zoom / 1_000_000).toInt()
-		val rf = (so.radius * 1414 * zoom / 1_000_000).toInt()
+		val rf = (so.radius * 1414 * zoom / 1_000_000)
 
 		w.setLocation(x - rf, y - rf)
 
