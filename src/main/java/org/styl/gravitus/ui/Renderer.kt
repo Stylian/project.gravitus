@@ -1,89 +1,76 @@
-package org.styl.gravitus.ui;
+package org.styl.gravitus.ui
 
-import java.awt.Point;
-import java.util.List;
+import org.styl.gravitus.Specs
+import org.styl.gravitus.engine.Clock
+import java.awt.Point
 
-import org.styl.gravitus.Specs;
-import org.styl.gravitus.engine.Clock;
+class Renderer(
+	private val screen: Screen,
+	var wrappers: List<SpaceObjectUIWrapper>
+) {
 
-import lombok.Getter;
+	private var zoom: Int = 1000
 
-public class Renderer {
-
-	@Getter private List<SpaceObjectUIWrapper> wrappers;
-	private Screen screen;
-	private int zoom = 1000;
-
-	private static int renderFPSCounter = 0;
-	private static int positionsCounter = 0;
-
-	public Renderer(Screen screen, List<SpaceObjectUIWrapper> wrappers) {
-		this.screen = screen;
-		this.wrappers = wrappers;
+	companion object {
+		private var renderFPSCounter: Int = 0
+		private var positionsCounter: Int = 0
 	}
 
-	public void render() {
+	fun render() {
+		val calcFPS = Clock.INSTANCE.fps()
 
-		int calcFPS = Clock.INSTANCE.fps();
-
-		if (renderFPSCounter++ > Specs.instance.fpsRenderPeriod) {
-			renderFPSCounter = 0;
-			screen.getFps().setText(calcFPS + " FPS");
+		if (renderFPSCounter++ > (Specs.instance?.fpsRenderPeriod ?: 0)) {
+			renderFPSCounter = 0
+			screen.fps.text = "$calcFPS FPS"
 		}
 
 		// update wrappers
-		positionsCounter++;
+		positionsCounter++
 
-		if (wrappers != null) {
-			wrappers.forEach(w -> updateWrapper(w));
-		}
+		wrappers.forEach { updateWrapper(it) }
 
-		screen.repaint();
+		screen.repaint()
 	}
 
-	public void zoomBy(int by) {
-		zoom += by;
+	fun zoomBy(by: Int) {
+		zoom += by
 	}
 
-	private void updateWrapper(SpaceObjectUIWrapper w) {
+	private fun updateWrapper(w: SpaceObjectUIWrapper) {
+		val so = w.spaceObject
+		val x = (so.position.x * zoom / 1_000_000).toInt()
+		val y = (so.position.y * zoom / 1_000_000).toInt()
+		val rf = (so.radius * 1414 * zoom / 1_000_000).toInt()
 
-		int x = (int) (w.getSpaceObject().getPosition().x * zoom / 1000000);
-		int y = (int) (w.getSpaceObject().getPosition().y * zoom / 1000000);
-		int rf = (int) (w.getSpaceObject().getRadius() * 1414 * zoom / 1000000);
+		w.setLocation(x - rf, y - rf)
 
-		w.setLocation(x - rf, y - rf);
+		if (Specs.instance?.orbitTrails == true) {
+			if (positionsCounter % (Specs.instance?.orbitTrailFrequency ?: 1) == 0) {
+				positionsCounter = 0
+				val newPoint = Point(x, y)
+				val pastPositions = w.pastPositions
 
-		if (Specs.instance.orbitTrails) {
-
-			if (positionsCounter % Specs.instance.orbitTrailFrequency == 0) {
-				positionsCounter = 0;
-
-				Point newPoint = new Point(x, y);
-
-				if (!Specs.instance.orbitsFixed) {
-					if (w.getPastPositions().size() > Specs.instance.orbitTrailMaxSize) {
-						w.getPastPositions().remove(0);
+				if (Specs.instance?.orbitsFixed == false) {
+					if (pastPositions.size > (Specs.instance?.orbitTrailMaxSize ?: 0)) {
+						pastPositions.removeAt(0)
 					}
 				} else {
-					if (w.getPastPositions().size() > 50) {
-						if (isClose(newPoint, w.getPastPositions().get(0))) {
-							w.getPastPositions().remove(0);
+					if (pastPositions.size > 50) {
+						if (isClose(newPoint, pastPositions[0])) {
+							pastPositions.removeAt(0)
 						}
-
 					}
 				}
 
-				w.getPastPositions().add(newPoint);
+				pastPositions.add(newPoint)
 			}
-
 		}
 	}
 
-	private boolean isClose(Point newPoint, Point oldPoint) {
-		int dx = newPoint.x - oldPoint.x;
-		int dy = newPoint.y - oldPoint.y;
-		long sumsqr = (long) (Math.pow(dx, 2) + Math.pow(dy, 2));
-		double dist = Math.sqrt(sumsqr);
-		return dist < 10;
+	private fun isClose(newPoint: Point, oldPoint: Point): Boolean {
+		val dx = newPoint.x - oldPoint.x
+		val dy = newPoint.y - oldPoint.y
+		val dist = Math.sqrt((dx * dx + dy * dy).toDouble())
+		return dist < 10
 	}
 }

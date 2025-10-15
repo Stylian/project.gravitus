@@ -1,9 +1,6 @@
-package org.styl.gravitus.entities;
+package org.styl.gravitus.entities
 
-import lombok.Data;
-
-@Data
-public class PVector {
-	public double x;
-	public double y;
-}
+data class PVector(
+	var x: Double = 0.0,
+	var y: Double = 0.0
+)

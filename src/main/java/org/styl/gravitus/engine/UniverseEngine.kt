@@ -1,56 +1,51 @@
-package org.styl.gravitus.engine;
+package org.styl.gravitus.engine
 
-import java.util.List;
+import org.styl.gravitus.Specs
+import org.styl.gravitus.entities.SpaceObject
 
-import org.styl.gravitus.Specs;
-import org.styl.gravitus.entities.SpaceObject;
+class UniverseEngine {
 
-import lombok.Getter;
-import lombok.Setter;
+	var objects: List<SpaceObject> = mutableListOf()
 
-public class UniverseEngine {
-
-	@Getter @Setter private List<SpaceObject> objects;
-
-	public void estimateTick() {
-		objects.forEach(o -> calculate(o));
-		objects.forEach(o -> update(o));
+	fun estimateTick() {
+		objects.forEach { calculate(it) }
+		objects.forEach { update(it) }
 	}
 
-	private void calculate(SpaceObject o) {
-		objects.forEach((a) -> {
+	private fun calculate(o: SpaceObject) {
+		objects.forEach { a ->
 			if (o != a) {
-				long dist = distance(o, a);
-				double angle = angle(o, a);
-				double g = Specs.instance.G * a.getMass() / Math.pow(dist, 2);
-				double gx = g * Math.cos(angle);
-				double gy = g * Math.sin(angle);
-				o.getAcceleration().x += gx;
-				o.getAcceleration().y += gy;
+				val dist = distance(o, a)
+				val angle = angle(o, a)
+				val g = Specs.instance?.G ?: 0.0 * a.mass / Math.pow(dist.toDouble(), 2.0)
+				val gx = g * Math.cos(angle)
+				val gy = g * Math.sin(angle)
+				o.acceleration.x += gx
+				o.acceleration.y += gy
 			}
-		});
+		}
 	}
 
-	private void update(SpaceObject o) {
-		o.getVelocity().x += o.getAcceleration().x * Clock.INSTANCE.t();
-		o.getVelocity().y += o.getAcceleration().y * Clock.INSTANCE.t();
-		o.getPosition().x += o.getVelocity().x * Clock.INSTANCE.t();
-		o.getPosition().y += o.getVelocity().y * Clock.INSTANCE.t();
-		o.getAcceleration().x = 0;
-		o.getAcceleration().y = 0;
+	private fun update(o: SpaceObject) {
+		val t = Clock.INSTANCE.t().toDouble()
+		o.velocity.x += o.acceleration.x * t
+		o.velocity.y += o.acceleration.y * t
+		o.position.x += o.velocity.x * t
+		o.position.y += o.velocity.y * t
+		o.acceleration.x = 0.0
+		o.acceleration.y = 0.0
 	}
 
-	private long distance(SpaceObject o, SpaceObject a) {
-		double dx = a.getPosition().x - o.getPosition().x;
-		double dy = a.getPosition().y - o.getPosition().y;
-		long sumsqr = (long) (Math.pow(dx, 2) + Math.pow(dy, 2));
-		return (long) Math.sqrt(sumsqr);
+	private fun distance(o: SpaceObject, a: SpaceObject): Long {
+		val dx = a.position.x - o.position.x
+		val dy = a.position.y - o.position.y
+		val sumsqr = dx * dx + dy * dy
+		return Math.sqrt(sumsqr).toLong()
 	}
 
-	private double angle(SpaceObject o, SpaceObject a) {
-		double dx = a.getPosition().x - o.getPosition().x;
-		double dy = a.getPosition().y - o.getPosition().y;
-		return Math.atan2(dy, dx);
+	private fun angle(o: SpaceObject, a: SpaceObject): Double {
+		val dx = a.position.x - o.position.x
+		val dy = a.position.y - o.position.y
+		return Math.atan2(dy, dx)
 	}
-
 }

@@ -1,43 +1,46 @@
-package org.styl.gravitus.engine;
+package org.styl.gravitus.engine
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import org.styl.gravitus.Specs
+import java.util.ArrayDeque
+import java.util.Deque
 
-import org.styl.gravitus.Specs;
+class Clock private constructor() {
 
-public class Clock {
+	private var prevTime: Long = 0L
+	private val fpsBuffer: Deque<Long> = ArrayDeque(100)
 
-	public static final Clock INSTANCE = new Clock();
-
-	private long prevTime = 0L;
-	private Deque<Long> fpsBuffer = new ArrayDeque<>(100);
-
-	private Clock() {
+	companion object {
+		val INSTANCE: Clock = Clock()
 	}
 
-	public int t() {
-		return Specs.instance.clockInterval;
+	fun t(): Int {
+		return Specs.instance?.clockInterval ?: 0
 	}
 
-	public int fps() {
-
-		if (fpsBuffer.size() == 100)
-			fpsBuffer.removeLast();
-
-		long time = System.currentTimeMillis();
-		if (time != prevTime) {
-			fpsBuffer.addFirst(1000 / (time - prevTime));
+	fun fps(): Int {
+		if (fpsBuffer.size == 100) {
+			fpsBuffer.removeLast()
 		}
-		prevTime = time;
 
-		return (int) (fpsBuffer.stream().mapToDouble(a -> a).average().getAsDouble());
+		val time = System.currentTimeMillis()
+		if (time != prevTime) {
+			val delta = time - prevTime
+			if (delta > 0) {
+				fpsBuffer.addFirst(1000 / delta)
+			}
+		}
+		prevTime = time
+
+		return if (fpsBuffer.isNotEmpty()) {
+			fpsBuffer.map { it.toDouble() }.average().toInt()
+		} else 0
 	}
 
-	public void delay() {
+	fun delay() {
 		try {
-			Thread.sleep(t());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.sleep(t().toLong())
+		} catch (e: InterruptedException) {
+			e.printStackTrace()
 		}
 	}
 }

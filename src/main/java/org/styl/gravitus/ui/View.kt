@@ -1,45 +1,30 @@
-package org.styl.gravitus.ui;
+package org.styl.gravitus.ui
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import org.styl.gravitus.Specs
+import java.awt.BorderLayout
+import java.awt.Dimension
+import javax.swing.JFrame
 
-import javax.swing.JFrame;
+@Suppress("serial")
+class View : JFrame() {
 
-import org.styl.gravitus.Specs;
+	val size: Dimension = Dimension(Specs.instance?.frameX ?: 800, Specs.instance?.frameY ?: 600)
 
-import lombok.Getter;
-import lombok.Setter;
+	val screen: Screen = Screen()
+	val toolBar: ToolBar = ToolBar()
 
-@SuppressWarnings("serial")
-@Getter
-@Setter
-public class View extends JFrame {
+	init {
+		layout = BorderLayout()
+		add(toolBar, BorderLayout.NORTH)
+		add(screen, BorderLayout.CENTER)
 
-	private Dimension size;
-
-	private Screen screen;
-	private ToolBar toolBar;
-
-	public View() {
-		super();
-
-		this.size = new Dimension(Specs.instance.frameX, Specs.instance.frameY);
-
-		toolBar = new ToolBar();
-		screen = new Screen();
-
-		setLayout(new BorderLayout());
-		add(toolBar, BorderLayout.NORTH);
-		add(screen, BorderLayout.CENTER);
-
-		setTitle("Gravity Simulator");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
-		setPreferredSize(size);
-		setMaximumSize(size);
-		setMinimumSize(size);
-		pack();
-		setLocationRelativeTo(null);
+		title = "Gravity Simulator"
+		defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+		isResizable = false
+		preferredSize = size
+		maximumSize = size
+		minimumSize = size
+		pack()
+		setLocationRelativeTo(null)
 	}
-
 }

@@ -1,50 +1,63 @@
-package org.styl.gravitus;
+package org.styl.gravitus
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
+import org.apache.log4j.Logger
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+import java.util.Properties
 
-import org.apache.log4j.Logger;
+class Specs private constructor() {
 
-public class Specs {
-	final static Logger logger = Logger.getLogger(Specs.class);
-	
-	public static Specs instance;
+	private val logger: Logger = Logger.getLogger(Specs::class.java)
 
-	public int clockInterval;
-	public double G;
-	public int fpsRenderPeriod;
+	var clockInterval: Int = 0
+		private set
+	var G: Double = 0.0
+		private set
+	var fpsRenderPeriod: Int = 0
+		private set
 
-	public boolean orbitTrails;
-	public boolean orbitsFixed;
-	public int orbitTrailFrequency;
-	public int orbitTrailMaxSize;
+	var orbitTrails: Boolean = false
+		private set
+	var orbitsFixed: Boolean = false
+		private set
+	var orbitTrailFrequency: Int = 0
+		private set
+	var orbitTrailMaxSize: Int = 0
+		private set
 
-	public int frameX;
-	public int frameY;
+	var frameX: Int = 0
+		private set
+	var frameY: Int = 0
+		private set
 
-	public static void createInstance() {
-		instance = new Specs();
-	}
-	
-	public void loadProperties(File file) throws IOException {
-		Properties prop = new Properties();
-		prop.load(new FileInputStream(file));
+	companion object {
+		var instance: Specs? = null
+			private set
 
-		clockInterval = Integer.parseInt(prop.getProperty("clock_interval"));
-		G = Double.parseDouble(prop.getProperty("gravitational_constant(G)"));
-		fpsRenderPeriod = Integer.parseInt(prop.getProperty("fps_indicator_render_period"));
-
-		orbitTrails = Integer.parseInt(prop.getProperty("orbit_trails")) != 0;
-		orbitsFixed = Integer.parseInt(prop.getProperty("orbit_fixed")) != 0;
-		orbitTrailFrequency = Integer.parseInt(prop.getProperty("orbit_trail_frequency"));
-		orbitTrailMaxSize = Integer.parseInt(prop.getProperty("orbit_trail_max_size"));
-
-		frameX = Integer.parseInt(prop.getProperty("frame_x"));
-		frameY = Integer.parseInt(prop.getProperty("frame_y"));
-
-		logger.info("properties loaded successfully!");
+		fun createInstance() {
+			instance = Specs()
+		}
 	}
 
+	@Throws(IOException::class)
+	fun loadProperties(file: File) {
+		val prop = Properties().apply {
+			load(FileInputStream(file))
+		}
+
+		clockInterval = prop.getProperty("clock_interval")?.toInt() ?: 0
+		G = prop.getProperty("gravitational_constant(G)")?.toDouble() ?: 0.0
+		fpsRenderPeriod = prop.getProperty("fps_indicator_render_period")?.toInt() ?: 0
+
+		orbitTrails = prop.getProperty("orbit_trails")?.toIntOrNull() != 0
+		orbitsFixed = prop.getProperty("orbit_fixed")?.toIntOrNull() != 0
+		orbitTrailFrequency = prop.getProperty("orbit_trail_frequency")?.toInt() ?: 0
+		orbitTrailMaxSize = prop.getProperty("orbit_trail_max_size")?.toInt() ?: 0
+
+		frameX = prop.getProperty("frame_x")?.toInt() ?: 0
+		frameY = prop.getProperty("frame_y")?.toInt() ?: 0
+
+		logger.info("properties loaded successfully!")
+	}
 }

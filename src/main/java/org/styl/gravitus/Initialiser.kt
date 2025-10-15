@@ -1,26 +1,23 @@
-package org.styl.gravitus;
+package org.styl.gravitus
 
-import org.apache.log4j.Logger;
-import org.styl.gravitus.ui.View;
+import org.apache.log4j.Logger
+import org.styl.gravitus.ui.View
 
-public class Initialiser {
-	final static Logger logger = Logger.getLogger(Initialiser.class);
+object Initialiser {
+    private val logger: Logger = Logger.getLogger(Initialiser::class.java)
 
-	public static void main(String[] args) {
-		logger.info("starting Application");
+    @JvmStatic
+    fun main(args: Array<String>) {
+        logger.info("starting Application")
 
-		// initialize properties
-		new SpecsLoader();
+        // initialize properties
+        SpecsLoader()
 
-		Runner runner = new Runner();
+        val runner = Runner()
+        val view = View()
+        val ctrl = Controller(view, runner)
 
-		View view = new View();
-
-		Controller ctrl = new Controller(view, runner);
-
-		view.setVisible(true);
-		
-		ctrl.startSimulation();
-	}
-
+        view.isVisible = true
+        ctrl.startSimulation()
+    }
 }

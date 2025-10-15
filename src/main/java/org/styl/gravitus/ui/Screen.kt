@@ -1,96 +1,72 @@
-package org.styl.gravitus.ui;
+package org.styl.gravitus.ui
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.event.ActionListener;
+import org.styl.gravitus.Specs
+import java.awt.*
+import java.awt.event.ActionListener
+import javax.swing.*
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+@Suppress("serial")
+class Screen : JPanel() {
 
-import org.styl.gravitus.Specs;
+	var listener: ActionListener? = null
 
-import lombok.Getter;
-import lombok.Setter;
+	lateinit var fps: JLabel
+		private set
+	lateinit var zoomOut: JButton
+		private set
+	lateinit var zoomIn: JButton
+		private set
 
-@SuppressWarnings("serial")
-@Getter
-@Setter
-public class Screen extends JPanel {
+	fun init() {
+		fps = JLabel().apply {
+			foreground = Color.WHITE
+			horizontalTextPosition = SwingConstants.RIGHT
+			setBounds((Specs.instance?.frameX ?: 800) - 60, 8, 70, 10)
+		}
+		add(fps)
 
-	private ActionListener listener;
+		zoomIn = JButton().apply {
+			contentAreaFilled = false
+			isBorderPainted = false
+			cursor = Cursor(Cursor.HAND_CURSOR)
+			setBounds((Specs.instance?.frameX ?: 800) - 60, 30, 16, 16)
+			icon = ImageIcon("resources/icons/plus.png")
+			actionCommand = "zoomIn"
+			listener?.let { addActionListener(it) }
+		}
+		add(zoomIn)
 
-	private JLabel fps;
-	private JButton zoomOut;
-	private JButton zoomIn;
+		zoomOut = JButton().apply {
+			contentAreaFilled = false
+			isBorderPainted = false
+			cursor = Cursor(Cursor.HAND_CURSOR)
+			setBounds((Specs.instance?.frameX ?: 800) - 35, 30, 16, 16)
+			icon = ImageIcon("resources/icons/minus.png")
+			actionCommand = "zoomOut"
+			listener?.let { addActionListener(it) }
+		}
+		add(zoomOut)
 
-	public Screen() {
-		super();
+		background = Color.BLACK
+		layout = null
 	}
 
-	public void init() {
+	override fun paintComponent(g: Graphics) {
+		super.paintComponent(g)
 
-		fps = new JLabel();
-		fps.setForeground(Color.WHITE);
-		fps.setHorizontalTextPosition(SwingConstants.RIGHT);
-		fps.setBounds((int) (Specs.instance.frameX - 60), 8, 70, 10);
-		add(fps);
+		if (Specs.instance?.orbitTrails == true) {
+			g.color = Color.WHITE
+			val g2d = g as Graphics2D
 
-		zoomIn = new JButton();
-		zoomIn.setContentAreaFilled(false);
-		zoomIn.setBorderPainted(false);
-		zoomIn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		zoomIn.setBounds((int) (Specs.instance.frameX - 60), 30, 16, 16);
-		zoomIn.setIcon(new ImageIcon("resources/icons/plus.png"));
-		zoomIn.setActionCommand("zoomIn");
-		zoomIn.addActionListener(listener);
-		add(zoomIn);
-
-		zoomOut = new JButton();
-		zoomOut.setContentAreaFilled(false);
-		zoomOut.setBorderPainted(false);
-		zoomOut.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		zoomOut.setBounds((int) (Specs.instance.frameX - 35), 30, 16, 16);
-		zoomOut.setIcon(new ImageIcon("resources/icons/minus.png"));
-		zoomOut.setActionCommand("zoomOut");
-		zoomOut.addActionListener(listener);
-		add(zoomOut);
-
-		setBackground(Color.BLACK);
-		setLayout(null);
-
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-
-		if (Specs.instance.orbitTrails) {
-			g.setColor(Color.WHITE);
-			Graphics2D g2d = (Graphics2D) g;
-
-			for (Component cmpnt : this.getComponents()) {
-				if (cmpnt instanceof SpaceObjectUIWrapper) {
-					SpaceObjectUIWrapper wrap = (SpaceObjectUIWrapper) cmpnt;
-
-					Point prev = null;
-					for (Point p : wrap.getPastPositions()) {
-						if (prev != null) {
-							g2d.drawLine((int) (p.getX()), (int) (p.getY()), (int) (prev.getX()), (int) (prev.getY()));
-						}
-						prev = p;
+			for (cmpnt in components) {
+				if (cmpnt is SpaceObjectUIWrapper) {
+					var prev: Point? = null
+					for (p in cmpnt.pastPositions) {
+						prev?.let { g2d.drawLine(p.x, p.y, it.x, it.y) }
+						prev = p
 					}
-
 				}
 			}
 		}
-
 	}
-
 }

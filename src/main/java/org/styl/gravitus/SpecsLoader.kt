@@ -1,47 +1,52 @@
-package org.styl.gravitus;
+package org.styl.gravitus
 
-import java.io.File;
-import java.io.IOException;
+import org.apache.commons.io.FileUtils
+import org.apache.log4j.Logger
+import java.io.File
+import java.io.IOException
 
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+class SpecsLoader {
 
-public class SpecsLoader {
-	final static Logger logger = Logger.getLogger(SpecsLoader.class);
-	
-	public SpecsLoader() {
-		logger.info("getting properties from file");
+	private val logger: Logger = Logger.getLogger(SpecsLoader::class.java)
 
-		Specs.createInstance();
-		
-		File userFile = new File(SystemLocations.USER_PROPERTIES_FILE);
-		
-		if(userFile.exists()) {
+	init {
+		logger.info("getting properties from file")
+
+		Specs.createInstance()
+
+		val userFile = File(SystemLocations.userPropertiesFile)
+
+		if (userFile.exists()) {
 			try {
-				Specs.instance.loadProperties(userFile);
-			} catch (IOException e) {
-				logger.error("application.properties file is corrupted.");
+				Specs.instance.loadProperties(userFile)
+			} catch (e: IOException) {
+				logger.error("application.properties file is corrupted.", e)
 			}
-		}else {
-			logger.info("could not find user properties!");
-			logger.info("attempting to load default properties!");
+		} else {
+			logger.info("could not find user properties!")
+			logger.info("attempting to load default properties!")
+
 			try {
-				Specs.instance.loadProperties(new File(SystemLocations.DEFAULT_PROPERTIES_FILE));
-			} catch (IOException e) {
-				logger.error("failed to load properties! The application will now terminate.");
-				System.exit(0);
+				Specs.instance.loadProperties(File(SystemLocations.defaultPropertiesFile))
+			} catch (e: IOException) {
+				logger.error("failed to load properties! The application will now terminate.", e)
+				kotlin.system.exitProcess(0)
 			}
+
 			try {
-				createUserFile();
-				logger.info("created user preferences.");
-			} catch (IOException e) {
-				logger.error("failed to create user preferences.");
+				createUserFile()
+				logger.info("created user preferences.")
+			} catch (e: IOException) {
+				logger.error("failed to create user preferences.", e)
 			}
 		}
-		
 	}
 
-	private void createUserFile() throws IOException {
-		FileUtils.copyFile(new File(SystemLocations.DEFAULT_PROPERTIES_FILE), new File(SystemLocations.USER_PROPERTIES_FILE));
+	@Throws(IOException::class)
+	private fun createUserFile() {
+		FileUtils.copyFile(
+			File(SystemLocations.defaultPropertiesFile),
+			File(SystemLocations.userPropertiesFile)
+		)
 	}
 }

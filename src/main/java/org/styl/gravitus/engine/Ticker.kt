@@ -1,58 +1,49 @@
-package org.styl.gravitus.engine;
+package org.styl.gravitus.engine
 
-import org.apache.log4j.Logger;
+import org.apache.log4j.Logger
 
-import lombok.Getter;
-import lombok.Setter;
+class Ticker : Runnable {
 
-public class Ticker implements Runnable {
-	final static Logger logger = Logger.getLogger(Ticker.class);
+	private val logger: Logger = Logger.getLogger(Ticker::class.java)
 
-	@Setter private EngineTicksListener listener;
-	@Getter @Setter private boolean running;
-	@Getter @Setter private int fps;
+	var listener: EngineTicksListener? = null
+	var running: Boolean = false
+	var fps: Int = 0
 
-	public void run() {
-		logger.info("starting clock at " + fps + " fps");
+	override fun run() {
+		logger.info("starting clock at $fps fps")
 
-		int skipTicks = 1000 / fps;
-		double previous = getTicktime();
-		double delta = 0.0;
+		val skipTicks = if (fps != 0) 1000 / fps else 25
+		var previous = tickTime()
+		var delta = 0.0
 
 		while (running) {
+			val current = tickTime()
+			val elapsed = current - previous
+			previous = current
 
-			double current = getTicktime();
-			double elapsed = current - previous;
-			previous = current;
-
-			if (delta < 0.0) {
-				delta = 0.0;
-			}
-
-			delta += elapsed / skipTicks;
+			if (delta < 0.0) delta = 0.0
+			delta += elapsed.toDouble() / skipTicks
 
 			if (delta < 1.0) {
-				update();
-				Clock.INSTANCE.delay();
+				update()
+				Clock.INSTANCE.delay()
 			} else {
-				render();
-				delta--;
+				render()
+				delta--
 			}
-
 		}
-
 	}
 
-	private static int getTicktime() {
-		return (int) System.currentTimeMillis();
+	private fun tickTime(): Int {
+		return System.currentTimeMillis().toInt()
 	}
 
-	private void update() {
-		listener.updateData();
+	private fun update() {
+		listener?.updateData()
 	}
 
-	private void render() {
-		listener.updateUI();
+	private fun render() {
+		listener?.updateUI()
 	}
-
 }

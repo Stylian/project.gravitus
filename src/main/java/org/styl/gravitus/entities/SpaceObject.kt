@@ -1,25 +1,21 @@
-package org.styl.gravitus.entities;
+package org.styl.gravitus.entities
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
-import lombok.Data;
-
-@Data
-public class SpaceObject {
-
-	private static int counter = 0;
-
-	private int id;
-	private String name;
-	private int radius;
-	@SerializedName("img-uri") private String image;
-	private int mass;
-	private PVector position = new PVector();
-	private PVector velocity = new PVector();
-	private transient PVector acceleration = new PVector();
-
-	public SpaceObject() {
-		this.id = ++counter;
+data class SpaceObject(
+	var id: Int = nextId(),
+	var name: String = "",
+	var radius: Int = 0,
+	@SerializedName("img-uri")
+	var image: String = "",
+	var mass: Int = 0,
+	var position: PVector = PVector(),
+	var velocity: PVector = PVector(),
+	@Transient
+	var acceleration: PVector = PVector()
+) {
+	companion object {
+		private var counter: Int = 0
+		private fun nextId(): Int = ++counter
 	}
-
 }

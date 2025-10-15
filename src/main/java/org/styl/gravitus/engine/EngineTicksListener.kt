@@ -1,8 +1,6 @@
-package org.styl.gravitus.engine;
+package org.styl.gravitus.engine
 
-public interface EngineTicksListener {
-
-	public void updateData();
-
-	public void updateUI();
+interface EngineTicksListener {
+	fun updateData()
+	fun updateUI()
 }

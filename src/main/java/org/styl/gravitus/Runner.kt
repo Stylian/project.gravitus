@@ -1,84 +1,68 @@
-package org.styl.gravitus;
+package org.styl.gravitus
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
+import org.apache.commons.io.FileUtils
+import org.apache.log4j.Logger
+import org.styl.gravitus.entities.Simulation
+import org.styl.gravitus.entities.Stage
+import java.io.File
+import java.io.IOException
+import kotlin.system.exitProcess
 
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.styl.gravitus.entities.Simulation;
-import org.styl.gravitus.entities.Stage;
+class Runner {
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
+	private val logger: Logger = Logger.getLogger(Runner::class.java)
 
-import lombok.Getter;
+	var simulation: Simulation? = null
+		private set
 
-public class Runner {
-	final static Logger logger = Logger.getLogger(Runner.class);
+	private val stages: MutableList<String> = mutableListOf()
 
-	@Getter private Simulation simulation;
-
-	private List<String> stages = new ArrayList<>();
-
-	public Runner() {
-
-		stages.add("lvl-1.json");
-
+	init {
+		stages.add("lvl-1.json")
 	}
 
-	public void initNextStage() {
+	fun initNextStage() {
+		if (stages.isNotEmpty()) {
+			logger.info("attempting to load next stage...")
 
-		if (stages.iterator().hasNext()) {
-			logger.info("attempting to load next stage...");
-			
-			String stageName = stages.iterator().next();
-			
-			simulation = new Simulation(loadStage(stageName));
-			
-			logger.info("stage " + stageName.split("\\.")[0] + " has been loaded.");
-			logger.info(simulation.getEngine().getObjects().size() + " space objects have been created!");
+			val stageName = stages.first() // get first stage name
+			simulation = Simulation(loadStage(stageName))
 
+			logger.info("stage ${stageName.substringBefore('.')} has been loaded.")
+			logger.info("${simulation?.engine?.objects?.size ?: 0} space objects have been created!")
 		} else {
-			gameOver();
+			gameOver()
 		}
 	}
 
-	private Stage loadStage(String nameOfStage) {
+	private fun loadStage(nameOfStage: String): Stage {
+		val stageFile = File(SystemLocations.stagesFolder + nameOfStage)
 
-		File stageFile = new File(SystemLocations.STAGES_FOLDER + nameOfStage);
-
-		Stage stage = null;
-		try {
-			stage = new Gson().fromJson(FileUtils.readFileToString(stageFile), Stage.class);
-
-		} catch (JsonSyntaxException e) {
-			logger.error("Error with stage json file format!");
-			logger.error("Program will now terminate!");
-			System.exit(0);
-		} catch (IOException e) {
-			logger.error("failed to load stage!");
-			e.printStackTrace();
-			logger.error("Program will now terminate!");
-			System.exit(0);
+		return try {
+			Gson().fromJson(FileUtils.readFileToString(stageFile, Charsets.UTF_8), Stage::class.java)
+		} catch (e: JsonSyntaxException) {
+			logger.error("Error with stage JSON file format!", e)
+			logger.error("Program will now terminate!")
+			exitProcess(0)
+		} catch (e: IOException) {
+			logger.error("Failed to load stage!", e)
+			logger.error("Program will now terminate!")
+			exitProcess(0)
 		}
-
-		return stage;
 	}
 
-	private void gameOver() {
-		logger.info("GAME OVER! TODO");
+	private fun gameOver() {
+		logger.info("GAME OVER! TODO")
 	}
 
-	public void nextTick() {
-		simulation.tick();
+	fun nextTick() {
+		simulation?.tick()
 	}
 
-	public void reset() {
-		simulation.getEngine().getObjects().clear();
-
-		logger.info("simulation has been reset!");
+	fun reset() {
+		simulation?.engine?.objects?.clear()
+		logger.info("Simulation has been reset!")
 	}
-
 }

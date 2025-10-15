@@ -1,172 +1,149 @@
-package org.styl.gravitus;
+package org.styl.gravitus
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.log4j.Logger
+import org.styl.gravitus.engine.EngineTicksListener
+import org.styl.gravitus.engine.ProccessFailureException
+import org.styl.gravitus.entities.Simulation
+import org.styl.gravitus.ui.Renderer
+import org.styl.gravitus.ui.SpaceObjectUIWrapper
+import org.styl.gravitus.ui.View
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
+import javax.swing.JRadioButtonMenuItem
 
-import javax.swing.JRadioButtonMenuItem;
+class Controller(
+	private val view: View,
+	private val runner: Runner
+) : EngineTicksListener, ActionListener {
 
-import org.apache.log4j.Logger;
-import org.styl.gravitus.engine.EngineTicksListener;
-import org.styl.gravitus.engine.ProccessFailureException;
-import org.styl.gravitus.entities.Simulation;
-import org.styl.gravitus.ui.Renderer;
-import org.styl.gravitus.ui.SpaceObjectUIWrapper;
-import org.styl.gravitus.ui.View;
+	private val logger: Logger = Logger.getLogger(Controller::class.java)
+	private lateinit var renderer: Renderer
 
-public class Controller implements EngineTicksListener, ActionListener {
-	final static Logger logger = Logger.getLogger(Controller.class);
-
-	private Runner runner;
-	private View view;
-	private Renderer renderer;
-
-	public Controller(View view, Runner runner) {
-		this.runner = runner;
-		this.view = view;
-
-		view.getToolBar().setListener(this);
-		view.getScreen().setListener(this);
-		view.getScreen().init();
-		view.getToolBar().init();
+	init {
+		view.toolBar.listener = this
+		view.screen.listener = this
+		view.screen.init()
+		view.toolBar.init()
 	}
 
-	@Override
-	public void updateData() {
-		runner.nextTick();
+	// EngineTicksListener implementations
+	override fun updateData() {
+		runner.nextTick()
 	}
 
-	@Override
-	public void updateUI() {
-		renderer.render();
+	override fun updateUI() {
+		renderer.render()
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		switch (e.getActionCommand()) {
-
-		case "start":
-			startSimulation();
-			break;
-		case "pause":
-
-			try {
-				pauseSimulation();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
+	// ActionListener implementation
+	override fun actionPerformed(e: ActionEvent) {
+		when (e.actionCommand) {
+			"start" -> startSimulation()
+			"pause" -> {
+				try {
+					pauseSimulation()
+				} catch (ex: InterruptedException) {
+					ex.printStackTrace()
+				}
 			}
-			break;
-		case "stop":
-			try {
-				stopSimulation();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
+			"stop" -> {
+				try {
+					stopSimulation()
+				} catch (ex: InterruptedException) {
+					ex.printStackTrace()
+				}
 			}
-			break;
-		case "change_fps":
-			String btnText = ((JRadioButtonMenuItem) e.getSource()).getText();
-			runner.getSimulation().setFps(Integer.parseInt(btnText));
-			break;
-		case "exit":
-			view.dispose();
-			break;
-		case "trails":
-			renderer.getWrappers().forEach(w -> w.getPastPositions().clear());
-			Specs.instance.orbitTrails = !Specs.instance.orbitTrails;
-			break;
-		case "orbit_path":
-			Specs.instance.orbitsFixed = !Specs.instance.orbitsFixed;
-			break;
-		case "zoomIn":
-			renderer.zoomBy(100);
-			break;
-		case "zoomOut":
-			renderer.zoomBy(-100);
-			break;
+			"change_fps" -> {
+				val btnText = (e.source as JRadioButtonMenuItem).text
+				runner.simulation?.fps = btnText.toInt()
+			}
+			"exit" -> view.dispose()
+			"trails" -> {
+				renderer.wrappers.forEach { it.pastPositions.clear() }
+				Specs.instance.orbitTrails = !Specs.instance.orbitTrails
+			}
+			"orbit_path" -> {
+				Specs.instance.orbitsFixed = !Specs.instance.orbitsFixed
+			}
+			"zoomIn" -> renderer.zoomBy(100)
+			"zoomOut" -> renderer.zoomBy(-100)
 		}
-
 	}
 
-	private void initSimulation() {
-		logger.info("initializing simulation");
+	private fun initSimulation() {
+		logger.info("initializing simulation")
 
-		runner.initNextStage();
+		runner.initNextStage()
 
-		List<SpaceObjectUIWrapper> wrappers = new ArrayList<>();
-		runner.getSimulation().getEngine().getObjects().forEach(o -> wrappers.add(new SpaceObjectUIWrapper(o)));
+		val wrappers = runner.simulation?.engine?.objects
+			?.map { SpaceObjectUIWrapper(it) }
+			?.toMutableList() ?: mutableListOf()
 
-		renderer = new Renderer(view.getScreen(), wrappers);
-		runner.getSimulation().getTicker().setListener(this);
-		view.getToolBar().getPrefsMenu().setEnabled(true);
-		wrappers.forEach(w -> view.getScreen().add(w));
+		renderer = Renderer(view.screen, wrappers)
+		runner.simulation?.ticker?.listener = this
+
+		view.toolBar.prefsMenu.isEnabled = true
+		wrappers.forEach { view.screen.add(it) }
 	}
 
-	public void startSimulation() {
-		logger.info("attempting to start simulation");
+	fun startSimulation() {
+		logger.info("attempting to start simulation")
 
-		// initialize simulation if not any
-		if (runner.getSimulation() == null || runner.getSimulation().getStatus() == Simulation.STOPPED) {
-			initSimulation();
+		val sim = runner.simulation
+		if (sim == null || sim.status == Simulation.STOPPED) {
+			initSimulation()
 		}
 
 		try {
-			runner.getSimulation().start();
-			runner.getSimulation().setStatus(Simulation.RUNNING);
-
-			logger.info("simulation started!");
-		} catch (ProccessFailureException e) {
-			logger.error("failed to start simulation.");
-			e.printStackTrace();
+			runner.simulation?.start()
+			runner.simulation?.status = Simulation.RUNNING
+			logger.info("simulation started!")
+		} catch (e: ProccessFailureException) {
+			logger.error("failed to start simulation.", e)
 		}
 
-		view.getToolBar().getStart().setEnabled(false);
-		view.getToolBar().getPause().setEnabled(true);
-		view.getToolBar().getStop().setEnabled(true);
+		view.toolBar.start.isEnabled = false
+		view.toolBar.pause.isEnabled = true
+		view.toolBar.stop.isEnabled = true
 	}
 
-	private void pauseSimulation() throws InterruptedException {
-		logger.info("attempting to pause simulation");
-
+	@Throws(InterruptedException::class)
+	private fun pauseSimulation() {
+		logger.info("attempting to pause simulation")
 		try {
-			runner.getSimulation().pause();
-			runner.getSimulation().setStatus(Simulation.PAUSED);
-
-			logger.info("simulation paused!");
-		} catch (ProccessFailureException e) {
-			logger.error("failed to paused simulation.");
-			e.printStackTrace();
+			runner.simulation?.pause()
+			runner.simulation?.status = Simulation.PAUSED
+			logger.info("simulation paused!")
+		} catch (e: ProccessFailureException) {
+			logger.error("failed to pause simulation.", e)
 		}
 
-		view.getToolBar().getPause().setEnabled(false);
-		view.getToolBar().getStop().setEnabled(true);
-		view.getToolBar().getStart().setEnabled(true);
-		view.getToolBar().getStart().setText("Continue");
+		view.toolBar.pause.isEnabled = false
+		view.toolBar.stop.isEnabled = true
+		view.toolBar.start.isEnabled = true
+		view.toolBar.start.text = "Continue"
 	}
 
-	private void stopSimulation() throws InterruptedException {
-		logger.info("attempting to stop simulation");
-
+	@Throws(InterruptedException::class)
+	private fun stopSimulation() {
+		logger.info("attempting to stop simulation")
 		try {
-			runner.getSimulation().stop();
-			runner.getSimulation().setStatus(Simulation.STOPPED);
+			runner.simulation?.stop()
+			runner.simulation?.status = Simulation.STOPPED
 
 			// clear data
-			renderer.getWrappers().forEach(w -> view.getScreen().remove(w));
-			renderer.getWrappers().clear();
-			runner.getSimulation().getEngine().getObjects().clear();
+			renderer.wrappers.forEach { view.screen.remove(it) }
+			renderer.wrappers.clear()
+			runner.simulation?.engine?.objects?.clear()
 
-			logger.info("simulation has been reset!");
-		} catch (ProccessFailureException e) {
-			logger.error("failed to stop simulation.");
-			e.printStackTrace();
+			logger.info("simulation has been reset!")
+		} catch (e: ProccessFailureException) {
+			logger.error("failed to stop simulation.", e)
 		}
 
-		view.getToolBar().getStop().setEnabled(false);
-		view.getToolBar().getPause().setEnabled(false);
-		view.getToolBar().getStart().setEnabled(true);
-		view.getToolBar().getStart().setText("Start");
+		view.toolBar.stop.isEnabled = false
+		view.toolBar.pause.isEnabled = false
+		view.toolBar.start.isEnabled = true
+		view.toolBar.start.text = "Start"
 	}
-
 }
