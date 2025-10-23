@@ -6,7 +6,7 @@ object SystemLocations {
 	private val sep = File.separator
 
 	val userHomeFolder = System.getProperty("user.home") + sep + "Gravitus$sep"
-	val resourcesFolder = "resources"
+	val resourcesFolder = "src${sep}main${sep}resources"
 
 	val imagesFolder = "$resourcesFolder${sep}images$sep"
 	val iconsFolder = "$resourcesFolder${sep}icons$sep"

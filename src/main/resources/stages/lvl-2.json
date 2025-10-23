@@ -1,0 +1,62 @@
+{
+
+
+  "objects": [
+    {
+      "name" : "Earth",
+      "img-uri" : "earth.png",
+      "mass" : 598600,
+      "radius" : 6,
+      "position" : {
+        "x" : 500000,
+        "y" : 400000
+      },
+      "velocity" : {
+        "x" : 0,
+        "y" : -0.56
+      }
+    },
+    {
+      "name" : "Moon",
+      "img-uri" : "moon.png",
+      "mass" : 7300,
+      "radius" : 2,
+      "position" : {
+        "x" : 240000,
+        "y" : 400000
+      },
+      "velocity" : {
+        "x" : 0,
+        "y" : 45.92
+      }
+    },
+    {
+      "name" : "ast",
+      "img-uri" : "asteroid.png",
+      "mass" : 0,
+      "radius" : 2,
+      "position" : {
+        "x" : 560000,
+        "y" : 350000
+      },
+      "velocity" : {
+        "x" : 0,
+        "y" : 60
+      }
+    },
+    {
+      "name" : "ast2",
+      "img-uri" : "asteroid.png",
+      "mass" : 0,
+      "radius" : 2,
+      "position" : {
+        "x" : 260000,
+        "y" : 380000
+      },
+      "velocity" : {
+        "x" : 0,
+        "y" : 60
+      }
+    }
+  ]
+}
