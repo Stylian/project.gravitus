@@ -21,7 +21,9 @@ class ToolBar : JMenuBar() {
 	lateinit var prefsMenu: JMenu
 		private set
 
-	fun init() {
+	val stageMenu = JMenu("Stages")
+
+	fun init(stageNames: List<String>) {
 		// File menu
 		val fileMenu = JMenu("File")
 		val exit = JMenuItem("Exit").apply {
@@ -59,6 +61,18 @@ class ToolBar : JMenuBar() {
 		simMenu.add(stop)
 
 		add(simMenu)
+
+		// Stage Menu
+		val stageMenu = JMenu("Stages")
+		stageNames.forEach { stageName ->
+			val item = JMenuItem(stageName.substringBefore(".")).apply {
+				actionCommand = "select_stage"
+				putClientProperty("stage_name", stageName)
+				listener?.let { addActionListener(it) }
+			}
+			stageMenu.add(item)
+		}
+		add(stageMenu)
 
 		// Preferences menu
 		prefsMenu = JMenu("Preferences").apply { isEnabled = false }

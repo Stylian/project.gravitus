@@ -16,6 +16,7 @@ object Initialiser {
         val runner = Runner()
         val view = View()
         val ctrl = Controller(view, runner)
+        ctrl.init(runner.getStageList())
 
         view.isVisible = true
         ctrl.startSimulation()

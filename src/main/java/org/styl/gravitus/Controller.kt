@@ -9,6 +9,7 @@ import org.styl.gravitus.ui.SpaceObjectUIWrapper
 import org.styl.gravitus.ui.View
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
+import javax.swing.JMenuItem
 import javax.swing.JRadioButtonMenuItem
 
 class Controller(
@@ -19,11 +20,11 @@ class Controller(
 	private val logger: Logger = Logger.getLogger(Controller::class.java)
 	private lateinit var renderer: Renderer
 
-	init {
+	fun init(stageNames: List<String>) {
 		view.toolBar.listener = this
 		view.screen.listener = this
 		view.screen.init()
-		view.toolBar.init()
+		view.toolBar.init(stageNames)
 	}
 
 	// EngineTicksListener implementations
@@ -67,6 +68,46 @@ class Controller(
 			}
 			"zoomIn" -> renderer.zoomBy(100)
 			"zoomOut" -> renderer.zoomBy(-100)
+			"select_stage" -> {
+				val item = e.source as JMenuItem
+				val stageName = item.getClientProperty("stage_name") as String
+
+				logger.info("User selected stage: $stageName")
+
+				// Stop and clean up current simulation
+				runner.simulation?.stop()
+				renderer.wrappers.forEach { view.screen.remove(it) }
+				renderer.wrappers.clear()
+				runner.simulation?.engine?.objects?.clear()
+
+				// Load the selected stage
+				runner.initStageByName(stageName)
+
+				// Rebuild the wrappers and renderer
+				val wrappers = runner.simulation?.engine?.objects
+					?.map { SpaceObjectUIWrapper(it) }
+					?.toMutableList() ?: mutableListOf()
+
+				renderer = Renderer(view.screen, wrappers)
+				runner.simulation?.ticker?.listener = this
+				wrappers.forEach { view.screen.add(it) }
+
+				// 🆕 Start the new simulation
+				try {
+					runner.simulation?.start()
+					runner.simulation?.status = Simulation.RUNNING
+					logger.info("Stage $stageName started successfully!")
+				} catch (ex: ProccessFailureException) {
+					logger.error("Failed to start simulation for stage $stageName", ex)
+				}
+
+				// Update toolbar button states
+				view.toolBar.start.isEnabled = false
+				view.toolBar.pause.isEnabled = true
+				view.toolBar.stop.isEnabled = true
+				view.toolBar.start.text = "Start"
+			}
+
 		}
 	}
 

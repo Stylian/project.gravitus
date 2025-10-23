@@ -26,9 +26,5 @@ class SpaceObjectUIWrapper(val spaceObject: SpaceObject) : JLabel() {
 
 		preferredSize = Dimension(spaceObject.radius * 2, spaceObject.radius * 2)
 		setSize(spaceObject.radius * 2, spaceObject.radius * 2)
-		setLocation(
-			(spaceObject.position.x / 1000).toInt(),
-			(spaceObject.position.y / 1000).toInt()
-		)
 	}
 }

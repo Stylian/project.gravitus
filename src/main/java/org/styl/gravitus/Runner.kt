@@ -18,43 +18,85 @@ class Runner {
 		private set
 
 	private val stages: MutableList<String> = mutableListOf()
+	private var currentStageIndex = 0
 
 	init {
-		stages.add("lvl-1.json")
+		loadStageList()
+	}
+
+	/** Loads all JSON stage files from the stages folder */
+	private fun loadStageList() {
+		val folder = File(SystemLocations.stagesFolder)
+		if (!folder.exists() || !folder.isDirectory) {
+			logger.error("Stages folder not found: ${folder.absolutePath}")
+			exitProcess(0)
+		}
+
+		val jsonFiles = folder.listFiles { _, name ->
+			name.endsWith(".json", ignoreCase = true)
+		}?.sortedBy { it.name } // you can sort alphabetically (lvl-1.json, lvl-2.json, etc.)
+
+		if (jsonFiles.isNullOrEmpty()) {
+			logger.error("No stage files found in folder: ${folder.absolutePath}")
+			exitProcess(0)
+		}
+
+		stages.clear()
+		stages.addAll(jsonFiles.map { it.name })
+
+		logger.info("Discovered ${stages.size} stage(s): $stages")
 	}
 
 	fun initNextStage() {
-		if (stages.isNotEmpty()) {
-			logger.info("attempting to load next stage...")
+		if (currentStageIndex < stages.size) {
+			val stageName = stages[currentStageIndex]
+			logger.info("Attempting to load stage: $stageName")
 
-			val stageName = stages.first() // get first stage name
 			simulation = Simulation(loadStage(stageName))
 
-			logger.info("stage ${stageName.substringBefore('.')} has been loaded.")
+			logger.info("Stage ${stageName.substringBefore('.')} has been loaded.")
 			logger.info("${simulation?.engine?.objects?.size ?: 0} space objects have been created!")
+
+			currentStageIndex++
 		} else {
 			gameOver()
 		}
 	}
 
+	fun getStageList(): List<String> {
+		return stages.toList()
+	}
+
+	fun initStageByName(stageName: String) {
+		logger.info("Attempting to load stage by name: $stageName")
+
+		if (!stages.contains(stageName)) {
+			logger.error("Stage not found: $stageName")
+			return
+		}
+
+		simulation = Simulation(loadStage(stageName))
+
+		logger.info("Stage ${stageName.substringBefore('.')} has been loaded.")
+		logger.info("${simulation?.engine?.objects?.size ?: 0} space objects have been created!")
+	}
+
 	private fun loadStage(nameOfStage: String): Stage {
-		val stageFile = File(SystemLocations.stagesFolder + nameOfStage)
+		val stageFile = File(SystemLocations.stagesFolder, nameOfStage)
 
 		return try {
 			Gson().fromJson(FileUtils.readFileToString(stageFile, Charsets.UTF_8), Stage::class.java)
 		} catch (e: JsonSyntaxException) {
-			logger.error("Error with stage JSON file format!", e)
-			logger.error("Program will now terminate!")
+			logger.error("Error with stage JSON file format in $nameOfStage!", e)
 			exitProcess(0)
 		} catch (e: IOException) {
-			logger.error("Failed to load stage!", e)
-			logger.error("Program will now terminate!")
+			logger.error("Failed to load stage file $nameOfStage!", e)
 			exitProcess(0)
 		}
 	}
 
 	private fun gameOver() {
-		logger.info("GAME OVER! TODO")
+		logger.info("GAME OVER! All stages completed.")
 	}
 
 	fun nextTick() {

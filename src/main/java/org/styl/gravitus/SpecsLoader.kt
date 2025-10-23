@@ -34,7 +34,7 @@ class SpecsLoader {
 			}
 
 			try {
-				createUserFile()
+				//createUserFile() dont do we do dev now TODO
 				logger.info("created user preferences.")
 			} catch (e: IOException) {
 				logger.error("failed to create user preferences.", e)

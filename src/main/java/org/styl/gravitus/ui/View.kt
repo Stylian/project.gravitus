@@ -19,7 +19,7 @@ class View : JFrame() {
 		add(screen, BorderLayout.CENTER)
 
 		title = "Gravity Simulator"
-		defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+		defaultCloseOperation = EXIT_ON_CLOSE
 		isResizable = false
 		preferredSize = windowSize
 		maximumSize = windowSize
