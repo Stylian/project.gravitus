@@ -1,0 +1,34 @@
+{
+  "objects": [
+    {
+      "name": "uranus",
+      "img-uri": "uranus.png",
+      "mass": 8600000,
+      "radius": 8,
+      "position": { "x": 500000, "y": 300000 },
+      "velocity": { "x": 0, "y": -2 }
+    },
+    {
+      "name" : "Earth",
+      "img-uri" : "earth.png",
+      "mass" : 598600,
+      "radius" : 2,
+      "position" : {
+        "x" : 760000,
+        "y" : 260000
+      },
+      "velocity" : {
+        "x" : 0,
+        "y" : -120
+      }
+    },
+    {
+      "name": "venus",
+      "img-uri": "venus.png",
+      "mass": 480000,
+      "radius": 2,
+      "position": { "x": 240000, "y": 300000 },
+      "velocity": { "x": 0, "y": 130 }
+    }
+  ]
+}

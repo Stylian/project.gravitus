@@ -18,7 +18,7 @@ class Runner {
 		private set
 
 	private val stages: MutableList<String> = mutableListOf()
-	private var currentStageIndex = 0
+	private var currentStageIndex = 3 // to reset
 
 	init {
 		loadStageList()
