@@ -3,18 +3,26 @@
     {
       "name": "pul",
       "img-uri": "pulsar.png",
-      "mass": 150000000,
+      "mass": 1500000,
       "radius": 3,
       "position": { "x": 500000, "y": 300000 },
-      "velocity": { "x": 0, "y": -2000 }
+      "velocity": { "x": 0, "y": 190 }
     },
     {
       "name": "pul",
       "img-uri": "pulsar.png",
-      "mass": 150000000,
+      "mass": 1500000,
       "radius": 3,
       "position": { "x": 480000, "y": 300000 },
-      "velocity": { "x": 0, "y": 2000 }
+      "velocity": { "x": 0, "y": -210 }
+    },
+    {
+      "name": "sun",
+      "img-uri": "sun.png",
+      "mass": 300000,
+      "radius": 2,
+      "position": { "x": 680000, "y": 300000 },
+      "velocity": { "x": 0, "y": 100 }
     }
   ]
 }

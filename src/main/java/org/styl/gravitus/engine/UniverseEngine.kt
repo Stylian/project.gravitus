@@ -2,6 +2,7 @@ package org.styl.gravitus.engine
 
 import org.styl.gravitus.Specs
 import org.styl.gravitus.entities.SpaceObject
+import kotlin.math.*
 
 class UniverseEngine {
 
@@ -17,9 +18,9 @@ class UniverseEngine {
 			if (o != a) {
 				val dist = distance(o, a)
 				val angle = angle(o, a)
-				val g = Specs.instance.G * a.mass / Math.pow(dist.toDouble(), 2.0)
-				val gx = g * Math.cos(angle)
-				val gy = g * Math.sin(angle)
+				val g = Specs.instance.G * a.mass / dist.toDouble().pow(2.0)
+				val gx = g * cos(angle)
+				val gy = g * sin(angle)
 				o.acceleration.x += gx
 				o.acceleration.y += gy
 			}
@@ -40,12 +41,12 @@ class UniverseEngine {
 		val dx = a.position.x - o.position.x
 		val dy = a.position.y - o.position.y
 		val sumsqr = dx * dx + dy * dy
-		return Math.sqrt(sumsqr).toLong()
+		return sqrt(sumsqr).toLong()
 	}
 
 	private fun angle(o: SpaceObject, a: SpaceObject): Double {
 		val dx = a.position.x - o.position.x
 		val dy = a.position.y - o.position.y
-		return Math.atan2(dy, dx)
+		return atan2(dy, dx)
 	}
 }
