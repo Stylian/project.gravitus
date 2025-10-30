@@ -14,7 +14,7 @@ class Clock private constructor() {
 	}
 
 	fun t(): Int {
-		return Specs.instance?.clockInterval ?: 0
+		return Specs.instance.clockInterval
 	}
 
 	fun fps(): Int {

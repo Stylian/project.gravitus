@@ -3,6 +3,7 @@ package org.styl.gravitus.ui
 import org.styl.gravitus.Specs
 import org.styl.gravitus.engine.Clock
 import java.awt.Point
+import kotlin.math.sqrt
 
 data class Bounds(val minX: Int, val maxX: Int, val minY: Int, val maxY: Int)
 
@@ -12,8 +13,7 @@ class Renderer(
 ) {
 
 	private var zoom: Int = 1000
-
-	val bounds = getBounds(wrappers)
+	private val bounds = getBounds(wrappers)
 
 	companion object {
 		private var renderFPSCounter: Int = 0
@@ -23,7 +23,7 @@ class Renderer(
 	fun render() {
 		val calcFPS = Clock.INSTANCE.fps()
 
-		if (renderFPSCounter++ > (Specs.instance?.fpsRenderPeriod ?: 0)) {
+		if (renderFPSCounter++ > Specs.instance.fpsRenderPeriod) {
 			renderFPSCounter = 0
 			screen.fps.text = "$calcFPS FPS"
 		}
@@ -48,31 +48,31 @@ class Renderer(
 
 		w.setLocation(x - rf, y - rf)
 
-		if (Specs.instance?.orbitTrails == true) {
+		if (Specs.instance.orbitTrails) {
 			applyOrbitTrails(x, y, w)
 		}
 	}
 
 	private fun mapX(x: Double): Int {
-		var posX = x - (bounds.minX - bounds.maxX)/4
+		val posX = x - (bounds.minX - bounds.maxX)/4
 
 		return (posX * zoom / 1_000_000).toInt()
 	}
 
 	private fun mapY(y: Double): Int {
-		var posY = y - (bounds.minY - bounds.maxY)/4
+		val posY = y - (bounds.minY - bounds.maxY)/4
 
 		return (posY * zoom / 1_000_000).toInt()
 	}
 
 	private fun applyOrbitTrails(x: Int, y: Int, w: SpaceObjectUIWrapper) {
-		if (positionsCounter % (Specs.instance?.orbitTrailFrequency ?: 1) == 0) {
+		if (positionsCounter % Specs.instance.orbitTrailFrequency == 0) {
 			positionsCounter = 0
 			val newPoint = Point(x, y)
 			val pastPositions = w.pastPositions
 
-			if (Specs.instance?.orbitsFixed == false) {
-				if (pastPositions.size > (Specs.instance?.orbitTrailMaxSize ?: 0)) {
+			if (!Specs.instance.orbitsFixed) {
+				if (pastPositions.size > Specs.instance.orbitTrailMaxSize) {
 					pastPositions.removeAt(0)
 				}
 			} else {
@@ -87,7 +87,7 @@ class Renderer(
 		}
 	}
 
-	fun getBounds(wrappers: List<SpaceObjectUIWrapper>): Bounds {
+	private fun getBounds(wrappers: List<SpaceObjectUIWrapper>): Bounds {
 		var minX = Int.MAX_VALUE
 		var maxX = Int.MIN_VALUE
 		var minY = Int.MAX_VALUE
@@ -112,7 +112,7 @@ class Renderer(
 	private fun isClose(newPoint: Point, oldPoint: Point): Boolean {
 		val dx = newPoint.x - oldPoint.x
 		val dy = newPoint.y - oldPoint.y
-		val dist = Math.sqrt((dx * dx + dy * dy).toDouble())
+		val dist = sqrt((dx * dx + dy * dy).toDouble())
 		return dist < 10
 	}
 }

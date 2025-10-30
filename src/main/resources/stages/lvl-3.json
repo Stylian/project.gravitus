@@ -6,7 +6,7 @@
       "mass": 8600000,
       "radius": 8,
       "position": { "x": 500000, "y": 300000 },
-      "velocity": { "x": 0, "y": -2 }
+      "velocity": { "x": 0, "y": 0 }
     },
     {
       "name" : "Earth",
@@ -28,7 +28,7 @@
       "mass": 480000,
       "radius": 2,
       "position": { "x": 240000, "y": 300000 },
-      "velocity": { "x": 0, "y": 130 }
+      "velocity": { "x": 0, "y": 120 }
     }
   ]
 }

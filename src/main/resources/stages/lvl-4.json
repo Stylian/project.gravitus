@@ -1,34 +1,20 @@
 {
   "objects": [
     {
-      "name": "uranus",
-      "img-uri": "uranus.png",
-      "mass": 8600000,
-      "radius": 8,
+      "name": "pul",
+      "img-uri": "pulsar.png",
+      "mass": 150000000,
+      "radius": 3,
       "position": { "x": 500000, "y": 300000 },
-      "velocity": { "x": 0, "y": -2 }
+      "velocity": { "x": 0, "y": -2000 }
     },
     {
-      "name" : "Earth",
-      "img-uri" : "earth.png",
-      "mass" : 598600,
-      "radius" : 2,
-      "position" : {
-        "x" : 760000,
-        "y" : 260000
-      },
-      "velocity" : {
-        "x" : 0,
-        "y" : -120
-      }
-    },
-    {
-      "name": "venus",
-      "img-uri": "venus.png",
-      "mass": 480000,
-      "radius": 2,
-      "position": { "x": 240000, "y": 300000 },
-      "velocity": { "x": 0, "y": 130 }
+      "name": "pul",
+      "img-uri": "pulsar.png",
+      "mass": 150000000,
+      "radius": 3,
+      "position": { "x": 480000, "y": 300000 },
+      "velocity": { "x": 0, "y": 2000 }
     }
   ]
 }

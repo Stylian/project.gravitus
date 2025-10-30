@@ -12,16 +12,14 @@ class Screen : JPanel() {
 
 	lateinit var fps: JLabel
 		private set
-	lateinit var zoomOut: JButton
-		private set
-	lateinit var zoomIn: JButton
-		private set
+	private lateinit var zoomOut: JButton
+	private lateinit var zoomIn: JButton
 
 	fun init() {
 		fps = JLabel().apply {
 			foreground = Color.WHITE
 			horizontalTextPosition = SwingConstants.RIGHT
-			setBounds((Specs.instance?.frameX ?: 800) - 60, 8, 70, 10)
+			setBounds(Specs.instance.frameX - 60, 8, 70, 10)
 		}
 		add(fps)
 
@@ -29,7 +27,7 @@ class Screen : JPanel() {
 			setContentAreaFilled(false)
 			setBorderPainted(false)
 			cursor = Cursor(Cursor.HAND_CURSOR)
-			setBounds((Specs.instance?.frameX ?: 800) - 60, 30, 16, 16)
+			setBounds(Specs.instance.frameX - 60, 30, 16, 16)
 			icon = ImageIcon("resources/icons/plus.png")
 			actionCommand = "zoomIn"
 			listener?.let { addActionListener(it) }
@@ -40,7 +38,7 @@ class Screen : JPanel() {
 			setContentAreaFilled(false)
 			setBorderPainted(false)
 			cursor = Cursor(Cursor.HAND_CURSOR)
-			setBounds((Specs.instance?.frameX ?: 800) - 35, 30, 16, 16)
+			setBounds(Specs.instance.frameX - 35, 30, 16, 16)
 			icon = ImageIcon("resources/icons/minus.png")
 			actionCommand = "zoomOut"
 			listener?.let { addActionListener(it) }
@@ -54,7 +52,7 @@ class Screen : JPanel() {
 	override fun paintComponent(g: Graphics) {
 		super.paintComponent(g)
 
-		if (Specs.instance?.orbitTrails == true) {
+		if (Specs.instance.orbitTrails) {
 			g.color = Color.WHITE
 			val g2d = g as Graphics2D
 
